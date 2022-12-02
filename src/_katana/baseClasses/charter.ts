@@ -1,3 +1,4 @@
+import { CONFIG } from '../config/moveConfig';
 import { OptionsObject } from '../shared/interfaces/optionCharter';
 import { Vec2 } from '../shared/utils/vec2';
 
@@ -9,34 +10,19 @@ export class BaseCharter {
   public ctx;
   public canvas;
   public keys = {};
-  private dt = 0;
-  private currentFrame = 0;
-  private lastFrame = 0;
-  private rotate = 0;
-  private initSubscription = false;
-
+  public lastFrame = 0;
+  public mouse = {
+    x: 0,
+    y: 0,
+  };
   constructor(canvas, ctx, options: OptionsObject) {
     this.ctx = ctx;
     this.canvas = canvas;
     this.options = options;
-    this.subscriptionEvents();
+    this.position.add(this.options.position);
   }
 
-  subscriptionEvents() {
-    if (this.initSubscription) return;
-
-    window.onkeydown = (event) => {
-      this.keys[event.keyCode] = true;
-    };
-
-    window.onkeyup = (event) => {
-      this.keys[event.keyCode] = false;
-    };
-
-    // window.onmousemove = function (event) {};
-  }
-
-  move(dt: number) {
+  move(dt) {
     this.position.add(this.velocity.multScalar(dt));
   }
 
@@ -45,29 +31,49 @@ export class BaseCharter {
     this.velocity.coordinates.y = 0;
   }
 
-  moveKey() {
-    console.log(this.options);
-    this.calculateDt();
+  key() {
     this.stop();
-    console.log(this.keys);
-    if (this.keys[37] || this.keys[65]) {
+
+    if (this.keys[CONFIG.left]) {
       this.velocity.coordinates.x = -this.options.speed;
     }
-    if (this.keys[39] || this.keys[68]) {
+    if (this.keys[CONFIG.right]) {
       this.velocity.coordinates.x = this.options.speed;
     }
-    if (this.keys[38] || this.keys[87]) {
+    if (this.keys[CONFIG.up]) {
       this.velocity.coordinates.y = -this.options.speed;
     }
-    if (this.keys[40] || this.keys[83]) {
-      this.velocity.coordinates.y = this.options.speed;
+    if (this.keys[CONFIG.down]) {
+      this.velocity.coordinates.y = +this.options.speed;
     }
-    this.move(this.dt);
+    const dt = this.deltaTime();
+    this.move(dt);
+    this.calcAngle();
   }
 
-  calculateDt() {
-    this.currentFrame = +new Date();
-    this.dt = this.currentFrame - this.lastFrame;
-    this.lastFrame = this.currentFrame;
+  calcAngle() {
+    this.ctx.save();
+
+    this.ctx.restore();
+  }
+
+  gunRotation = 0;
+
+  rotate() {
+    this.gunRotation = Math.atan2(
+      this.mouse.y - this.position.coordinates.y,
+      this.mouse.x - this.position.coordinates.x
+    );
+  }
+
+  inRad(num) {
+    return (num * Math.PI) / 180;
+  }
+
+  deltaTime() {
+    const currentFrame = +new Date();
+    const dt = currentFrame - this.lastFrame;
+    this.lastFrame = currentFrame;
+    return dt;
   }
 }

@@ -11,8 +11,6 @@ export class Vec2 {
   }
 
   add(otherCoordinates: Coordinates): Coordinates {
-    this.coordinates = otherCoordinates;
-
     if (this.coordinates.x < 0) {
       this.coordinates.x = 0;
     } else if (this.coordinates.x > window.innerWidth) {
@@ -20,7 +18,6 @@ export class Vec2 {
     } else {
       this.coordinates.x += otherCoordinates.x;
     }
-
     if (this.coordinates.y < 0) {
       this.coordinates.y = 0;
     } else if (this.coordinates.y > window.innerHeight) {

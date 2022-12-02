@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   HostListener,
   OnInit,
@@ -15,37 +16,56 @@ import { Knight } from 'src/_katana/classes/knight';
 export class GameFieldComponent implements OnInit, AfterViewInit {
   @ViewChild('canvas') readonly canvas;
 
-  constructor() {}
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  player;
 
   ngOnInit(): void {}
   ngAfterViewInit() {
     const ctx = this.canvas.nativeElement.getContext('2d');
 
+    this.createPlayer(ctx);
+
     this.subscriptionEvent(ctx);
   }
 
-  subscriptionEvent(ctx) {
-    console.log(window.innerHeight);
-
-    const knight = new Knight(this.canvas, ctx, {
+  createPlayer(ctx) {
+    this.player = new Knight(this.canvas.nativeElement, ctx, {
       speed: 0.3,
       speedAttack: 2,
       position: {
-        x: 0,
-        y: 0,
+        x: 500,
+        y: 500,
       },
     });
+  }
 
+  subscriptionEvent(ctx) {
     document.addEventListener('keydown', (event) => {
-      knight.keys[event.keyCode] = true;
-      knight.render();
+      this.player.keys[event.code] = true;
     });
     document.addEventListener('keyup', (event) => {
-      knight.keys[event.keyCode] = false;
-      // knight.render();
+      this.player.keys[event.code] = false;
     });
-    knight.render();
 
-    // requestAnimationFrame(knight.render);
+    document.addEventListener('mousemove', (event) => {
+      this.player.mouse.x = event.clientX;
+      this.player.mouse.y = event.clientY;
+    });
+
+    document.addEventListener('click', (event) => {
+      console.log(event);
+    });
+
+    window.requestAnimationFrame(this.render.bind(this));
+  }
+
+  render() {
+    this.player.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    this.player.key();
+    this.player.rotate();
+    this.player.renderIcon();
+
+    window.requestAnimationFrame(this.render.bind(this));
   }
 }
