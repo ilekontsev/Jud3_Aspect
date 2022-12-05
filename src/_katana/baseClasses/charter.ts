@@ -1,4 +1,3 @@
-import { Coordinates } from './../shared/utils/interfaces';
 import { DeltaTime } from './../shared/utils/deltaTime';
 import { Bullet } from './../attacks/bullet';
 import { CONFIG } from '../config/moveConfig';
@@ -59,6 +58,7 @@ export class BaseCharter {
 
   key() {
     this.stop();
+
     if (this.keys[CONFIG.left]) {
       this.velocity.coordinates.x = -this.options.speed;
     }
@@ -75,34 +75,75 @@ export class BaseCharter {
       this.shot();
     }
     this.delay++;
-
     this.updateBullets();
+
+    this.checkUnusedBullets();
+
     this.move();
   }
 
   updateBullets() {
-    this.bullets.forEach((item) => {
-      this.checkHitPoint(item);
+    for (let i = 0; i < this.bullets.length; i++) {
+      this.bullets[i].active && this.bullets[i].render();
+      const dt = +new Date() - this.bullets[i].createdBullet;
+      if (dt > 200) {
+        this.checkHitPoint(this.bullets[i]);
+      }
+    }
+  }
 
-      item.render();
+  checkUnusedBullets() {
+    if (this.bullets.length < 10) {
+      return;
+    }
+    this.bullets = this.bullets.filter((item) => {
+      if (
+        !(
+          !item.active ||
+          item.position.coordinates.x > window.innerWidth + 100 ||
+          item.position.coordinates.x < -100 ||
+          item.position.coordinates.y > window.innerHeight + 100 ||
+          item.position.coordinates.y < -100
+        )
+      ) {
+        return item;
+      }
     });
-  }sa
+  }
 
   checkHitPoint(item) {
-    const xBullet = Math.trunc(item.position.coordinates.x);
-    const yBullet = Math.trunc(item.position.coordinates.y);
+    const xBullet = Math.round(item.position.coordinates.x);
+    const yBullet = Math.round(item.position.coordinates.y);
 
-    const xCharter = Math.trunc(this.position.coordinates.x);
-    const yCharter = Math.trunc(this.position.coordinates.y);
+    const xCharter = Math.round(this.position.coordinates.x);
+    const yCharter = Math.round(this.position.coordinates.y);
 
+    const leftBulletX = Math.round(xBullet) - 5;
+    const rightBulletX = Math.round(xBullet) + 5;
 
+    const leftCharterX = Math.round(xCharter) - 10;
+    const rightCharterX = Math.round(xCharter) + 10;
 
+    const topBulletY = Math.round(yBullet) - 5;
+    const bottomBulletY = Math.round(yBullet) + 5;
+
+    const bottomCharterY = Math.round(yCharter) + 10;
+    const topCharterY = Math.round(yCharter) - 10;
+
+    const checkLeft = leftBulletX <= rightCharterX;
+    const checkRight = rightBulletX >= leftCharterX;
+    const checkTop = topBulletY >= topCharterY;
+    const checkBottom = bottomBulletY <= bottomCharterY;
+
+    if (checkLeft && checkRight && checkTop && checkBottom) {
+      item.active = false;
+    }
   }
 
   delay = 60;
 
   shot() {
-    if (this.delay >= 0) {
+    if (this.delay >= 20) {
       this.delay = 0;
       this.bullets.push(
         new Bullet(this.ctx, { ...this.options, ...this.position })

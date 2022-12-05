@@ -1,4 +1,3 @@
-import { inRad } from '../shared/utils';
 import { Vec2 } from '../shared/utils/vec2';
 import { DeltaTime } from './../shared/utils/deltaTime';
 
@@ -6,9 +5,12 @@ export class BaseAttack {
   public position = new Vec2({ x: 0, y: 0 });
   public velocity = new Vec2({ x: 0, y: 0 });
 
+  public active = true;
+
   options;
   ctx;
   deltaTime = new DeltaTime();
+  createdBullet = +new Date();
 
   constructor(ctx, options) {
     this.options = { ...options };
@@ -27,14 +29,11 @@ export class BaseAttack {
     this.velocity.coordinates.y = 0;
   }
 
-  xangle = 0;
-  yangle = 0;
+  xangle = false;
+  yangle = false;
 
   updateBulletTrajectory() {
     this.stop();
-
-    this.xangle = this.options.angle;
-    this.yangle = this.options.angle;
 
     if (
       this.position.coordinates.x >= window.innerWidth ||
@@ -46,12 +45,45 @@ export class BaseAttack {
       this.options.angle = -this.options.angle;
     }
 
+    if (!this.xangle && !this.yangle) {
+      let vx = Math.cos(this.options.angle) * this.options.attackSpeed;
+      this.velocity.coordinates.x = vx;
 
+      let vy = Math.sin(this.options.angle) * this.options.attackSpeed;
+      this.velocity.coordinates.y = vy;
+    }
 
-    let vx = Math.cos( this.options.angle) * this.options.attackSpeed;
-    let vy = Math.sin(this.yangle) * this.options.attackSpeed;
-    this.velocity.coordinates.x = vx;
-    this.velocity.coordinates.y = vy;
+    if (
+      this.position.coordinates.y <= 10 ||
+      this.position.coordinates.y >= window.innerHeight - 10 ||
+      this.yangle
+    ) {
+      this.yangle = true;
+      this.xangle = false;
+
+      let vx = Math.sin(this.options.angle + 0.1) * this.options.attackSpeed;
+      this.velocity.coordinates.x = vx;
+
+      let vy = Math.cos(this.options.angle) * this.options.attackSpeed;
+      this.velocity.coordinates.y = vy;
+    } else {
+      this.yangle = false;
+      this.xangle = false;
+    }
+
+    if (
+      this.position.coordinates.x <= 10 ||
+      this.position.coordinates.x >= window.innerWidth - 10 ||
+      this.xangle
+    ) {
+      this.yangle = false;
+      this.xangle = true;
+      let vx = Math.cos(this.options.angle) * this.options.attackSpeed;
+      this.velocity.coordinates.x = vx;
+
+      let vy = Math.sin(this.options.angle) * this.options.attackSpeed;
+      this.velocity.coordinates.y = vy;
+    }
 
     this.move();
   }

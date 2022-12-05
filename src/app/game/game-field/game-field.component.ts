@@ -29,7 +29,7 @@ export class GameFieldComponent implements AfterViewInit {
   createPlayer() {
     this.player = new Knight(this.canvas.nativeElement, this.ctx, {
       speed: 0.5,
-      attackSpeed: 0.6,
+      attackSpeed: 1,
       position: {
         x: 500,
         y: 500,
