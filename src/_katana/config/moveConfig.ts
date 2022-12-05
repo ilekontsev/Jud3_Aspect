@@ -3,4 +3,5 @@ export const CONFIG = {
   right: 'KeyD',
   up: 'KeyW',
   down: 'KeyS',
+  attack: 'Space',
 };

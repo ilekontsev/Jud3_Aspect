@@ -7,22 +7,16 @@ export class Knight extends BaseCharter {
     canvas.width = window.innerWidth;
   }
 
+  render() {
+    this.key();
+    this.renderIcon();
+    this.calcAngle();
+  }
+
   renderIcon() {
-    this.ctx.fillRect(20, 20, 10, 10);
+    this.rotate();
 
-    this.ctx.save();
-
-    this.ctx.translate(
-      this.position.coordinates.x,
-      this.position.coordinates.y
-    );
-
-    this.ctx.rotate(this.gunRotation + 20);
-
-    this.ctx.translate(
-      -this.position.coordinates.x,
-      -this.position.coordinates.y
-    );
+    this.ctx.beginPath();
 
     this.ctx.fillRect(
       this.position.coordinates.x,
@@ -30,18 +24,15 @@ export class Knight extends BaseCharter {
       10,
       10
     );
-    this.ctx.beginPath();
-
     this.ctx.moveTo(
-      this.position.coordinates.x + 10,
-      this.position.coordinates.y
+      this.position.coordinates.x + 30,
+      this.position.coordinates.y + 10
     );
     this.ctx.lineTo(
-      this.position.coordinates.x + 10,
-      this.position.coordinates.y - 20
+      this.position.coordinates.x,
+      this.position.coordinates.y + 10
     );
 
     this.ctx.stroke();
-    this.ctx.restore();
   }
 }

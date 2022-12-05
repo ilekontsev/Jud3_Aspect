@@ -11,26 +11,14 @@ export class Vec2 {
   }
 
   add(otherCoordinates: Coordinates): Coordinates {
-    if (this.coordinates.x < 0) {
-      this.coordinates.x = 0;
-    } else if (this.coordinates.x > window.innerWidth) {
-      this.coordinates.x = window.innerWidth;
-    } else {
-      this.coordinates.x += otherCoordinates.x;
-    }
-    if (this.coordinates.y < 0) {
-      this.coordinates.y = 0;
-    } else if (this.coordinates.y > window.innerHeight) {
-      this.coordinates.y = window.innerHeight;
-    } else {
-      this.coordinates.y += otherCoordinates.y;
-    }
+    this.coordinates.x += otherCoordinates.x;
+    this.coordinates.y += otherCoordinates.y;
+
     return this.coordinates;
   }
 
   multScalar(scalar: number): Coordinates {
     this.coordinates.x *= +scalar;
-
     this.coordinates.y *= +scalar;
 
     return this.coordinates;
