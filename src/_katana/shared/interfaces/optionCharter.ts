@@ -1,7 +1,8 @@
 export interface OptionsObject {
   speed: number;
-  speedAttack: number;
+  attackSpeed: number;
   position: PositionObject;
+  angle: number;
 }
 
 export interface PositionObject {
