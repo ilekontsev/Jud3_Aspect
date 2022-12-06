@@ -21,6 +21,7 @@ export class GameFieldComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
+
     this.createPlayer();
     this.subscriptionEvent();
     window.requestAnimationFrame(this.render.bind(this));

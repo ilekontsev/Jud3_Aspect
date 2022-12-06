@@ -75,7 +75,9 @@ export class BaseCharter {
       this.shot();
     }
     this.delay++;
+    // if (!this.gameOver) {
     this.updateBullets();
+    // }
 
     this.checkUnusedBullets();
 
@@ -83,19 +85,20 @@ export class BaseCharter {
   }
 
   updateBullets() {
-    for (let i = 0; i < this.bullets.length; i++) {
-      this.bullets[i].active && this.bullets[i].render();
-      const dt = +new Date() - this.bullets[i].createdBullet;
+    for (let item of this.bullets) {
+      item.active && item.render();
+      const dt = +new Date() - item.createdBullet;
       if (dt > 200) {
-        this.checkHitPoint(this.bullets[i]);
+        this.checkHitPoint(item);
       }
     }
   }
 
   checkUnusedBullets() {
-    if (this.bullets.length < 10) {
+    if (!this.bullets.length) {
       return;
     }
+
     this.bullets = this.bullets.filter((item) => {
       if (
         !(
@@ -110,7 +113,7 @@ export class BaseCharter {
       }
     });
   }
-
+  gameOver;
   checkHitPoint(item) {
     const xBullet = Math.round(item.position.coordinates.x);
     const yBullet = Math.round(item.position.coordinates.y);
@@ -121,14 +124,14 @@ export class BaseCharter {
     const leftBulletX = Math.round(xBullet) - 5;
     const rightBulletX = Math.round(xBullet) + 5;
 
-    const leftCharterX = Math.round(xCharter) - 10;
-    const rightCharterX = Math.round(xCharter) + 10;
+    const leftCharterX = Math.round(xCharter) - 20;
+    const rightCharterX = Math.round(xCharter) + 20;
 
     const topBulletY = Math.round(yBullet) - 5;
     const bottomBulletY = Math.round(yBullet) + 5;
 
-    const bottomCharterY = Math.round(yCharter) + 10;
-    const topCharterY = Math.round(yCharter) - 10;
+    const bottomCharterY = Math.round(yCharter) + 40;
+    const topCharterY = Math.round(yCharter) - 40;
 
     const checkLeft = leftBulletX <= rightCharterX;
     const checkRight = rightBulletX >= leftCharterX;
@@ -137,13 +140,14 @@ export class BaseCharter {
 
     if (checkLeft && checkRight && checkTop && checkBottom) {
       item.active = false;
+      this.gameOver = true;
     }
   }
 
   delay = 60;
 
   shot() {
-    if (this.delay >= 20) {
+    if (this.delay >= 30) {
       this.delay = 0;
       this.bullets.push(
         new Bullet(this.ctx, { ...this.options, ...this.position })
@@ -153,17 +157,17 @@ export class BaseCharter {
 
   calcAngle() {
     this.options.angle = Math.atan2(
-      this.mouse.y - this.position.coordinates.y,
-      this.mouse.x - this.position.coordinates.x
+      this.mouse.y - (this.position.coordinates.y),
+      this.mouse.x - (this.position.coordinates.x )
     );
   }
 
   rotate() {
     this.ctx.translate(
-      this.position.coordinates.x,
+      this.position.coordinates.x + 30,
       this.position.coordinates.y
     );
-    this.ctx.rotate(this.options.angle);
+    this.ctx.rotate(this.options.angle + 1.5);
 
     this.ctx.translate(
       -this.position.coordinates.x - 5,

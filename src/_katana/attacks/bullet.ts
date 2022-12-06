@@ -3,6 +3,7 @@ import { BaseAttack } from '../baseClasses/attack';
 export class Bullet extends BaseAttack {
   constructor(ctx, options) {
     super(ctx, options);
+
   }
 
   render() {
@@ -11,6 +12,14 @@ export class Bullet extends BaseAttack {
   }
 
   renderIcon() {
+    // this.ctx.drawImage(
+    //   this.image,
+    //   this.position.coordinates.x + 50,
+    //   this.position.coordinates.y + 50,
+    //   50,
+    //   50
+    // );
+
     this.ctx.beginPath();
 
     this.ctx.arc(
