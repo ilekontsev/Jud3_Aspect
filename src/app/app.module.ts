@@ -8,6 +8,7 @@ import { GameFieldTreejsComponent } from './game/game-field-treejs/game-field-tr
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainComponent } from './mainComponents/main/main.component';
 import { SubHeaderComponent } from './mainComponents/sub-header/sub-header.component';
+import { GameFieldJud3Component } from './game/game-field-jud3/game-field-jud3.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { SubHeaderComponent } from './mainComponents/sub-header/sub-header.compo
     GameFieldTreejsComponent,
     MainComponent,
     SubHeaderComponent,
+    GameFieldJud3Component,
   ],
   imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
   providers: [],

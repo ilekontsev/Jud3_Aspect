@@ -9,3 +9,7 @@ export interface PositionObject {
   x: number;
   y: number;
 }
+
+export interface BaseCharterOptions {
+  position: PositionObject;
+}

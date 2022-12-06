@@ -26,8 +26,8 @@ export class Knight extends BaseCharter {
     this.ctx.drawImage(
       this.image,
 
-      this.position.coordinates.x - 50,
-      this.position.coordinates.y - 50,
+      this.position.x - 50,
+      this.position.y - 50,
 
       100,
       100
