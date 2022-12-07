@@ -45,7 +45,6 @@ export class CannonGun {
   }
 
   draw(reflect) {
-    // reflect ?  this.ctx.scale(-1, 1) : this.ctx.scale(1, 1);
     this.ctx.drawImage(
       this.image,
       0,

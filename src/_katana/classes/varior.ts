@@ -1,12 +1,10 @@
-import { CannonGun } from './../baseClasses/canonGun';
 import { BaseCharter } from '../baseClasses/base-charter';
-import { Sprite } from '../baseClasses/sprite';
 import { BaseCharterOptions } from '../shared/interfaces/optionCharter';
 
 export class Varior extends BaseCharter {
   configCharter = {
     speed: 0.3,
-    attack: 2,
+    attack: 0.4,
     size: {
       w: 80,
       h: 25,
@@ -19,9 +17,6 @@ export class Varior extends BaseCharter {
       north: 'assets/topdown_shooter/characters/3_north.png',
     },
   };
-
-
-  // gun = new CannonGun(this.canvas, this.ctx);
 
   constructor(
     canvas,

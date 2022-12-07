@@ -6,6 +6,7 @@ import { checkPositionByField, inRad } from '../shared/utils';
 import { DeltaTime } from '../shared/utils/deltaTime';
 import { Vec2 } from '../shared/utils/vec2';
 import { Sprite } from './sprite';
+import { CatBullet } from '../attacks/catBullet';
 
 export class BaseCharter {
   public velocity = new Vec2({ x: 0, y: 0 });
@@ -41,6 +42,8 @@ export class BaseCharter {
 
   setConfigCharter(config) {
     this.config = config;
+    this.gun = new CannonGun(this.canvas, this.ctx);
+
     this.sprite = new Sprite(this.canvas, {
       ctx: this.ctx,
       width: config.size.w,
@@ -49,14 +52,16 @@ export class BaseCharter {
       ticksPerFrame: 12,
       scale: 2,
     });
-
-    this.gun = new CannonGun(this.canvas, this.ctx);
   }
 
   move() {
     const dt = this.deltaTime.get();
 
     this.position.add(this.velocity.multScalar(dt));
+
+    this.t.forEach((item) => {
+      item.render();
+    });
   }
 
   stop() {
@@ -95,59 +100,53 @@ export class BaseCharter {
     if (angle < -10 && angle > -60) {
       this.reflect = false;
       this.sprite.setIcon(this.config.image.diagUp);
-      this.gun.setIcon('diagUp')
+      this.gun.setIcon('diagUp');
     }
 
     if (angle < -120 && angle > -150) {
       this.reflect = true;
       this.sprite.setIcon(this.config.image.diagUp);
-      this.gun.setIcon('diagUp')
-
+      this.gun.setIcon('diagUp');
     }
 
     //diag down
     if (angle > 30 && angle < 60) {
       this.reflect = false;
       this.sprite.setIcon(this.config.image.diagDown);
-      this.gun.setIcon('diagDown')
-
+      this.gun.setIcon('diagDown');
     }
 
     if (angle < 160 && angle > 120) {
       this.reflect = true;
       this.sprite.setIcon(this.config.image.diagDown);
-      this.gun.setIcon('diagDown')
-
+      this.gun.setIcon('diagDown');
     }
 
     //left
     if (angle > -10 && angle < 30) {
       this.reflect = false;
       this.sprite.setIcon(this.config.image.side);
-      this.gun.setIcon('side')
-
+      this.gun.setIcon('side');
     }
     //right
     if (angle > 150 || angle < -150) {
       this.reflect = true;
       this.sprite.setIcon(this.config.image.side);
-      this.gun.setIcon('side')
-
+      this.gun.setIcon('side');
     }
     //up
     if (angle > -120 && angle < -60) {
       this.reflect = false;
-      this.sprite.setIcon(this.config.image.north);
-      this.gun.setIcon('up')
+      this.gun.setIcon('up');
 
+      this.sprite.setIcon(this.config.image.north);
     }
 
     //down
     if (angle > 60 && angle < 120) {
       this.reflect = false;
       this.sprite.setIcon(this.config.image.south);
-      this.gun.setIcon('down')
-
+      this.gun.setIcon('down');
     }
   }
 
@@ -168,8 +167,23 @@ export class BaseCharter {
     if (this.keys[CONFIG.down]) {
       this.velocity.y = +this.config.speed;
     }
+    if (this.keys[CONFIG.attack]) {
+      this.shot();
+    }
     this.checkPosition();
     this.move();
+  }
+
+  t = [];
+
+  shot() {
+    const bullet = new CatBullet(this.ctx, {
+      ...this.options,
+      ...this.position,
+      angle: this.angle,
+      ...this.config,
+    });
+    this.t.push(bullet);
   }
 
   ticksPerFrame = 12;

@@ -81,15 +81,13 @@ export class GameFieldJud3Component implements AfterViewInit {
 
   createCharters() {
     this.player = new Varior(this.canvas.nativeElement, this.ctx, {
-      position: { x: window.innerWidth / 2 , y: window.innerHeight / 2 },
+      position: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
     });
 
     this.createEventSubscriptions();
   }
 
   render() {
-    this.ctx.save();
-
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     this.ctx.strokeRect(0, 0, window.innerWidth, window.innerHeight);
 
@@ -102,8 +100,6 @@ export class GameFieldJud3Component implements AfterViewInit {
     this.ctx.lineTo(window.innerWidth / 2, window.innerHeight);
     this.ctx.stroke();
     this.ctx.closePath();
-
-    this.ctx.save();
 
     this.update();
     this.draw();

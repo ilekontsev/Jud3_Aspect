@@ -1,4 +1,3 @@
-import { inRad } from '../shared/utils';
 import { Vec2 } from '../shared/utils/vec2';
 import { DeltaTime } from './../shared/utils/deltaTime';
 
@@ -16,8 +15,9 @@ export class BaseAttack {
   yvec = 1;
 
   constructor(ctx, options) {
+    console.log(options);
     this.options = { ...options };
-    this.position.add(this.options.coordinates);
+    this.position.add(this.options.position);
     this.ctx = ctx;
   }
 
@@ -33,12 +33,12 @@ export class BaseAttack {
   }
 
   cos() {
-    let vx = Math.cos(this.options.angle) * this.options.attackSpeed;
+    let vx = Math.cos(this.options.angle) * this.options.attack;
     this.velocity.x = vx * this.xvec;
   }
 
   sin() {
-    let vy = Math.sin(this.options.angle) * this.options.attackSpeed;
+    let vy = Math.sin(this.options.angle) * this.options.attack;
     this.velocity.y = vy * this.yvec;
   }
 
