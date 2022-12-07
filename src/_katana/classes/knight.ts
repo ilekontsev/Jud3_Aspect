@@ -32,24 +32,5 @@ export class Knight extends BaseCharter {
       100,
       100
     );
-
-    // this.ctx.beginPath();
-
-    // this.ctx.fillRect(
-    //   this.position.coordinates.x,
-    //   this.position.coordinates.y,
-    //   10,
-    //   10
-    // );
-    // this.ctx.moveTo(
-    //   this.position.coordinates.x + 20,
-    //   this.position.coordinates.y + 10
-    // );
-    // this.ctx.lineTo(
-    //   this.position.coordinates.x,
-    //   this.position.coordinates.y + 10
-    // );
-
-    // this.ctx.stroke();
   }
 }

@@ -13,7 +13,7 @@ import { Varior } from 'src/_katana/classes/varior';
   styleUrls: ['./game-field-jud3.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GameFieldJud3Component implements OnInit, AfterViewInit {
+export class GameFieldJud3Component implements AfterViewInit {
   @ViewChild('canvas') readonly canvas;
 
   private image = new Image();
@@ -22,7 +22,32 @@ export class GameFieldJud3Component implements OnInit, AfterViewInit {
   private player: any;
   constructor() {}
 
-  ngOnInit() {}
+  ngAfterViewInit() {
+    if (this.init) return;
+
+    this.configCanvas();
+    this.loadPressets();
+    this.createCharters();
+
+    this.render();
+    this.init = true;
+  }
+
+  configCanvas() {
+    this.ctx = this.canvas.nativeElement.getContext('2d');
+    this.canvas.nativeElement.width = window.innerWidth;
+    this.canvas.nativeElement.height = window.innerHeight;
+
+    this.blockCursorInWindow();
+  }
+
+  blockCursorInWindow() {
+    const canvas = this.canvas.nativeElement as HTMLCanvasElement;
+
+    canvas.onclick = () => {
+      canvas.requestPointerLock();
+    };
+  }
 
   loadPressets() {
     this.image.src = '';
@@ -31,7 +56,7 @@ export class GameFieldJud3Component implements OnInit, AfterViewInit {
     };
   }
 
-  createEventSubscribtions() {
+  createEventSubscriptions() {
     document.addEventListener('keydown', (event) => {
       this.player.keys[event.code] = true;
     });
@@ -40,45 +65,59 @@ export class GameFieldJud3Component implements OnInit, AfterViewInit {
       this.player.keys[event.code] = false;
     });
 
-    document.addEventListener('mousemove', (event) => {});
+    const func = this.updatePositionCursor.bind(this);
 
-    document.addEventListener('mouseup', () => {});
+    document.addEventListener('pointerlockchange', () => {
+      document.pointerLockElement === this.canvas.nativeElement
+        ? document.addEventListener('mousemove', func)
+        : document.removeEventListener('mousemove', func);
+    });
+  }
 
-    document.addEventListener('mousedown', () => {});
+  updatePositionCursor(event: MouseEvent) {
+    this.player.mouse.x += event.movementX;
+    this.player.mouse.y += event.movementY;
   }
 
   createCharters() {
-    this.player = new Varior(this.canvas, this.ctx, {
-      position: { x: 500, y: 500 },
+    this.player = new Varior(this.canvas.nativeElement, this.ctx, {
+      position: { x: window.innerWidth / 2 , y: window.innerHeight / 2 },
     });
 
-    this.createEventSubscribtions();
+    this.createEventSubscriptions();
   }
 
   render() {
+    this.ctx.save();
+
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     this.ctx.strokeRect(0, 0, window.innerWidth, window.innerHeight);
+
+    this.ctx.fillRect(20, 20, 100, 100);
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(0, window.innerHeight / 2);
+    this.ctx.lineTo(window.innerWidth, window.innerHeight / 2);
+    this.ctx.moveTo(window.innerWidth / 2, 0);
+    this.ctx.lineTo(window.innerWidth / 2, window.innerHeight);
+    this.ctx.stroke();
+    this.ctx.closePath();
+
     this.ctx.save();
+
     this.update();
     this.draw();
+
     this.ctx.restore();
+
     window.requestAnimationFrame(this.render.bind(this));
   }
 
-  update() {}
-  draw() {
-    this.player.render();
+  update() {
+    this.player.update();
   }
 
-  ngAfterViewInit() {
-    if (this.init) return;
-    this.ctx = this.canvas.nativeElement.getContext('2d');
-    this.canvas.nativeElement.width = window.innerWidth;
-    this.canvas.nativeElement.height = window.innerHeight;
-
-    this.loadPressets();
-    this.createCharters();
-    this.render();
-    this.init = true;
+  draw() {
+    this.player.render();
   }
 }

@@ -1,23 +1,27 @@
+import { CannonGun } from './../baseClasses/canonGun';
 import { BaseCharter } from '../baseClasses/base-charter';
 import { Sprite } from '../baseClasses/sprite';
 import { BaseCharterOptions } from '../shared/interfaces/optionCharter';
 
 export class Varior extends BaseCharter {
   configCharter = {
-    speed: 0.2,
+    speed: 0.3,
     attack: 2,
     size: {
       w: 80,
       h: 25,
     },
+    image: {
+      side: 'assets/topdown_shooter/characters/3_side.png',
+      diagDown: 'assets/topdown_shooter/characters/3_diagdown.png',
+      diagUp: 'assets/topdown_shooter/characters/3_diagup.png',
+      south: 'assets/topdown_shooter/characters/3_south.png',
+      north: 'assets/topdown_shooter/characters/3_north.png',
+    },
   };
 
-  sprite = new Sprite({
-    ctx: this.ctx,
-    width: this.configCharter.size.w,
-    height: this.configCharter.size.h,
-    src: 'assets/topdown_shooter/characters/1_diagdown.png',
-  });
+
+  // gun = new CannonGun(this.canvas, this.ctx);
 
   constructor(
     canvas,
@@ -26,18 +30,15 @@ export class Varior extends BaseCharter {
   ) {
     super(canvas, ctx, options);
     this.setConfigCharter(this.configCharter);
-    this.init();
   }
-
-  init() {}
 
   render() {
-    this.pressKey();
-    this.getImage();
+    this.draw();
   }
 
-  getImage() {
-    this.sprite.render(this.position);
-    // this.ctx.drawImage(this.image, this.position.x, this.position.y, 50, 50);
+  draw() {
+    this.rotate();
+    this.sprite.render(this.reflect);
+    this.gun.render(this.reflect);
   }
 }
