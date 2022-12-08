@@ -5,9 +5,7 @@ export class Cursor {
   constructor(ctx) {
     this.ctx = ctx;
     this.image.src = 'assets/topdown_shooter/cursors/6crosshair.png';
-    this.image.onload = () => {
-      this.ctx.drawImage(this.image, 0, 0);
-    };
+ 
   }
 
   render(mouse) {

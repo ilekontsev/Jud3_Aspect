@@ -12,4 +12,5 @@ export interface PositionObject {
 
 export interface BaseCharterOptions {
   position: PositionObject;
+  nickname: string
 }

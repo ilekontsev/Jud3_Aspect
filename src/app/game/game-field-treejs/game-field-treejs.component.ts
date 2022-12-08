@@ -28,7 +28,6 @@ export class GameFieldTreejsComponent implements OnInit {
     const x = this.canvas.nativeElement.width / 2;
     const y = this.canvas.nativeElement.height / 2;
 
-    console.log(x, y);
 
     this.ctx.save();
     this.ctx.clearRect(
@@ -45,22 +44,10 @@ export class GameFieldTreejsComponent implements OnInit {
     );
     this.ctx.save();
 
-    this.ctx.beginPath();
-    this.ctx.moveTo(0, window.innerHeight / 2);
-    this.ctx.lineTo(window.innerWidth, window.innerHeight / 2);
-    this.ctx.moveTo(window.innerWidth / 2, 0);
-    this.ctx.lineTo(window.innerWidth / 2, window.innerHeight);
-    this.ctx.stroke();
-    this.ctx.closePath();
-
-    this.ctx.translate(x, y);
-    const angle = (this.rotateAngle * Math.PI) / 180;
-    this.ctx.rotate(angle);
-    this.ctx.fillRect(250 - 300, 100 - 150, 100, 100);
 
 
 
-    this.ctx.restore();
+
 
     this.ctx.fillRect(30, 30, 50, 50);
     this.ctx.beginPath();
@@ -73,6 +60,20 @@ export class GameFieldTreejsComponent implements OnInit {
 
     this.ctx.fillRect(100, 100, 100, 100);
     this.ctx.save();
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(0, window.innerHeight / 2);
+    this.ctx.lineTo(window.innerWidth, window.innerHeight / 2);
+    this.ctx.moveTo(window.innerWidth / 2, 0);
+    this.ctx.lineTo(window.innerWidth / 2, window.innerHeight);
+    this.ctx.stroke();
+    this.ctx.closePath();
+
+    this.ctx.translate(x, y);
+    const angle = (this.rotateAngle * Math.PI) / 180;
+    this.ctx.rotate(angle);
+    this.ctx.fillRect(250 - 300, 100 - 150, 100, 100);
+    this.ctx.restore();
 
     // window.requestAnimationFrame(this.render.bind(this));
   }

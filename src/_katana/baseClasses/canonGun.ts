@@ -1,37 +1,39 @@
+import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
+
 export class CannonGun {
-  image = new Image();
-  ctx: CanvasRenderingContext2D;
-  canvas: HTMLCanvasElement;
-  scale = 2;
-  ticksPerFrame = 12;
-  numberOfFrames = 4;
-  tickCount = 0;
-  frameIndex = 10;
-  x = 1;
+  private ctx: CanvasRenderingContext2D;
+  private canvas: HTMLCanvasElement;
 
-  imageSrc = {
-    diagDown: 'assets/topdown_shooter/guns/cannon/cannon_diagdown.png',
-    diagUp: 'assets/topdown_shooter/guns/cannon/cannon_diagup.png',
-    down: 'assets/topdown_shooter/guns/cannon/cannon_down.png',
-    side: 'assets/topdown_shooter/guns/cannon/cannon_side.png',
-    up: 'assets/topdown_shooter/guns/cannon/cannon_up.png',
-  };
+  private ticksPerFrame = 12;
+  private tickCount = 0;
+  private frameIndex = 10;
+  private x = 1;
 
-  constructor(canvas, ctx) {
+  private images = {};
+  private imageSrc = PATH_PRESETS.guns.canonGun;
+  private selectedImage: HTMLImageElement;
+
+  constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
     this.canvas = canvas;
     this.ctx = ctx;
+    this.loadImage();
   }
 
-  setIcon(src) {
-    this.image.src = this.imageSrc[src];
-    this.image.onload = () => {
-      this.ctx.drawImage(this.image, 0, 0);
-    };
+  loadImage() {
+    for (let key in this.imageSrc) {
+      const image = new Image();
+      image.src = this.imageSrc[key];
+      this.images[key] = image;
+    }
   }
 
-  render(reflect) {
+  setIcon(key: string) {
+    this.selectedImage = this.images[key];
+  }
+
+  render() {
     this.update();
-    this.draw(reflect);
+    this.draw();
   }
 
   update() {
@@ -44,9 +46,9 @@ export class CannonGun {
     }
   }
 
-  draw(reflect) {
+  draw() {
     this.ctx.drawImage(
-      this.image,
+      this.selectedImage,
       0,
       0,
       20,

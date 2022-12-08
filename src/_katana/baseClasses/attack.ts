@@ -1,7 +1,7 @@
 import { Vec2 } from '../shared/utils/vec2';
 import { DeltaTime } from './../shared/utils/deltaTime';
 
-export class BaseAttack {
+export class Ricochet {
   public position = new Vec2({ x: 0, y: 0 });
   public velocity = new Vec2({ x: 0, y: 0 });
 
@@ -23,7 +23,6 @@ export class BaseAttack {
 
   move() {
     const dt = this.deltaTime.get();
-
     this.position.add(this.velocity.multScalar(dt));
   }
 

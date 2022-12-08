@@ -1,22 +1,32 @@
-import { BaseAttack } from '../baseClasses/attack';
+import { BaseAttack } from './../baseClasses/baseAttack';
 
 export class CatBullet extends BaseAttack {
   image = new Image();
 
-  constructor(ctx, options) {
+  constructor(ctx: CanvasRenderingContext2D, options) {
     super(ctx, options);
     this.image.src = 'assets/topdown_shooter/other/cat.png';
-    this.image.onload = () => {
-      this.ctx.drawImage(this.image, 0, 0);
-    };
   }
 
+
+
+
   render() {
-    this.updateBulletTrajectory();
+    this.updateBulletTrajectory()
     this.draw();
   }
 
   draw() {
-    this.ctx.drawImage(this.image, this.position.x, this.position.y);
+    this.ctx.save();
+
+    this.ctx.translate(this.position.x, this.position.y);
+    this.ctx.rotate(this.options.angle);
+
+    const x = this.options.reflect ? -1 : 1
+
+    this.ctx.scale(1, x);
+
+    this.ctx.drawImage(this.image, 0, 0);
+    this.ctx.restore();
   }
 }

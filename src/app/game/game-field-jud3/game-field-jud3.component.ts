@@ -5,7 +5,8 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Varior } from 'src/_katana/classes/varior';
+import { Warrior } from 'src/_katana/classes/Warrior';
+import { PATH_PRESETS } from './constants/path-presets';
 
 @Component({
   selector: 'app-game-field-jud3',
@@ -13,20 +14,50 @@ import { Varior } from 'src/_katana/classes/varior';
   styleUrls: ['./game-field-jud3.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GameFieldJud3Component implements AfterViewInit {
+export class GameFieldJud3Component implements OnInit, AfterViewInit {
   @ViewChild('canvas') readonly canvas;
 
   private image = new Image();
   private ctx: CanvasRenderingContext2D;
   private init = false;
+  private load = true;
   private player: any;
-  constructor() {}
+
+  private configPlayer = {
+    charter: 'warrior',
+    gun: 'canonGun',
+    bullet: 'cat',
+    cursor: 0,
+    nickname: 'GreezlyDvery',
+  };
+
+  ngOnInit(): void {
+    // this.loadPresets();
+  }
+
+  loadPresets() {
+    const images = [];
+    for (let key in PATH_PRESETS) {
+      console.log(this.configPlayer[key.slice(0, -1)]);
+      const image = PATH_PRESETS[key][this.configPlayer[key.slice(0, -1)]];
+      images.push(image);
+    }
+
+    const presetLength = images.length;
+    images.forEach((item, i) => {
+      this.image.src = item;
+      this.image.onload = () => {};
+      const percent = ((i + 1) / presetLength) * 100;
+      if (percent === 100) {
+        this.load = true;
+      }
+    });
+  }
 
   ngAfterViewInit() {
     if (this.init) return;
 
     this.configCanvas();
-    this.loadPressets();
     this.createCharters();
 
     this.render();
@@ -49,11 +80,13 @@ export class GameFieldJud3Component implements AfterViewInit {
     };
   }
 
-  loadPressets() {
-    this.image.src = '';
-    this.image.onload = () => {
-      this.ctx.drawImage(this.image, 0, 0);
-    };
+  createCharters() {
+    this.player = new Warrior(this.canvas.nativeElement, this.ctx, {
+      position: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+      nickname: this.configPlayer.nickname
+    });
+
+    this.createEventSubscriptions();
   }
 
   createEventSubscriptions() {
@@ -65,12 +98,12 @@ export class GameFieldJud3Component implements AfterViewInit {
       this.player.keys[event.code] = false;
     });
 
-    const func = this.updatePositionCursor.bind(this);
+    const callback = this.updatePositionCursor.bind(this);
 
     document.addEventListener('pointerlockchange', () => {
       document.pointerLockElement === this.canvas.nativeElement
-        ? document.addEventListener('mousemove', func)
-        : document.removeEventListener('mousemove', func);
+        ? document.addEventListener('mousemove', callback)
+        : document.removeEventListener('mousemove', callback);
     });
   }
 
@@ -79,19 +112,12 @@ export class GameFieldJud3Component implements AfterViewInit {
     this.player.mouse.y += event.movementY;
   }
 
-  createCharters() {
-    this.player = new Varior(this.canvas.nativeElement, this.ctx, {
-      position: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
-    });
-
-    this.createEventSubscriptions();
-  }
-
   render() {
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     this.ctx.strokeRect(0, 0, window.innerWidth, window.innerHeight);
 
-    this.ctx.fillRect(20, 20, 100, 100);
+    this.ctx.save();
+
 
     this.ctx.beginPath();
     this.ctx.moveTo(0, window.innerHeight / 2);
@@ -114,6 +140,6 @@ export class GameFieldJud3Component implements AfterViewInit {
   }
 
   draw() {
-    this.player.render();
+    this.player.draw();
   }
 }

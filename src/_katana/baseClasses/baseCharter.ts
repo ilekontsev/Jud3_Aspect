@@ -7,6 +7,7 @@ import { DeltaTime } from '../shared/utils/deltaTime';
 import { Vec2 } from '../shared/utils/vec2';
 import { Sprite } from './sprite';
 import { CatBullet } from '../attacks/catBullet';
+import { HpBarBase } from './hpBarBase';
 
 export class BaseCharter {
   public velocity = new Vec2({ x: 0, y: 0 });
@@ -20,13 +21,14 @@ export class BaseCharter {
   protected canvas: HTMLCanvasElement;
   protected ctx: CanvasRenderingContext2D;
   protected options: BaseCharterOptions;
-  cursor: Cursor;
   public deltaTime = new DeltaTime();
 
   private config;
 
-  sprite: Sprite;
-  gun: CannonGun;
+  public sprite: Sprite;
+  public gun: CannonGun;
+  public cursor: Cursor;
+  public hpBar: HpBarBase;
 
   constructor(
     canvas,
@@ -42,16 +44,21 @@ export class BaseCharter {
 
   setConfigCharter(config) {
     this.config = config;
+
     this.gun = new CannonGun(this.canvas, this.ctx);
 
     this.sprite = new Sprite(this.canvas, {
       ctx: this.ctx,
       width: config.size.w,
       height: config.size.h,
+      images: config.images,
       numberOfFrames: 5,
       ticksPerFrame: 12,
       scale: 2,
+      position: this.position,
     });
+
+    this.hpBar = new HpBarBase(this.ctx, this.position);
   }
 
   move() {
@@ -59,7 +66,7 @@ export class BaseCharter {
 
     this.position.add(this.velocity.multScalar(dt));
 
-    this.t.forEach((item) => {
+    this.bullets.forEach((item) => {
       item.render();
     });
   }
@@ -70,19 +77,9 @@ export class BaseCharter {
   }
 
   checkPosition() {
-    if (this.position.x + 40 > window.innerWidth) {
-      this.position.x = window.innerWidth - 40;
-    }
-    if (this.position.x < 0) {
-      this.position.x = 0;
-    }
+    checkPositionByField(this.position, window.innerWidth, window.innerHeight);
 
-    if (this.position.y + this.config.size.h + 30 > window.innerHeight) {
-      this.position.y = window.innerHeight - this.config.size.h - 30;
-    }
-    if (this.position.y < 0) {
-      this.position.y = 0;
-    }
+    this.bullets = this.bullets.filter((bullet) => !bullet.checkPosition());
   }
 
   update() {
@@ -97,60 +94,57 @@ export class BaseCharter {
     const angle = inRad(this.angle);
 
     //diag up
-    if (angle < -10 && angle > -60) {
+    if (angle < -10 && angle > -80) {
       this.reflect = false;
-      this.sprite.setIcon(this.config.image.diagUp);
+      this.sprite.setIcon('diagUp');
       this.gun.setIcon('diagUp');
     }
 
-    if (angle < -120 && angle > -150) {
+    if (angle < -100 && angle > -170) {
       this.reflect = true;
-      this.sprite.setIcon(this.config.image.diagUp);
+      this.sprite.setIcon('diagUp');
       this.gun.setIcon('diagUp');
     }
 
     //diag down
-    if (angle > 30 && angle < 60) {
+    if (angle > 10 && angle < 80) {
       this.reflect = false;
-      this.sprite.setIcon(this.config.image.diagDown);
+      this.sprite.setIcon('diagDown');
       this.gun.setIcon('diagDown');
     }
 
-    if (angle < 160 && angle > 120) {
+    if (angle < 170 && angle > 100) {
       this.reflect = true;
-      this.sprite.setIcon(this.config.image.diagDown);
+      this.sprite.setIcon('diagDown');
       this.gun.setIcon('diagDown');
     }
 
     //left
-    if (angle > -10 && angle < 30) {
+    if (angle > -10 && angle < 10) {
       this.reflect = false;
-      this.sprite.setIcon(this.config.image.side);
+      this.sprite.setIcon('side');
       this.gun.setIcon('side');
     }
     //right
-    if (angle > 150 || angle < -150) {
+    if (angle > 170 || angle < -170) {
       this.reflect = true;
-      this.sprite.setIcon(this.config.image.side);
+      this.sprite.setIcon('side');
       this.gun.setIcon('side');
     }
     //up
-    if (angle > -120 && angle < -60) {
+    if (angle > -100 && angle < -80) {
       this.reflect = false;
       this.gun.setIcon('up');
-
-      this.sprite.setIcon(this.config.image.north);
+      this.sprite.setIcon('up');
     }
 
     //down
-    if (angle > 60 && angle < 120) {
+    if (angle > 80 && angle < 100) {
       this.reflect = false;
-      this.sprite.setIcon(this.config.image.south);
+      this.sprite.setIcon('down');
       this.gun.setIcon('down');
     }
   }
-
-  testAngle = 0;
 
   pressKey() {
     this.stop();
@@ -170,31 +164,25 @@ export class BaseCharter {
     if (this.keys[CONFIG.attack]) {
       this.shot();
     }
+    this.delay++;
     this.checkPosition();
     this.move();
   }
 
-  t = [];
+  bullets = [];
+  delay = 30;
 
   shot() {
-    const bullet = new CatBullet(this.ctx, {
-      ...this.options,
-      ...this.position,
-      angle: this.angle,
-      ...this.config,
-    });
-    this.t.push(bullet);
-  }
-
-  ticksPerFrame = 12;
-  tickCount = 0;
-
-  test() {
-    this.tickCount++;
-
-    if (this.tickCount >= this.ticksPerFrame) {
-      this.tickCount = 0;
-      // this.testAngle += 1;
+    if (this.delay > 30) {
+      this.delay = 0;
+      const bullet = new CatBullet(this.ctx, {
+        ...this.options,
+        position: this.position,
+        angle: this.angle,
+        ...this.config,
+        reflect: this.reflect,
+      });
+      this.bullets.push(bullet);
     }
   }
 
@@ -209,11 +197,5 @@ export class BaseCharter {
       this.mouse.y - this.position.y,
       this.mouse.x - this.position.x
     );
-  }
-
-  rotate() {
-    this.ctx.save();
-    this.ctx.translate(this.position.x, this.position.y);
-    // this.ctx.rotate(this.angle);
   }
 }

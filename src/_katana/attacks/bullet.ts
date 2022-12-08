@@ -1,6 +1,6 @@
-import { BaseAttack } from '../baseClasses/attack';
+import { Ricochet } from '../baseClasses/attack';
 
-export class Bullet extends BaseAttack {
+export class Bullet extends Ricochet {
   constructor(ctx, options) {
     super(ctx, options);
   }

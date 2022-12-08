@@ -1,5 +1,5 @@
 export class Sprite {
-  image = new Image();
+  images = {};
   ctx: CanvasRenderingContext2D;
   frameIndex = 0;
   tickCount = 0;
@@ -9,6 +9,8 @@ export class Sprite {
   height: number;
   scale: 1;
   canvas: HTMLCanvasElement;
+  selectedImage: any;
+  position;
 
   constructor(canvas, options) {
     this.canvas = canvas;
@@ -18,17 +20,16 @@ export class Sprite {
     this.scale = options.scale;
     this.width = options.width;
     this.height = options.height;
+    this.images = options.images;
+    this.position = options.position;
   }
 
-  setIcon(src) {
-    this.image.src = src;
-
-    this.image.onload = () => {
-      this.ctx.drawImage(this.image, 0, 0);
-    };
+  setIcon(key) {
+    this.selectedImage = this.images[key];
   }
 
-  render(reflect) {
+  render(reflect, position) {
+    this.position = position;
     this.update();
     this.draw(reflect);
   }
@@ -49,22 +50,18 @@ export class Sprite {
   }
 
   draw(reflect) {
-    //todo refactor this
-    reflect
-      ? this.ctx.scale(-this.scale, this.scale)
-      : this.ctx.scale(this.scale, this.scale);
-    ////
+    const x = reflect ? -1 : 1;
+    this.ctx.scale(this.scale * x, this.scale);
 
     this.ctx.transform(1, 0, 0, 1, 0, 0);
     this.ctx.drawImage(
-      this.image,
+      this.selectedImage,
       (this.frameIndex * this.width) / this.numberOfFrames,
       0,
       this.width / this.numberOfFrames,
       this.height,
       -8,
       -10,
-
       this.width / this.numberOfFrames,
       this.height
     );
