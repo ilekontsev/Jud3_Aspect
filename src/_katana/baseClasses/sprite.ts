@@ -10,10 +10,9 @@ export class Sprite {
   scale: 1;
   canvas: HTMLCanvasElement;
   selectedImage: any;
-  position;
 
-  constructor(canvas, options) {
-    this.canvas = canvas;
+  constructor(options) {
+    console.log(options);
     this.ctx = options.ctx;
     this.numberOfFrames = options.numberOfFrames;
     this.ticksPerFrame = options.ticksPerFrame;
@@ -21,15 +20,14 @@ export class Sprite {
     this.width = options.width;
     this.height = options.height;
     this.images = options.images;
-    this.position = options.position;
+    this.selectedImage = this.images['up'];
   }
 
   setIcon(key) {
     this.selectedImage = this.images[key];
   }
 
-  render(reflect, position) {
-    this.position = position;
+  render(reflect) {
     this.update();
     this.draw(reflect);
   }

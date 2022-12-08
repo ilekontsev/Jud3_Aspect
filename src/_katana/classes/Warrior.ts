@@ -41,12 +41,13 @@ export class Warrior extends BaseCharter {
     this.ctx.fillText(
       this.options.nickname,
       this.position.x - 30,
-      this.position.y - 40,
+      this.position.y - 40
     );
-    this.hpBar.draw(this.position)
+    this.hpBar.draw(this.position);
+    this.mob.draw();
 
     this.ctx.translate(this.position.x, this.position.y);
-    this.sprite.render(this.reflect, this.position);
+    this.sprite.render(this.reflect);
     this.gun.render();
   }
 }

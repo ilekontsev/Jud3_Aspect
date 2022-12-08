@@ -8,6 +8,7 @@ import { Vec2 } from '../shared/utils/vec2';
 import { Sprite } from './sprite';
 import { CatBullet } from '../attacks/catBullet';
 import { HpBarBase } from './hpBarBase';
+import { Slime } from '../mobs/slime';
 
 export class BaseCharter {
   public velocity = new Vec2({ x: 0, y: 0 });
@@ -29,6 +30,7 @@ export class BaseCharter {
   public gun: CannonGun;
   public cursor: Cursor;
   public hpBar: HpBarBase;
+  public mob: Slime;
 
   constructor(
     canvas,
@@ -47,7 +49,7 @@ export class BaseCharter {
 
     this.gun = new CannonGun(this.canvas, this.ctx);
 
-    this.sprite = new Sprite(this.canvas, {
+    this.sprite = new Sprite({
       ctx: this.ctx,
       width: config.size.w,
       height: config.size.h,
@@ -55,10 +57,11 @@ export class BaseCharter {
       numberOfFrames: 5,
       ticksPerFrame: 12,
       scale: 2,
-      position: this.position,
     });
 
     this.hpBar = new HpBarBase(this.ctx, this.position);
+
+    this.mob = new Slime(this.ctx, { ...this.options, angle: this.angle });
   }
 
   move() {
@@ -66,6 +69,7 @@ export class BaseCharter {
 
     this.position.add(this.velocity.multScalar(dt));
 
+    this.mob.setConfig({ position: this.position, angle: this.angle });
     this.bullets.forEach((item) => {
       item.render();
     });
