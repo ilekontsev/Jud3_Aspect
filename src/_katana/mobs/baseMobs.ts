@@ -1,3 +1,4 @@
+import { HpBarBase } from '../baseClasses/hpBarBase';
 import { Sprite } from '../baseClasses/sprite';
 import { PositionObject } from '../shared/interfaces/optionCharter';
 import { DeltaTime } from '../shared/utils/deltaTime';
@@ -14,10 +15,15 @@ export class BaseMobs {
   config;
   deltaTime = new DeltaTime();
   angle;
-  speed = 0.1;
+  speed = 0.03;
+  public hpBar: HpBarBase;
+  active = true;
 
   constructor(ctx: CanvasRenderingContext2D, options) {
     this.ctx = ctx;
+    const x = Math.random() * window.innerWidth;
+    const y = Math.random() * window.innerHeight;
+    this.position.add({ x, y });
   }
 
   setConfigMob(config) {
@@ -32,6 +38,8 @@ export class BaseMobs {
       ticksPerFrame: 12,
       scale: 1,
     });
+
+    this.hpBar = new HpBarBase(this.ctx, this.position);
   }
 
   setConfig(options) {

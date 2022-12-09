@@ -28,7 +28,6 @@ export const PATH_PRESETS = {
   },
 };
 
-
 export const BASE_PRESETS = {
   hpBar: [
     'assets/Kit/Base/Life Bar Animated 1.png',
@@ -40,14 +39,100 @@ export const BASE_PRESETS = {
     'assets/Kit/Base/Life Bar Animated 7.png',
     'assets/Kit/Base/Life Bar Animated 8.png',
     'assets/Kit/Base/Life Bar Animated 9.png',
-  ]
-}
+  ],
+};
 
 export const MOBS = {
   slime: {
     side: 'assets/topdown_shooter/monster/slime1_side.png',
     up: 'assets/topdown_shooter/monster/slime1_front.png',
     down: 'assets/topdown_shooter/monster/slime1_back.png',
-    die: 'assets/topdown_shooter/monster/slime_explode.png'
-  }
-}
+    die: 'assets/topdown_shooter/monster/slime_explode.png',
+  },
+};
+
+export const MENU = {
+  main: {
+    button: 'assets/interface/PNG/Btn01.png',
+  },
+  background: {
+    cloud: {
+      src: 'assets/background/PNG/background_plains-Sheet1.png',
+      speed: {
+        x: 0,
+        y: 0,
+      },
+      size: {
+        w: window.innerWidth / 3,
+        h: 400,
+      },
+      position: {
+        x: 0,
+        y: 0,
+      },
+    },
+
+    mountain: {
+      src: 'assets/background/PNG/background_plains-Sheet2.png',
+      speed: {
+        x: -0.03,
+        y: 0,
+      },
+      size: {
+        w: window.innerWidth / 3,
+        h: 400,
+      },
+      position: {
+        x: 0,
+        y: window.innerHeight - 700 - 100,
+      },
+    },
+
+    terra1: {
+      src: 'assets/background/PNG/background_plains-Sheet4.png',
+      speed: {
+        x: -0.05,
+        y: 0,
+      },
+      size: {
+        w: window.innerWidth / 3,
+        h: 700,
+      },
+      position: {
+        x: 0,
+        y: window.innerHeight - 700 - 200,
+      },
+    },
+    terra2: {
+      src: 'assets/background/PNG/background_plains-Sheet3.png',
+      speed: {
+        x: -0.1,
+        y: 0,
+      },
+      size: {
+        w: window.innerWidth / 3,
+        h: 600,
+      },
+      position: {
+        x: 0,
+        y: window.innerHeight - 600,
+      },
+    },
+
+    grass: {
+      src: 'assets/background/PNG/background_plains-Sheet5.png',
+      speed: {
+        x: -0.3,
+        y: 0,
+      },
+      size: {
+        w: window.innerWidth / 3,
+        h: 300,
+      },
+      position: {
+        x: 0,
+        y: window.innerHeight - 300,
+      },
+    },
+  },
+};

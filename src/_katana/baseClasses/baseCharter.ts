@@ -30,10 +30,10 @@ export class BaseCharter {
   public gun: CannonGun;
   public cursor: Cursor;
   public hpBar: HpBarBase;
-  public mob: Slime;
+  public mobs: Slime[] = [];
 
   constructor(
-    canvas,
+    canvas: HTMLCanvasElement,
     ctx: CanvasRenderingContext2D,
     options: BaseCharterOptions
   ) {
@@ -60,8 +60,11 @@ export class BaseCharter {
     });
 
     this.hpBar = new HpBarBase(this.ctx, this.position);
+  }
 
-    this.mob = new Slime(this.ctx, { ...this.options, angle: this.angle });
+  createMobs() {
+    const mob = new Slime(this.ctx, { ...this.options, angle: this.angle });
+    this.mobs.push(mob);
   }
 
   move() {
@@ -69,9 +72,69 @@ export class BaseCharter {
 
     this.position.add(this.velocity.multScalar(dt));
 
-    this.mob.setConfig({ position: this.position, angle: this.angle });
+    this.mobs.forEach((mob) => {
+      mob.setConfig({ position: this.position, angle: this.angle });
+    });
+
     this.bullets.forEach((item) => {
       item.render();
+    });
+  }
+
+  collisionDetection() {
+    const xCharter = Math.round(this.position.x);
+    const yCharter = Math.round(this.position.y);
+    const leftCharterX = Math.round(xCharter) - 20;
+    const rightCharterX = Math.round(xCharter) + 20;
+    const bottomCharterY = Math.round(yCharter) + 80;
+    const topCharterY = Math.round(yCharter) - 80;
+
+    this.mobs.forEach((mob) => {
+      const positionMob = mob.position;
+
+      const xMob = Math.round(positionMob.x);
+      const yMob = Math.round(positionMob.y);
+
+      const leftMobX = Math.round(xMob) - 20;
+      const rightMobX = Math.round(xMob) + 20;
+
+      const bottomMobY = Math.round(yMob) + 40;
+      const topMobY = Math.round(yMob) - 40;
+
+      const checkLeft = leftMobX <= rightCharterX;
+      const checkRight = rightMobX >= leftCharterX;
+      const checkTop = topMobY >= topCharterY;
+      const checkBottom = bottomMobY <= bottomCharterY;
+
+      if (checkLeft && checkRight && checkTop && checkBottom) {
+        mob.active = false;
+
+        this.hpBar.setIcon();
+
+      }
+
+      this.bullets.forEach((bullet) => {
+        const positionBullet = bullet.position;
+
+        const xBullet = Math.round(positionBullet.x);
+        const yBullet = Math.round(positionBullet.y);
+
+        const leftBulletX = Math.round(xBullet) - 5;
+        const rightBulletX = Math.round(xBullet) + 5;
+
+        const topBulletY = Math.round(yBullet) - 5;
+        const bottomBulletY = Math.round(yBullet) + 5;
+
+        const checkLeft = leftBulletX <= rightMobX;
+        const checkRight = rightBulletX >= leftMobX;
+        const checkTop = topBulletY >= topMobY;
+        const checkBottom = bottomBulletY <= bottomMobY;
+
+        if (checkLeft && checkRight && checkTop && checkBottom) {
+          bullet.active = false;
+          mob.hpBar.setIcon();
+        }
+      });
     });
   }
 
@@ -83,13 +146,21 @@ export class BaseCharter {
   checkPosition() {
     checkPositionByField(this.position, window.innerWidth, window.innerHeight);
 
-    this.bullets = this.bullets.filter((bullet) => !bullet.checkPosition());
+    this.bullets = this.bullets.filter(
+      (bullet) => !bullet.checkPosition() && bullet.active
+    );
+
+    this.mobs = this.mobs.filter((mob) => mob.hpBar.count !== 8 && mob.active);
+    if (this.mobs.length < 10) {
+      this.createMobs();
+    }
   }
 
   update() {
     this.pressKey();
     this.configMouse();
     this.checkAngleForIcon();
+    this.collisionDetection();
   }
 
   reflect = false;

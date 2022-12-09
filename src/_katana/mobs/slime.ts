@@ -30,6 +30,7 @@ export class Slime extends BaseMobs {
 
   draw() {
     this.ctx.save();
+    this.hpBar.draw(this.position);
     this.ctx.translate(this.position.x, this.position.y);
     this.spriteMob.render(false);
     this.ctx.restore();

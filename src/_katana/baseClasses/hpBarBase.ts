@@ -5,7 +5,7 @@ export class HpBarBase {
   selectedImage: HTMLImageElement;
   imageSrc = BASE_PRESETS.hpBar;
   images = [];
-  count = 2;
+  count = 0;
 
   constructor(ctx: CanvasRenderingContext2D, position) {
     this.ctx = ctx;
@@ -21,8 +21,8 @@ export class HpBarBase {
     this.selectedImage = this.images[this.count];
   }
 
-  setIcon(index: number) {
-    this.count = this.count - index || 1;
+  setIcon(index?: number) {
+    this.count += index || 1;
     if (this.count > 8) {
       this.count = 8;
     }
@@ -35,6 +35,6 @@ export class HpBarBase {
   update() {}
 
   draw(position) {
-    this.ctx.drawImage(this.selectedImage, position.x - 30, position.y - 35, );
+    this.ctx.drawImage(this.selectedImage, position.x - 30, position.y - 35);
   }
 }

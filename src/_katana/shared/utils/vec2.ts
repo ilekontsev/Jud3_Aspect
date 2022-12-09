@@ -9,6 +9,11 @@ export class Vec2 {
     this.y = coordinates.y;
   }
 
+  set(otherCoordinates) {
+    this.x = otherCoordinates.x;
+    this.y = otherCoordinates.y;
+  }
+
   add(otherCoordinates: Coordinates): Coordinates {
     this.x += otherCoordinates.x;
     this.y += otherCoordinates.y;

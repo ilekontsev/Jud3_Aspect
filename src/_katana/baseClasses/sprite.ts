@@ -12,7 +12,6 @@ export class Sprite {
   selectedImage: any;
 
   constructor(options) {
-    console.log(options);
     this.ctx = options.ctx;
     this.numberOfFrames = options.numberOfFrames;
     this.ticksPerFrame = options.ticksPerFrame;

@@ -1,4 +1,3 @@
-import { inRad } from '../shared/utils';
 import { DeltaTime } from '../shared/utils/deltaTime';
 import { Vec2 } from './../shared/utils/vec2';
 export class BaseAttack {
@@ -8,12 +7,15 @@ export class BaseAttack {
   velocity = new Vec2({ x: 0, y: 0 });
 
   deltaTime = new DeltaTime();
+  active = true;
 
   constructor(ctx: CanvasRenderingContext2D, options: any) {
     this.ctx = ctx;
     this.options = options;
     this.position.add(options.position);
   }
+
+
 
   move() {
     const dt = this.deltaTime.get();

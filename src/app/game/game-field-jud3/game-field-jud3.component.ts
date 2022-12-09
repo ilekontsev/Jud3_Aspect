@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Warrior } from 'src/_katana/classes/Warrior';
+import { Menu } from 'src/_katana/menu/menu';
 import { PATH_PRESETS } from './constants/path-presets';
 
 @Component({
@@ -31,14 +32,11 @@ export class GameFieldJud3Component implements OnInit, AfterViewInit {
     nickname: 'GreezlyDvery',
   };
 
-  ngOnInit(): void {
-    // this.loadPresets();
-  }
+  ngOnInit(): void {}
 
   loadPresets() {
     const images = [];
     for (let key in PATH_PRESETS) {
-      console.log(this.configPlayer[key.slice(0, -1)]);
       const image = PATH_PRESETS[key][this.configPlayer[key.slice(0, -1)]];
       images.push(image);
     }
@@ -59,6 +57,8 @@ export class GameFieldJud3Component implements OnInit, AfterViewInit {
 
     this.configCanvas();
     this.createCharters();
+    this.createEventSubscriptions();
+    this.menu = new Menu(this.ctx);
 
     this.render();
     this.init = true;
@@ -83,10 +83,8 @@ export class GameFieldJud3Component implements OnInit, AfterViewInit {
   createCharters() {
     this.player = new Warrior(this.canvas.nativeElement, this.ctx, {
       position: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
-      nickname: this.configPlayer.nickname
+      nickname: this.configPlayer.nickname,
     });
-
-    this.createEventSubscriptions();
   }
 
   createEventSubscriptions() {
@@ -112,27 +110,76 @@ export class GameFieldJud3Component implements OnInit, AfterViewInit {
     this.player.mouse.y += event.movementY;
   }
 
+  menu
+  func;
+  initGameOver = false;
   render() {
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     this.ctx.strokeRect(0, 0, window.innerWidth, window.innerHeight);
+    this.menu.draw();
+    window.requestAnimationFrame(this.render.bind(this));
 
-    this.ctx.save();
+    return;
 
+    this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    this.ctx.strokeRect(0, 0, window.innerWidth, window.innerHeight);
 
-    this.ctx.beginPath();
-    this.ctx.moveTo(0, window.innerHeight / 2);
-    this.ctx.lineTo(window.innerWidth, window.innerHeight / 2);
-    this.ctx.moveTo(window.innerWidth / 2, 0);
-    this.ctx.lineTo(window.innerWidth / 2, window.innerHeight);
-    this.ctx.stroke();
-    this.ctx.closePath();
+    this.func = this.clickButton.bind(this);
 
-    this.update();
-    this.draw();
+    if (this.player.hpBar.count === 8) {
+      if (!this.initGameOver) {
+        document.addEventListener('click', this.func);
+        this.initGameOver = true;
+      }
 
-    this.ctx.restore();
+      this.ctx.fillRect(
+        window.innerWidth / 2,
+        window.innerHeight / 2 + 50,
+        100,
+        50
+      );
+
+      this.ctx.fillStyle = 'white';
+      this.ctx.font = '44px serif';
+      this.ctx.fillText(
+        'retry',
+        window.innerWidth / 2 + 10,
+        window.innerHeight / 2 + 85
+      );
+
+      this.ctx.fillStyle = 'black';
+
+      this.ctx.font = '120px serif';
+      this.ctx.fillText(
+        'Game Over',
+        window.innerWidth / 2 - 260,
+        window.innerHeight / 2
+      );
+    } else {
+      this.ctx.save();
+      this.update();
+      this.draw();
+
+      this.ctx.restore();
+    }
 
     window.requestAnimationFrame(this.render.bind(this));
+  }
+
+  clickButton(event) {
+    if (
+      (window.innerWidth / 2 <= event.offsetX &&
+        window.innerWidth / 2 + 50 >= event.offsetX) ||
+      (window.innerWidth / 2 >= event.offsetX &&
+        window.innerWidth / 2 - 50 <= event.offsetX &&
+        window.innerHeight / 2 + 50 <= event.offsetY &&
+        window.innerHeight / 2 + 25 + 50 >= event.offsetY) ||
+      (window.innerHeight / 2 + 50 >= event.offsetY &&
+        window.innerHeight / 2 - 25 + 50 <= event.offsetY)
+    ) {
+      this.createCharters();
+      this.initGameOver = false;
+    }
   }
 
   update() {

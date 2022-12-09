@@ -15,7 +15,6 @@ export class Ricochet {
   yvec = 1;
 
   constructor(ctx, options) {
-    console.log(options);
     this.options = { ...options };
     this.position.add(this.options.position);
     this.ctx = ctx;

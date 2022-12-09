@@ -8,11 +8,8 @@ export class CatBullet extends BaseAttack {
     this.image.src = 'assets/topdown_shooter/other/cat.png';
   }
 
-
-
-
   render() {
-    this.updateBulletTrajectory()
+    this.updateBulletTrajectory();
     this.draw();
   }
 
@@ -22,7 +19,7 @@ export class CatBullet extends BaseAttack {
     this.ctx.translate(this.position.x, this.position.y);
     this.ctx.rotate(this.options.angle);
 
-    const x = this.options.reflect ? -1 : 1
+    const x = this.options.reflect ? -1 : 1;
 
     this.ctx.scale(1, x);
 
