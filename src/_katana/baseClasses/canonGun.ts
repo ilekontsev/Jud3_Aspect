@@ -1,21 +1,21 @@
 import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
+import { Vec2 } from '../shared/utils/vec2';
 
 export class CannonGun {
   private ctx: CanvasRenderingContext2D;
-  private canvas: HTMLCanvasElement;
 
   private ticksPerFrame = 12;
   private tickCount = 0;
   private frameIndex = 10;
-  private x = 1;
+  private x = -1;
 
   private images = {};
   private imageSrc = PATH_PRESETS.guns.canonGun;
   private selectedImage: HTMLImageElement;
-
-  constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-    this.canvas = canvas;
-    this.ctx = ctx;
+  position = new Vec2({ x: 0, y: 0 });
+  constructor(options) {
+    this.ctx = options.ctx;
+    this.position.set(options.position);
     this.loadImage();
   }
 
@@ -53,8 +53,8 @@ export class CannonGun {
       0,
       20,
       20,
-      0,
-      -11 + this.frameIndex,
+      this.position.x || 0,
+      (this.position.y || -11) + this.frameIndex,
       12,
       12
     );

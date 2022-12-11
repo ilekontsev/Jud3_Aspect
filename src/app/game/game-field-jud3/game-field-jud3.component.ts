@@ -52,13 +52,17 @@ export class GameFieldJud3Component implements OnInit, AfterViewInit {
     });
   }
 
+  test() {
+    this.menu = null;
+  }
+
   ngAfterViewInit() {
     if (this.init) return;
 
     this.configCanvas();
     this.createCharters();
-    this.createEventSubscriptions();
-    this.menu = new Menu(this.ctx);
+    // this.createEventSubscriptions();
+    this.menu = new Menu({ canvas: this.canvas.nativeElement, ctx: this.ctx });
 
     this.render();
     this.init = true;
@@ -110,13 +114,13 @@ export class GameFieldJud3Component implements OnInit, AfterViewInit {
     this.player.mouse.y += event.movementY;
   }
 
-  menu
+  menu;
   func;
   initGameOver = false;
   render() {
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     this.ctx.strokeRect(0, 0, window.innerWidth, window.innerHeight);
-    this.menu.draw();
+    this.menu.render();
     window.requestAnimationFrame(this.render.bind(this));
 
     return;

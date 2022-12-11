@@ -52,9 +52,48 @@ export const MOBS = {
 };
 
 export const MENU = {
-  main: {
-    button: 'assets/interface/PNG/Btn01.png',
+  buttons: {
+    single: {
+      default: 'assets/interface/single.png',
+      hover: 'assets/interface/hover_single.png',
+      active: 'assets/interface/active_single.png',
+    },
+    online: {
+      default: 'assets/interface/online.png',
+      hover: 'assets/interface/hover_online.png',
+      active: 'assets/interface/active_online.png',
+    },
+    settings: {
+      default: 'assets/interface/settings.png',
+      hover: 'assets/interface/hover_settings.png',
+      active: 'assets/interface/active_settings.png',
+    },
   },
+  interface: {
+    panel: 'assets/interface/panel.png',
+    mode: 'assets/interface/DialogueBox.png',
+  },
+
+  cancel: {
+    default: 'assets/interface/restor/cancel.png',
+    hover: 'assets/interface/restor/active_cancel.png',
+    active: 'assets/interface/restor/active_cancel.png',
+  },
+
+  ready: {
+    default: 'assets/interface/restor/play.png',
+    hover: 'assets/interface/restor/active_play.png',
+    active: 'assets/interface/restor/active_play.png',
+  },
+
+  single: {
+    modes: {
+      defence: 'assets/interface/restor/save_base.png',
+      infinity: 'assets/interface/restor/infinity.png',
+      arena: 'assets/interface/restor/arena.png',
+    },
+  },
+  logo: 'assets/background/logo.png',
   background: {
     cloud: {
       src: 'assets/background/PNG/background_plains-Sheet1.png',
@@ -80,11 +119,11 @@ export const MENU = {
       },
       size: {
         w: window.innerWidth / 3,
-        h: 400,
+        h: 700,
       },
       position: {
         x: 0,
-        y: window.innerHeight - 700 - 100,
+        y: window.innerHeight - 1300,
       },
     },
 
@@ -96,11 +135,11 @@ export const MENU = {
       },
       size: {
         w: window.innerWidth / 3,
-        h: 700,
+        h: 1000,
       },
       position: {
         x: 0,
-        y: window.innerHeight - 700 - 200,
+        y: window.innerHeight - 1300,
       },
     },
     terra2: {
@@ -111,11 +150,11 @@ export const MENU = {
       },
       size: {
         w: window.innerWidth / 3,
-        h: 600,
+        h: 900,
       },
       position: {
         x: 0,
-        y: window.innerHeight - 600,
+        y: window.innerHeight - 800,
       },
     },
 

@@ -1,3 +1,5 @@
+import { Vec2 } from '../shared/utils/vec2';
+
 export class Sprite {
   images = {};
   ctx: CanvasRenderingContext2D;
@@ -7,9 +9,13 @@ export class Sprite {
   ticksPerFrame = 12;
   width: number;
   height: number;
-  scale: 1;
+  scale: {
+    x: 1;
+    y: 1;
+  };
   canvas: HTMLCanvasElement;
   selectedImage: any;
+  position = new Vec2({ x: 0, y: 0 });
 
   constructor(options) {
     this.ctx = options.ctx;
@@ -19,7 +25,7 @@ export class Sprite {
     this.width = options.width;
     this.height = options.height;
     this.images = options.images;
-    this.selectedImage = this.images['up'];
+    this.position.set(options.position);
   }
 
   setIcon(key) {
@@ -48,19 +54,23 @@ export class Sprite {
 
   draw(reflect) {
     const x = reflect ? -1 : 1;
-    this.ctx.scale(this.scale * x, this.scale);
+    this.ctx.save();
 
+    this.ctx.scale(this.scale.x, this.scale.y);
     this.ctx.transform(1, 0, 0, 1, 0, 0);
+
     this.ctx.drawImage(
       this.selectedImage,
       (this.frameIndex * this.width) / this.numberOfFrames,
       0,
       this.width / this.numberOfFrames,
       this.height,
-      -8,
-      -10,
+      this.position?.x || -8,
+      this.position?.y || -10,
       this.width / this.numberOfFrames,
       this.height
     );
+
+    this.ctx.restore();
   }
 }

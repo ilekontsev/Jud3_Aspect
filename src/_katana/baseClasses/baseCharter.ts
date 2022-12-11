@@ -47,7 +47,7 @@ export class BaseCharter {
   setConfigCharter(config) {
     this.config = config;
 
-    this.gun = new CannonGun(this.canvas, this.ctx);
+    this.gun = new CannonGun(this.ctx);
 
     this.sprite = new Sprite({
       ctx: this.ctx,
@@ -110,7 +110,6 @@ export class BaseCharter {
         mob.active = false;
 
         this.hpBar.setIcon();
-
       }
 
       this.bullets.forEach((bullet) => {
@@ -267,7 +266,7 @@ export class BaseCharter {
       window.innerWidth - 20,
       window.innerHeight - 20
     );
-    this.cursor.render(this.mouse);
+    // this.cursor.render(this.mouse);
     this.angle = Math.atan2(
       this.mouse.y - this.position.y,
       this.mouse.x - this.position.x

@@ -27,11 +27,10 @@ export class Parallax {
 
     this.position2.set(this.options.position);
 
-    const x3 = this.options.position.x + this.size.w;
+    const x3 = this.options.position.x + this.size.w * 3;
     this.position3.set({ x: x3, y: this.options.position.y });
 
     this.init();
-    console.log(this.images.length);
   }
 
   init() {
@@ -79,23 +78,26 @@ export class Parallax {
 
   checkPosition() {
     if (
-      this.position1.x + this.size.w * 1.5 * this.images.length <=
+      this.position1.x + this.size.w * this.images.length <=
       this.options.position.x
     ) {
       const x = window.innerWidth;
       const coordinates = { x, y: this.options.position.y };
       this.position1.set(coordinates);
     }
-    if (this.position1.x + this.size.w * 1.5 * this.images.length <= this.options.position.x) {
-      const x =  window.innerWidth;
+    if (
+      this.position2.x + this.size.w * this.images.length <=
+      this.options.position.x
+    ) {
+      const x = window.innerWidth;
       const coordinates = { x, y: this.options.position.y };
       this.position2.set(coordinates);
     }
     if (
-      this.position1.x + this.size.w * 1.5 * this.images.length <=
+      this.position3.x + this.size.w * this.images.length <=
       this.options.position.x
     ) {
-      const x = this.options.position.x + window.innerWidth;
+      const x = window.innerWidth;
       const coordinates = { x, y: this.options.position.y };
       this.position3.set(coordinates);
     }
@@ -105,23 +107,23 @@ export class Parallax {
     this.images.forEach((item, index) => {
       this.ctx.drawImage(
         this.image,
-        this.position1.x + this.size.w * index,
+        this.position1.x - this.size.w * index,
         this.position1.y,
-        this.size.w,
+        this.size.w + 10,
         this.size.h
       );
       this.ctx.drawImage(
         this.image,
         this.position2.x + this.size.w * index,
-        this.position2.y ,
-        this.size.w,
+        this.position2.y,
+        this.size.w + 10,
         this.size.h
       );
       this.ctx.drawImage(
         this.image,
         this.position3.x + this.size.w * index,
         this.position3.y,
-        this.size.w,
+        this.size.w + 10,
         this.size.h
       );
     });
