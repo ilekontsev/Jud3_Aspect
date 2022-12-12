@@ -15,7 +15,7 @@ export class Warrior extends BaseCharter {
 
   imageSrc = PATH_PRESETS.charters.warrior;
 
-  constructor( options: BaseCharterOptions) {
+  constructor(options: BaseCharterOptions) {
     super(options);
     this.init();
   }
@@ -46,8 +46,7 @@ export class Warrior extends BaseCharter {
       mob.draw();
     });
 
-    // this.ctx.translate(this.position.x, this.position.y);
     this.sprite.render(this.reflect);
-    // this.gun.render();
+    this.gun.render();
   }
 }

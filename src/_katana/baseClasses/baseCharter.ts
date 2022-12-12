@@ -276,7 +276,7 @@ export class BaseCharter {
   }
 
   configMouse() {
-    // this.mouse = this.cursor.mouse;
+    this.mouse = this.cursor.mouse;
     this.cursor.draw();
     this.angle = Math.atan2(
       this.mouse.y - this.position.y,

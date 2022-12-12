@@ -56,7 +56,7 @@ export class Sprite {
     const x = reflect ? -1 : 1;
     this.ctx.save();
 
-    this.ctx.scale(this.scale.x, this.scale.y);
+    this.ctx.scale(this.scale.x * x, this.scale.y);
     this.ctx.transform(1, 0, 0, 1, 0, 0);
 
     this.ctx.drawImage(
@@ -65,8 +65,9 @@ export class Sprite {
       0,
       this.width / this.numberOfFrames,
       this.height,
-      (this.position?.x || -8) / Math.abs(this.scale.x),
-      (this.position?.y || -10) / Math.abs(this.scale.y),
+      //todo refactor
+      ((this.position?.x || -8) / Math.abs(this.scale.x)) * x - 8,
+      (this.position?.y || -10) / Math.abs(this.scale.y) - 10,
       this.width / this.numberOfFrames,
       this.height
     );
