@@ -19,8 +19,8 @@ export class BaseMobs {
   public hpBar: HpBarBase;
   active = true;
 
-  constructor(ctx: CanvasRenderingContext2D, options) {
-    this.ctx = ctx;
+  constructor(options) {
+    this.ctx = options.ctx;
     const x = Math.random() * window.innerWidth;
     const y = Math.random() * window.innerHeight;
     this.position.add({ x, y });
@@ -28,7 +28,6 @@ export class BaseMobs {
 
   setConfigMob(config) {
     this.config = config;
-
     this.spriteMob = new Sprite({
       ctx: this.ctx,
       width: config.size.w,
@@ -36,9 +35,17 @@ export class BaseMobs {
       images: config.images,
       numberOfFrames: 5,
       ticksPerFrame: 12,
-      scale: 1,
+      scale: {
+        x: 1,
+        y: 1,
+      },
+      position: {
+        x: this.position.x,
+        y: this.position.y,
+      },
     });
 
+    this.spriteMob.setIcon('up');
     this.hpBar = new HpBarBase(this.ctx, this.position);
   }
 
@@ -56,6 +63,7 @@ export class BaseMobs {
     const dt = this.deltaTime.get();
 
     this.position.add(this.velocity.multScalar(dt));
+    this.spriteMob.position.set(this.position);
   }
 
   stop() {

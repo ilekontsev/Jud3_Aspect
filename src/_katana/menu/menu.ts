@@ -1,37 +1,37 @@
 import { MENU } from 'src/app/game/game-field-jud3/constants/path-presets';
 import { Cursor } from '../baseClasses/cursor';
-import { checkPositionByField } from '../shared/utils';
+import { MenuHelper } from './ menuHelper';
 import { Background } from './background';
-import { Button } from './button';
+import { MenuButton } from './MenuButton';
 import { Single } from './single';
 
 export class Menu {
-  ctx: CanvasRenderingContext2D;
-  canvas: HTMLCanvasElement;
-  public cursor: Cursor;
+  private ctx: CanvasRenderingContext2D;
+  private canvas: HTMLCanvasElement;
+  private options: any;
 
-  imageSrc = { logo: MENU.logo };
-  images = {};
+  private cursor: Cursor;
+  private background: Background;
 
-  background: Background;
-  button: Button;
-  mouse = {
-    x: 0,
-    y: 0,
-  };
+  private imageSrc = { logo: MENU.logo };
+  private images = {};
+
+  private key = 'menu';
+  private classStep: any;
+
   constructor(options) {
     this.canvas = options.canvas;
-    this.canvas = options.canvas;
     this.ctx = options.ctx;
+    this.options = options;
     this.init();
   }
 
   init() {
     this.loadImage();
-    this.createBackGround();
-    this.createButtons();
+
+    this.createBackground();
     this.createMenu();
-    this.cursor = new Cursor(this.ctx);
+    this.createCursor();
 
     this.createEventSubscriptions();
   }
@@ -45,54 +45,37 @@ export class Menu {
   }
 
   createEventSubscriptions() {
-    const callbackMousemover = this.updateMousemove.bind(this);
-    const callbackMousedown = this.updateMousedown.bind(this);
-    const callbackMouseup = this.updateMouseup.bind(this);
-    const callbackKeydown = this.updateKeydown.bind(this);
-    const callbackKeyup = this.updateKeyup.bind(this);
-
-    document.addEventListener('pointerlockchange', () => {
-      if (document.pointerLockElement === this.canvas) {
-        document.addEventListener('mousemove', callbackMousemover);
-        document.addEventListener('mousedown', callbackMousedown);
-        document.addEventListener('mouseup', callbackMouseup);
-        document.addEventListener('keydown', callbackKeydown);
-        document.addEventListener('keyup', callbackKeyup);
-      } else {
-        document.removeEventListener('mousemove', callbackMousemover);
-        document.removeEventListener('mousedown', callbackMousedown);
-        document.removeEventListener('mouseup', callbackMouseup);
-        document.removeEventListener('keydown', callbackKeydown);
-        document.removeEventListener('keyup', callbackKeyup);
-      }
+    MenuHelper.event.subscribe((res) => {
+      this.key = res;
+      this.createMenu();
     });
   }
 
-  updateKeyup() {}
-
-  updateKeydown() {}
-
-  updateMouseup() {}
-
-  updateMousedown() {}
-
-  updateMousemove(event: MouseEvent) {
-    this.mouse.x += event.movementX;
-    this.mouse.y += event.movementY;
-    checkPositionByField(this.mouse, window.innerWidth, window.innerHeight);
+  createBackground() {
+    this.background = new Background(this.options);
   }
 
-  createBackGround() {
-    this.background = new Background(this.ctx);
+  createCursor() {
+    this.cursor = new Cursor(this.options);
   }
 
-  createButtons() {
-    this.button = new Button({ canvas: this.canvas, ctx: this.ctx });
-  }
-
-  single;
   createMenu() {
-    this.single = new Single({ ctx: this.ctx });
+    this.classStep?.destroy();
+
+    switch (this.key) {
+      case 'single':
+        this.classStep = new Single(this.options);
+        break;
+      case 'cancel':
+      case 'menu':
+        this.classStep = new MenuButton(this.options);
+
+        break;
+      default:
+        this.classStep = new MenuButton(this.options);
+
+        break;
+    }
   }
 
   render() {
@@ -101,29 +84,22 @@ export class Menu {
   }
 
   update() {
-    this.button.update();
-    this.key = this.button.key;
-    this.cursor.update(this.mouse);
+    this.classStep.update();
+    this.classStep.mouse = this.cursor.mouse;
   }
 
-  key = null;
   draw() {
     this.background.render();
 
     this.ctx.drawImage(
       this.images['logo'],
-      window.innerWidth / 2 - 300,
-      0,
+      window.innerWidth / 2 - 340,
+      -100,
       700,
       700
     );
-    switch ('single') {
-      case 'single':
-        this.single.draw();
-        break;
-      default:
-        this.button.draw();
-    }
+
+    this.classStep.draw();
 
     this.cursor.draw();
   }

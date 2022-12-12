@@ -1,13 +1,24 @@
+import { takeUntil, Subject } from 'rxjs';
 import { MENU } from 'src/app/game/game-field-jud3/constants/path-presets';
+import { MenuHelper } from './ menuHelper';
 import { ActionButtons } from './actionButton';
+import { Helper } from './helper';
 
-export class Button {
+export class MenuButton {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
 
-  images = {};
   imageSrc = MENU.buttons;
-  key = null;
+  images = {};
+
+  mouse = {
+    x: 0,
+    y: 0,
+  };
+  buttons = [];
+
+  destroy$ = new Subject();
+
   constructor(options) {
     this.canvas = options.canvas;
     this.ctx = options.ctx;
@@ -16,6 +27,7 @@ export class Button {
 
   init() {
     this.loadImages();
+    this.createEventSubscription();
   }
 
   loadImages() {
@@ -23,8 +35,15 @@ export class Button {
       this.createAction(key, this.imageSrc[key]);
     }
   }
-  buttons = [];
-  count = 320;
+
+  createEventSubscription() {
+    Helper.button.key.pipe(takeUntil(this.destroy$)).subscribe((key: string) => {
+      MenuHelper.event.next(key);
+    });
+  }
+
+  count = 290;
+
   createAction(key, images) {
     this.count -= 120;
     const action = new ActionButtons({
@@ -37,31 +56,33 @@ export class Button {
         y: window.innerHeight / 2 - this.count,
       },
       size: {
-        x: 410,
-        y: 110,
+        x: 400,
+        y: 100,
       },
     });
 
     this.buttons.push(action);
   }
 
-  render() {
-    this.update();
-    this.draw();
-  }
-
   update() {
     this.buttons.forEach((item) => {
       item.update();
-      if (item.click) {
-        this.key = item.key;
-      }
+      item.mouse = this.mouse;
     });
   }
 
   draw() {
     this.buttons.forEach((item) => {
       item.draw();
+    });
+  }
+
+  destroy() {
+    this.destroy$.next(null);
+    this.destroy$.complete();
+
+    this.buttons.forEach((item) => {
+      item.destroy();
     });
   }
 }

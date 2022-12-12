@@ -65,8 +65,8 @@ export class Sprite {
       0,
       this.width / this.numberOfFrames,
       this.height,
-      this.position?.x || -8,
-      this.position?.y || -10,
+      (this.position?.x || -8) / Math.abs(this.scale.x),
+      (this.position?.y || -10) / Math.abs(this.scale.y),
       this.width / this.numberOfFrames,
       this.height
     );

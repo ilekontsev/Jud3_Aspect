@@ -54,19 +54,19 @@ export const MOBS = {
 export const MENU = {
   buttons: {
     single: {
-      default: 'assets/interface/single.png',
-      hover: 'assets/interface/hover_single.png',
-      active: 'assets/interface/active_single.png',
+      default: 'assets/presets/menu/single/single_panel.png',
+      hover: 'assets/presets/menu/single/hover.png',
+      active: 'assets/presets/menu/single/active.png',
     },
     online: {
-      default: 'assets/interface/online.png',
-      hover: 'assets/interface/hover_online.png',
-      active: 'assets/interface/active_online.png',
+      default: 'assets/presets/menu/online/default.png',
+      hover: 'assets/presets/menu/online/hover.png',
+      active: 'assets/presets/menu/online/active.png',
     },
     settings: {
-      default: 'assets/interface/settings.png',
-      hover: 'assets/interface/hover_settings.png',
-      active: 'assets/interface/active_settings.png',
+      default: 'assets/presets/menu/settings/default.png',
+      hover: 'assets/presets/menu/settings/hover.png',
+      active: 'assets/presets/menu/settings/active.png',
     },
   },
   interface: {
@@ -74,26 +74,39 @@ export const MENU = {
     mode: 'assets/interface/DialogueBox.png',
   },
 
-  cancel: {
-    default: 'assets/interface/restor/cancel.png',
-    hover: 'assets/interface/restor/active_cancel.png',
-    active: 'assets/interface/restor/active_cancel.png',
-  },
-
-  ready: {
-    default: 'assets/interface/restor/play.png',
-    hover: 'assets/interface/restor/active_play.png',
-    active: 'assets/interface/restor/active_play.png',
+  modes: {
+    defence: 'assets/presets/menu/single/defence.png',
+    infinity: 'assets/presets/menu/single/infinityMode.png',
+    arena: 'assets/presets/menu/single/arenaMode.png',
   },
 
   single: {
-    modes: {
-      defence: 'assets/interface/restor/save_base.png',
-      infinity: 'assets/interface/restor/infinity.png',
-      arena: 'assets/interface/restor/arena.png',
+    cancel: {
+      default: 'assets/presets/menu/single/cancel.png',
+      hover: 'assets/presets/menu/single/pressCancel.png',
+      active: 'assets/presets/menu/single/pressCancel.png',
+    },
+
+    ready: {
+      default: 'assets/presets/menu/single/game.png',
+      hover: 'assets/presets/menu/single/pressGame.png',
+      active: 'assets/presets/menu/single/pressGame.png',
+    },
+
+    next: {
+      default: 'assets/presets/menu/single/nextPanel.png',
+      hover: 'assets/presets/menu/single/pressNextPanel.png',
+      active: 'assets/presets/menu/single/pressNextPanel.png',
+    },
+
+    prev: {
+      default: 'assets/presets/menu/single/prevPanel.png',
+      hover: 'assets/presets/menu/single/pressPrevPanel.png',
+      active: 'assets/presets/menu/single/pressPrevPanel.png',
     },
   },
   logo: 'assets/background/logo.png',
+
   background: {
     cloud: {
       src: 'assets/background/PNG/background_plains-Sheet1.png',
@@ -119,11 +132,11 @@ export const MENU = {
       },
       size: {
         w: window.innerWidth / 3,
-        h: 700,
+        h: 600,
       },
       position: {
         x: 0,
-        y: window.innerHeight - 1300,
+        y: window.innerHeight - 1000,
       },
     },
 
@@ -139,7 +152,7 @@ export const MENU = {
       },
       position: {
         x: 0,
-        y: window.innerHeight - 1300,
+        y: window.innerHeight - 1200,
       },
     },
     terra2: {
@@ -150,11 +163,11 @@ export const MENU = {
       },
       size: {
         w: window.innerWidth / 3,
-        h: 900,
+        h: 700,
       },
       position: {
         x: 0,
-        y: window.innerHeight - 800,
+        y: window.innerHeight - 700,
       },
     },
 

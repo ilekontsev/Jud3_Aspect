@@ -32,38 +32,52 @@ export class BaseCharter {
   public hpBar: HpBarBase;
   public mobs: Slime[] = [];
 
-  constructor(
-    canvas: HTMLCanvasElement,
-    ctx: CanvasRenderingContext2D,
-    options: BaseCharterOptions
-  ) {
-    this.canvas = canvas;
-    this.ctx = ctx;
+  constructor(options: BaseCharterOptions) {
+    this.canvas = options.canvas;
+    this.ctx = options.ctx;
     this.options = options;
-    this.position.add(options.position);
-    this.cursor = new Cursor(this.ctx);
+    this.position.set(options.position);
+    this.cursor = new Cursor(this.options);
+    this.createEventSubscriptions();
+  }
+
+  createEventSubscriptions() {
+    document.addEventListener('keydown', (event) => {
+      this.keys[event.code] = true;
+    });
+
+    document.addEventListener('keyup', (event) => {
+      this.keys[event.code] = false;
+    });
   }
 
   setConfigCharter(config) {
     this.config = config;
 
-    this.gun = new CannonGun(this.ctx);
+    this.gun = new CannonGun(this.options);
 
     this.sprite = new Sprite({
       ctx: this.ctx,
       width: config.size.w,
       height: config.size.h,
       images: config.images,
+      scale: {
+        x: 2,
+        y: 2,
+      },
+      position: {
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+      },
       numberOfFrames: 5,
       ticksPerFrame: 12,
-      scale: 2,
     });
 
     this.hpBar = new HpBarBase(this.ctx, this.position);
   }
 
   createMobs() {
-    const mob = new Slime(this.ctx, { ...this.options, angle: this.angle });
+    const mob = new Slime({ ...this.options, angle: this.angle });
     this.mobs.push(mob);
   }
 
@@ -71,6 +85,7 @@ export class BaseCharter {
     const dt = this.deltaTime.get();
 
     this.position.add(this.velocity.multScalar(dt));
+    this.sprite.position.set(this.position);
 
     this.mobs.forEach((mob) => {
       mob.setConfig({ position: this.position, angle: this.angle });
@@ -261,12 +276,8 @@ export class BaseCharter {
   }
 
   configMouse() {
-    checkPositionByField(
-      this.mouse,
-      window.innerWidth - 20,
-      window.innerHeight - 20
-    );
-    // this.cursor.render(this.mouse);
+    // this.mouse = this.cursor.mouse;
+    this.cursor.draw();
     this.angle = Math.atan2(
       this.mouse.y - this.position.y,
       this.mouse.x - this.position.x

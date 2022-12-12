@@ -13,6 +13,7 @@ export class CannonGun {
   private imageSrc = PATH_PRESETS.guns.canonGun;
   private selectedImage: HTMLImageElement;
   position = new Vec2({ x: 0, y: 0 });
+
   constructor(options) {
     this.ctx = options.ctx;
     this.position.set(options.position);

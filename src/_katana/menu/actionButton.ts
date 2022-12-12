@@ -1,3 +1,4 @@
+import { Helper } from 'src/_katana/menu/helper';
 import { Vec2 } from '../shared/utils/vec2';
 
 export class ActionButtons {
@@ -20,6 +21,12 @@ export class ActionButtons {
   click = false;
   flagMouseDown = false;
 
+  callbackMousedown;
+  callbackMouseup;
+  callbackEvents;
+
+  initSubscription = false;
+
   constructor(options) {
     this.canvas = options.canvas;
     this.ctx = options.ctx;
@@ -27,12 +34,18 @@ export class ActionButtons {
     this.size = options.size;
     this.key = options.key;
     this.position.set(options.position);
+    this.callbackMousedown = this.updateMousedown.bind(this);
+    this.callbackMouseup = this.updateMouseup.bind(this);
+    this.callbackEvents = this.createEventSubscriptions.bind(this);
+
     this.init();
   }
 
   init() {
     this.loadedImages();
+    this.createPointerlockchange();
     this.createEventSubscriptions();
+    this.selectedImage = this.images['default'];
   }
 
   loadedImages() {
@@ -43,27 +56,24 @@ export class ActionButtons {
     }
   }
 
-  createEventSubscriptions() {
-    const callbackMousemover = this.updateMousemove.bind(this);
-    const callbackMousedown = this.updateMousedown.bind(this);
-    const callbackMouseup = this.updateMouseup.bind(this);
-
-    document.addEventListener('pointerlockchange', () => {
-      if (document.pointerLockElement === this.canvas) {
-        document.addEventListener('mousemove', callbackMousemover);
-        document.addEventListener('mousedown', callbackMousedown);
-        document.addEventListener('mouseup', callbackMouseup);
-      } else {
-        document.removeEventListener('mousemove', callbackMousemover);
-        document.removeEventListener('mousedown', callbackMousedown);
-        document.removeEventListener('mouseup', callbackMouseup);
-      }
-    });
+  createPointerlockchange() {
+    document.addEventListener('pointerlockchange', this.callbackEvents);
   }
 
-  updateMousemove(event) {
-    this.mouse.x += event.movementX;
-    this.mouse.y += event.movementY;
+  createEventSubscriptions() {
+    if (document.pointerLockElement === this.canvas) {
+      document.addEventListener('mousedown', this.callbackMousedown);
+      document.addEventListener('mouseup', this.callbackMouseup);
+    } else {
+      document.removeEventListener('mousedown', this.callbackMousedown);
+      document.removeEventListener('mouseup', this.callbackMouseup);
+    }
+  }
+
+  destroy() {
+    document.removeEventListener('mousedown', this.callbackMousedown);
+    document.removeEventListener('mouseup', this.callbackMouseup);
+    document.removeEventListener('pointerlockchange', this.callbackEvents);
   }
 
   isCheckPosition() {
@@ -75,13 +85,16 @@ export class ActionButtons {
     );
   }
 
-  updateMousedown() {
+  updateMousedown(event: MouseEvent) {
+    event.preventDefault();
     if (this.isCheckPosition()) {
       this.flagMouseDown = true;
     }
   }
 
-  updateMouseup() {
+  updateMouseup(event: MouseEvent) {
+    event.preventDefault();
+
     if (this.flagMouseDown && this.isCheckPosition()) {
       this.click = true;
     } else {
@@ -90,23 +103,30 @@ export class ActionButtons {
     }
   }
 
-  render() {
-    this.update();
-    this.draw();
-  }
-
   update() {
     if (this.isCheckPosition() || this.click || this.flagMouseDown) {
       this.selectedImage =
         this.click || this.flagMouseDown
           ? this.images['active']
           : this.images['hover'];
+
+      if (this.click) {
+        Helper.button.key.next(this.key);
+        this.click = false;
+        this.flagMouseDown = false;
+      }
     } else {
       this.selectedImage = this.images['default'];
     }
   }
 
   draw() {
-    this.ctx.drawImage(this.selectedImage, this.position.x, this.position.y);
+    this.ctx.drawImage(
+      this.selectedImage,
+      this.position.x,
+      this.position.y,
+      this.size.x,
+      this.size.y
+    );
   }
 }

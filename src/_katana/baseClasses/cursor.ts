@@ -1,23 +1,42 @@
+import { Vec2 } from './../shared/utils/vec2';
 import { checkPositionByField } from '../shared/utils';
 
 export class Cursor {
+  canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
   image = new Image();
-  mouse = {
-    x: 0,
-    y: 0,
-  };
-  constructor(ctx) {
-    this.ctx = ctx;
+
+  mouse = new Vec2({ x: 0, y: 0 });
+  callbackMousemove;
+  constructor(options) {
+    this.canvas = options.canvas;
+    this.ctx = options.ctx;
+    this.callbackMousemove = this.updateMousemove.bind(this);
+
+    this.init();
+  }
+
+  init() {
+    this.loadImage();
+    this.createEventSubscriptions();
+  }
+
+  loadImage() {
     this.image.src = 'assets/topdown_shooter/cursors/6crosshair.png';
   }
 
-  render() {
-    this.draw();
+  createEventSubscriptions() {
+    document.addEventListener('pointerlockchange', () => {
+      if (document.pointerLockElement === this.canvas) {
+        document.addEventListener('mousemove', this.callbackMousemove);
+      } else {
+        document.removeEventListener('mousemove', this.callbackMousemove);
+      }
+    });
   }
 
-  update(mouse) {
-    this.mouse = mouse;
+  updateMousemove(event: MouseEvent) {
+    this.mouse.add({ x: event.movementX, y: event.movementY });
     checkPositionByField(this.mouse, window.innerWidth, window.innerHeight);
   }
 

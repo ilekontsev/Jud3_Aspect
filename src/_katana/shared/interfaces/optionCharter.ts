@@ -11,6 +11,8 @@ export interface PositionObject {
 }
 
 export interface BaseCharterOptions {
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
   position: PositionObject;
-  nickname: string
+  nickname: string;
 }
