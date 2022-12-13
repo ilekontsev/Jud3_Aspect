@@ -63,7 +63,7 @@ export class Background {
         y: window.innerHeight - 200,
       },
     });
-    this.spriteMob.setIcon('side');
+    this.spriteMob.setIcon({ key: 'side', reflect: false });
 
     const imageCharter = new Image();
     imageCharter.src = 'assets/topdown_shooter/characters/2_side.png';
@@ -83,13 +83,17 @@ export class Background {
         y: window.innerHeight - 250,
       },
     });
-    this.spriteCharter.setIcon('side');
+    this.spriteCharter.setIcon({ key: 'side', reflect: false });
 
     this.gunCharter = new CannonGun({
       ctx: this.ctx,
-      position: { x: -70, y: 154 },
+      size: {
+        x: 1,
+        y: 1,
+      },
+      position: { x: -78, y: 154 },
     });
-    this.gunCharter.setIcon('side');
+    this.gunCharter.setIcon({ key: 'side', reflect: false });
   }
 
   render() {
@@ -97,11 +101,11 @@ export class Background {
     this.draw();
   }
 
-  tickCount = 1000;
+  tickCount = 2000;
 
   update() {
     this.tickCount++;
-    if (this.tickCount < 1000) {
+    if (this.tickCount < 2000) {
       this.spriteMob.position.set({
         x: 120,
         y: window.innerHeight - 200,
@@ -110,7 +114,7 @@ export class Background {
         x: -400,
         y: window.innerHeight - 250,
       });
-      this.gunCharter.position.set({ x: -70, y: 154 });
+      this.gunCharter.position.set({ x: -78, y: 154 });
     } else {
       this.spriteMob.position.add({ x: -1.5, y: 0 });
       this.spriteCharter.position.add({

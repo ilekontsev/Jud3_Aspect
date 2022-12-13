@@ -12,6 +12,7 @@ export class BaseAttack {
   constructor(ctx: CanvasRenderingContext2D, options: any) {
     this.ctx = ctx;
     this.options = options;
+    console.log(options)
     this.position.add(options.position);
   }
 

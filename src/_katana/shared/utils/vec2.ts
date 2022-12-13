@@ -10,8 +10,8 @@ export class Vec2 {
   }
 
   set(otherCoordinates) {
-    this.x = otherCoordinates?.x || 0;
-    this.y = otherCoordinates?.y || 0;
+    this.x = otherCoordinates?.x || this.x;
+    this.y = otherCoordinates?.y || this.y;
   }
 
   add(otherCoordinates: Coordinates): Coordinates {

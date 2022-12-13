@@ -1,4 +1,3 @@
-import { GameFieldComponent } from './game/game-field/game-field.component';
 import { GameFieldTreejsComponent } from './game/game-field-treejs/game-field-treejs.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -8,18 +7,14 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'treejs',
+    redirectTo: 'jud3',
   },
   {
     path: 'treejs',
     pathMatch: 'full',
     component: GameFieldTreejsComponent,
   },
-  {
-    path: 'canvas',
-    pathMatch: 'full',
-    component: GameFieldComponent,
-  },
+
   {
     path: 'jud3',
     pathMatch: 'full',

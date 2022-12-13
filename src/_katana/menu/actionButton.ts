@@ -1,3 +1,4 @@
+import { GameHelper } from './../game/gameHelper';
 import { Helper } from 'src/_katana/menu/helper';
 import { Vec2 } from '../shared/utils/vec2';
 
@@ -20,7 +21,7 @@ export class ActionButtons {
   key: string;
   click = false;
   flagMouseDown = false;
-
+  options;
   callbackMousedown;
   callbackMouseup;
   callbackEvents;
@@ -28,6 +29,7 @@ export class ActionButtons {
   initSubscription = false;
 
   constructor(options) {
+    this.options = options;
     this.canvas = options.canvas;
     this.ctx = options.ctx;
     this.imageSrc = options.images;
@@ -37,7 +39,6 @@ export class ActionButtons {
     this.callbackMousedown = this.updateMousedown.bind(this);
     this.callbackMouseup = this.updateMouseup.bind(this);
     this.callbackEvents = this.createEventSubscriptions.bind(this);
-
     this.init();
   }
 
@@ -77,6 +78,7 @@ export class ActionButtons {
   }
 
   isCheckPosition() {
+    this.mouse = GameHelper.cursorPosition;
     return (
       this.mouse.x >= this.position.x &&
       this.mouse.x <= this.position.x + this.size.x &&
@@ -111,6 +113,7 @@ export class ActionButtons {
           : this.images['hover'];
 
       if (this.click) {
+        this.options.callback && this.options.callback(this.key);
         Helper.button.key.next(this.key);
         this.click = false;
         this.flagMouseDown = false;

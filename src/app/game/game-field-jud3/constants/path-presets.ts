@@ -7,7 +7,23 @@ export const PATH_PRESETS = {
       side: 'assets/topdown_shooter/characters/3_side.png',
       down: 'assets/topdown_shooter/characters/3_south.png',
     },
+    berserker: {
+      diagDown: 'assets/topdown_shooter/characters/1_diagdown.png',
+      diagUp: 'assets/topdown_shooter/characters/1_diagup.png',
+      up: 'assets/topdown_shooter/characters/1_north.png',
+      side: 'assets/topdown_shooter/characters/1_side.png',
+      down: 'assets/topdown_shooter/characters/1_south.png',
+    },
+    hunter: {
+      diagDown: 'assets/topdown_shooter/characters/2_diagdown.png',
+      diagUp: 'assets/topdown_shooter/characters/2_diagup.png',
+      up: 'assets/topdown_shooter/characters/2_north.png',
+      side: 'assets/topdown_shooter/characters/2_side.png',
+      down: 'assets/topdown_shooter/characters/2_south.png',
+    },
   },
+
+  base: 'assets/topdown_shooter/other/base.png',
 
   cursors: ['src/assets/topdown_shooter/cursors/6crosshair.png'],
 
@@ -75,24 +91,30 @@ export const MENU = {
   },
 
   modes: {
-    defence: 'assets/presets/menu/single/defence.png',
+    defense: 'assets/presets/menu/single/defence.png',
     infinity: 'assets/presets/menu/single/infinityMode.png',
     arena: 'assets/presets/menu/single/arenaMode.png',
   },
 
-  single: {
-    cancel: {
-      default: 'assets/presets/menu/single/cancel.png',
-      hover: 'assets/presets/menu/single/pressCancel.png',
-      active: 'assets/presets/menu/single/pressCancel.png',
-    },
+  classesCharter: {
+    warrior: 'assets/presets/menu/single/warClass.png',
+    berserker: 'assets/presets/menu/single/berserkClass.png',
+    hunter: 'assets/presets/menu/single/rogClass.png',
+  },
 
-    ready: {
-      default: 'assets/presets/menu/single/game.png',
-      hover: 'assets/presets/menu/single/pressGame.png',
-      active: 'assets/presets/menu/single/pressGame.png',
-    },
+  cancel: {
+    default: 'assets/presets/menu/single/cancel.png',
+    hover: 'assets/presets/menu/single/pressCancel.png',
+    active: 'assets/presets/menu/single/pressCancel.png',
+  },
 
+  ready: {
+    default: 'assets/presets/menu/single/game.png',
+    hover: 'assets/presets/menu/single/pressGame.png',
+    active: 'assets/presets/menu/single/pressGame.png',
+  },
+
+  sliders: {
     next: {
       default: 'assets/presets/menu/single/nextPanel.png',
       hover: 'assets/presets/menu/single/pressNextPanel.png',

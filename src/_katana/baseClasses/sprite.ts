@@ -16,6 +16,7 @@ export class Sprite {
   canvas: HTMLCanvasElement;
   selectedImage: any;
   position = new Vec2({ x: 0, y: 0 });
+  reflect = false;
 
   constructor(options) {
     this.ctx = options.ctx;
@@ -28,13 +29,14 @@ export class Sprite {
     this.position.set(options.position);
   }
 
-  setIcon(key) {
-    this.selectedImage = this.images[key];
+  setIcon(obj) {
+    this.selectedImage = this.images[obj.key];
+    this.reflect = obj.reflect;
   }
 
-  render(reflect) {
+  render() {
     this.update();
-    this.draw(reflect);
+    this.draw();
   }
 
   update() {
@@ -52,8 +54,8 @@ export class Sprite {
     }
   }
 
-  draw(reflect) {
-    const x = reflect ? -1 : 1;
+  draw() {
+    const x = this.reflect ? -1 : 1;
     this.ctx.save();
 
     this.ctx.scale(this.scale.x * x, this.scale.y);

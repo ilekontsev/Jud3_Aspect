@@ -3,12 +3,13 @@ import { ActionButtons } from './actionButton';
 import { MENU } from 'src/app/game/game-field-jud3/constants/path-presets';
 import { Helper } from './helper';
 import { MenuHelper } from './ menuHelper';
+import { Slider } from './slider';
 
 export class Single {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
-
-  imageSrc = { ...MENU.interface, ...MENU.modes };
+  options;
+  imageSrc = { ...MENU.interface, ...MENU.modes, ...MENU.classesCharter };
   images = {};
 
   mouse = {
@@ -18,7 +19,27 @@ export class Single {
   buttons = [];
   destroy$ = new Subject();
 
+  positionButtons = {
+    cancel: {
+      x: window.innerWidth / 2 - 100,
+      y: window.innerHeight / 2 + 140,
+    },
+    ready: {
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2 + 140,
+    },
+    next: {
+      x: window.innerWidth / 2 + 170,
+      y: window.innerHeight / 2 - 170,
+    },
+    prev: {
+      x: window.innerWidth / 2 - 270,
+      y: window.innerHeight / 2 - 170,
+    },
+  };
+
   constructor(options) {
+    this.options = options;
     this.canvas = options.canvas;
     this.ctx = options.ctx;
     this.init();
@@ -26,6 +47,7 @@ export class Single {
 
   init() {
     this.loadImages();
+    this.createSlider();
     this.createEventSubscription();
   }
 
@@ -36,16 +58,56 @@ export class Single {
       this.images[key] = image;
     }
 
-    for (let key in MENU.single) {
-      this.createAction(key, MENU.single[key]);
+    const images = { cancel: MENU.cancel, ready: MENU.ready };
+    for (let key in images) {
+      this.createAction(key, images[key]);
     }
+  }
+
+  sliders = [];
+
+  createSlider() {
+    this.sliders.push(
+      new Slider({
+        ...this.options,
+        key: 'mode',
+        image: MENU.modes,
+        position: {
+          x: window.innerWidth / 2 - 150,
+          y: window.innerHeight / 2 - 220,
+        },
+        size: {
+          x: 300,
+          y: 150,
+        },
+      })
+    );
+    this.sliders.push(
+      new Slider({
+        ...this.options,
+        image: MENU.classesCharter,
+        key: 'class',
+        position: {
+          x: window.innerWidth / 2 - 150,
+          y: window.innerHeight / 2 - 60,
+        },
+        size: {
+          x: 300,
+          y: 150,
+        },
+      })
+    );
   }
 
   createEventSubscription() {
     Helper.button.key.pipe(takeUntil(this.destroy$)).subscribe((key) => {
       switch (key) {
         case 'ready':
-          Helper.event.next('test');
+          const config = {}
+          this.sliders.forEach(slider => {
+            config[slider.key] = slider.keyImage
+          })
+          Helper.event.next({key: 'game', config});
           break;
         case 'cancel':
           MenuHelper.event.next('cancel');
@@ -59,15 +121,14 @@ export class Single {
   count = 300;
   createAction(key, images) {
     this.count -= 100;
-
     const button = new ActionButtons({
       canvas: this.canvas,
       ctx: this.ctx,
       key,
       images,
       position: {
-        x: window.innerWidth / 2 - this.count,
-        y: window.innerHeight / 2,
+        x: this.positionButtons[key].x,
+        y: this.positionButtons[key].y,
       },
       size: {
         x: 100,
@@ -94,13 +155,10 @@ export class Single {
       window.innerHeight / 2
     );
 
-    this.ctx.drawImage(
-      this.images['infinity'],
-      window.innerWidth / 2 - 150,
-      window.innerHeight / 2 - 200,
-      300,
-      150
-    );
+    this.sliders.forEach((slider) => {
+      slider.update(this.mouse);
+      slider.draw();
+    });
 
     this.buttons.forEach((item) => {
       item.draw();
@@ -110,6 +168,10 @@ export class Single {
   destroy() {
     this.destroy$.next(null);
     this.destroy$.complete();
+
+    this.sliders.forEach((slider) => {
+      slider.destroy();
+    });
 
     this.buttons.forEach((item) => {
       item.destroy();

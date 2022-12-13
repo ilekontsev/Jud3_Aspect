@@ -30,6 +30,6 @@ export class Slime extends BaseMobs {
 
   draw() {
     this.hpBar.draw(this.position);
-    this.spriteMob.render(false);
+    this.spriteMob.render();
   }
 }

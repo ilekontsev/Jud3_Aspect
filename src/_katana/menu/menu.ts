@@ -1,5 +1,4 @@
 import { MENU } from 'src/app/game/game-field-jud3/constants/path-presets';
-import { Cursor } from '../baseClasses/cursor';
 import { MenuHelper } from './ menuHelper';
 import { Background } from './background';
 import { MenuButton } from './MenuButton';
@@ -10,13 +9,12 @@ export class Menu {
   private canvas: HTMLCanvasElement;
   private options: any;
 
-  private cursor: Cursor;
   private background: Background;
 
   private imageSrc = { logo: MENU.logo };
   private images = {};
 
-  private key = 'menu';
+  private key = 'single';
   private classStep: any;
 
   constructor(options) {
@@ -31,7 +29,6 @@ export class Menu {
 
     this.createBackground();
     this.createMenu();
-    this.createCursor();
 
     this.createEventSubscriptions();
   }
@@ -55,9 +52,7 @@ export class Menu {
     this.background = new Background(this.options);
   }
 
-  createCursor() {
-    this.cursor = new Cursor(this.options);
-  }
+
 
   createMenu() {
     this.classStep?.destroy();
@@ -85,7 +80,6 @@ export class Menu {
 
   update() {
     this.classStep.update();
-    this.classStep.mouse = this.cursor.mouse;
   }
 
   draw() {
@@ -101,6 +95,5 @@ export class Menu {
 
     this.classStep.draw();
 
-    this.cursor.draw();
   }
 }

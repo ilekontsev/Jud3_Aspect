@@ -1,4 +1,4 @@
-import { Vec2 } from './../shared/utils/vec2';
+import { GameHelper } from './../game/gameHelper';
 import { checkPositionByField } from '../shared/utils';
 
 export class Cursor {
@@ -6,8 +6,8 @@ export class Cursor {
   ctx: CanvasRenderingContext2D;
   image = new Image();
 
-  mouse = new Vec2({ x: 0, y: 0 });
   callbackMousemove;
+
   constructor(options) {
     this.canvas = options.canvas;
     this.ctx = options.ctx;
@@ -36,11 +36,20 @@ export class Cursor {
   }
 
   updateMousemove(event: MouseEvent) {
-    this.mouse.add({ x: event.movementX, y: event.movementY });
-    checkPositionByField(this.mouse, window.innerWidth, window.innerHeight);
+    GameHelper.cursorPosition.add({ x: event.movementX, y: event.movementY });
+    checkPositionByField(
+      GameHelper.cursorPosition,
+      window.innerWidth,
+      window.innerHeight
+    );
   }
 
   draw() {
-    this.ctx.drawImage(this.image, this.mouse.x, this.mouse.y);
+    this.ctx.drawImage(
+      this.image,
+      GameHelper.cursorPosition.x,
+      GameHelper.cursorPosition.y
+
+    );
   }
 }

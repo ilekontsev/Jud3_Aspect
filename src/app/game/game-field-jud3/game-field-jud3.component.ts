@@ -4,6 +4,7 @@ import {
   Component,
   ViewChild,
 } from '@angular/core';
+import { Cursor } from 'src/_katana/baseClasses/cursor';
 import { Game } from 'src/_katana/game/game';
 import { Helper } from 'src/_katana/menu/helper';
 import { Menu } from 'src/_katana/menu/menu';
@@ -35,7 +36,7 @@ export class GameFieldJud3Component implements AfterViewInit {
     this.configCanvas();
 
     this.createEventSubscriptions();
-    this.createStepClass('menu');
+    this.createStepClass({ key: 'menu' });
 
     this.render();
     this.init = true;
@@ -46,7 +47,15 @@ export class GameFieldJud3Component implements AfterViewInit {
     this.canvas.nativeElement.width = window.innerWidth;
     this.canvas.nativeElement.height = window.innerHeight;
 
+    this.createCursor();
     this.blockCursorInWindow();
+  }
+  cursor;
+  createCursor() {
+    this.cursor = new Cursor({
+      canvas: this.canvas.nativeElement,
+      ctx: this.ctx,
+    });
   }
 
   blockCursorInWindow() {
@@ -57,16 +66,15 @@ export class GameFieldJud3Component implements AfterViewInit {
     };
   }
 
-
-
   createEventSubscriptions() {
     Helper.event.subscribe((res) => {
-      this.createStepClass('game');
+      console.log(res);
+      this.createStepClass(res);
     });
   }
 
-  createStepClass(key) {
-    switch (key) {
+  createStepClass(option) {
+    switch (option.key) {
       case 'menu':
         this.classStep = new Menu({
           canvas: this.canvas.nativeElement,
@@ -77,6 +85,7 @@ export class GameFieldJud3Component implements AfterViewInit {
         this.classStep = new Game({
           canvas: this.canvas.nativeElement,
           ctx: this.ctx,
+          config: option.config,
         });
         break;
       default:
@@ -87,7 +96,10 @@ export class GameFieldJud3Component implements AfterViewInit {
   render() {
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     this.ctx.strokeRect(0, 0, window.innerWidth, window.innerHeight);
+
+
     this.classStep.render();
+    this.cursor.draw();
 
     this.ctx.beginPath();
     this.ctx.moveTo(0, window.innerHeight / 2);

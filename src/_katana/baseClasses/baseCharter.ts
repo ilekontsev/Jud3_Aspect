@@ -2,7 +2,7 @@ import { CannonGun } from './canonGun';
 import { Cursor } from './cursor';
 import { CONFIG } from '../config/moveConfig';
 import { BaseCharterOptions } from '../shared/interfaces/optionCharter';
-import { checkPositionByField, inRad } from '../shared/utils';
+import { checkPositionByField, inDeg } from '../shared/utils';
 import { DeltaTime } from '../shared/utils/deltaTime';
 import { Vec2 } from '../shared/utils/vec2';
 import { Sprite } from './sprite';
@@ -54,7 +54,7 @@ export class BaseCharter {
   setConfigCharter(config) {
     this.config = config;
 
-    this.gun = new CannonGun(this.options);
+    this.gun = new CannonGun({ ...this.options, size: { x: 2, y: 2 } });
 
     this.sprite = new Sprite({
       ctx: this.ctx,
@@ -86,6 +86,7 @@ export class BaseCharter {
 
     this.position.add(this.velocity.multScalar(dt));
     this.sprite.position.set(this.position);
+    this.gun.position.set(this.position);
 
     this.mobs.forEach((mob) => {
       mob.setConfig({ position: this.position, angle: this.angle });
@@ -173,14 +174,14 @@ export class BaseCharter {
   update() {
     this.pressKey();
     this.configMouse();
-    this.checkAngleForIcon();
+    // this.checkAngleForIcon();
     this.collisionDetection();
   }
 
   reflect = false;
 
   checkAngleForIcon() {
-    const angle = inRad(this.angle);
+    const angle = inDeg(this.angle);
 
     //diag up
     if (angle < -10 && angle > -80) {
@@ -266,17 +267,16 @@ export class BaseCharter {
       this.delay = 0;
       const bullet = new CatBullet(this.ctx, {
         ...this.options,
-        position: this.position,
         angle: this.angle,
         ...this.config,
         reflect: this.reflect,
+        position: this.position,
       });
       this.bullets.push(bullet);
     }
   }
 
   configMouse() {
-    this.mouse = this.cursor.mouse;
     this.cursor.draw();
     this.angle = Math.atan2(
       this.mouse.y - this.position.y,

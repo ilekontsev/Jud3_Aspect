@@ -11,10 +11,7 @@ export class MenuButton {
   imageSrc = MENU.buttons;
   images = {};
 
-  mouse = {
-    x: 0,
-    y: 0,
-  };
+
   buttons = [];
 
   destroy$ = new Subject();
@@ -67,7 +64,6 @@ export class MenuButton {
   update() {
     this.buttons.forEach((item) => {
       item.update();
-      item.mouse = this.mouse;
     });
   }
 
