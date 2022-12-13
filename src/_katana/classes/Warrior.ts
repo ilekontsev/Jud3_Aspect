@@ -1,5 +1,5 @@
 import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
-import { BaseCharter } from '../baseClasses/baseCharter';
+import { GameHelper } from '../game/gameHelper';
 import { BaseCharterOptions } from '../shared/interfaces/optionCharter';
 import { Base } from './base';
 
@@ -35,23 +35,14 @@ export class Warrior extends Base {
   }
 
   draw() {
-
-
     this.ctx.font = '10px serif';
+    this.ctx.fillText(
+      this.options.nickname,
+      window.innerWidth / 2 - 20,
+      window.innerHeight / 2 - 50
+    );
+    this.hpBar.draw();
 
-    // this.ctx.fillText(
-    //   this.options.nickname,
-    //   this.position.x - 30 ,
-    //   this.position.y - 40
-    // );
     this.sprite.render();
-
-
-    // this.hpBar.draw(this.position);
-    // this.mobs.forEach((mob) => {
-    //   mob.draw();
-    // });
-
-    // this.gun.render(this.reflect);
   }
 }

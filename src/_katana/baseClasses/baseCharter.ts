@@ -73,7 +73,7 @@ export class BaseCharter {
       ticksPerFrame: 12,
     });
 
-    this.hpBar = new HpBarBase(this.ctx, this.position);
+    // this.hpBar = new HpBarBase(this.ctx, this.position);
   }
 
   createMobs() {

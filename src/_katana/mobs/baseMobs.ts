@@ -46,7 +46,7 @@ export class BaseMobs {
     });
 
     this.spriteMob.setIcon('up');
-    this.hpBar = new HpBarBase(this.ctx, this.position);
+    // this.hpBar = new HpBarBase(this.ctx, this.position);
   }
 
   setConfig(options) {

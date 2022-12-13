@@ -47,8 +47,6 @@ export class BaseGun {
   bullets = [];
 
   shot() {
-    console.log(GameHelper.charterPosition)
-
     // if (this.delay >= 0) {
     this.delay = 0;
     const bullet = new CatBullet(this.ctx, {
@@ -68,6 +66,5 @@ export class BaseGun {
     this.bullets.forEach((item) => {
       item.render();
     });
-    // GameHelper.charterPosition.add(this.velocity.multScalar(dt));
   }
 }

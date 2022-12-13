@@ -41,7 +41,7 @@ export class Berserker extends BaseCharter {
       this.position.x - 30,
       this.position.y - 40
     );
-    this.hpBar.draw(this.position);
+    // this.hpBar.draw(this.position);
     this.mobs.forEach((mob) => {
       mob.draw();
     });

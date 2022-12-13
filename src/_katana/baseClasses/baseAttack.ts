@@ -1,3 +1,4 @@
+import { GameHelper } from '../game/gameHelper';
 import { DeltaTime } from '../shared/utils/deltaTime';
 import { Vec2 } from './../shared/utils/vec2';
 export class BaseAttack {
@@ -8,15 +9,11 @@ export class BaseAttack {
 
   deltaTime = new DeltaTime();
   active = true;
-
   constructor(ctx: CanvasRenderingContext2D, options: any) {
     this.ctx = ctx;
     this.options = options;
-    console.log(options)
-    this.position.add(options.position);
+    this.position.set(GameHelper.charterPosition);
   }
-
-
 
   move() {
     const dt = this.deltaTime.get();

@@ -4,6 +4,7 @@ import { CONFIG } from '../config/moveConfig';
 import { Sprite } from '../baseClasses/sprite';
 import { GameHelper } from '../game/gameHelper';
 import { checkAngleForIcon, getAngleByCursor } from '../shared/utils';
+import { HpBarBase } from '../baseClasses/hpBarBase';
 
 export class Base {
   public options;
@@ -58,9 +59,11 @@ export class Base {
   updateKeyup(event) {
     this.keys[event.code] = false;
   }
-
+  hpBar;
   setConfigCharter(config) {
     this.config = config;
+
+    this.hpBar = new HpBarBase(this.options);
 
     this.sprite = new Sprite({
       ctx: this.ctx,
@@ -79,6 +82,10 @@ export class Base {
       ticksPerFrame: 12,
     });
     this.sprite.setIcon({ key: 'down', reflect: false });
+    GameHelper.charterPosition.set({
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+    });
   }
 
   update() {
@@ -120,6 +127,5 @@ export class Base {
   move() {
     const dt = this.deltaTime.get();
     GameHelper.charterPosition.add(this.velocity.multScalar(dt));
-    console.log(GameHelper.charterPosition);
   }
 }

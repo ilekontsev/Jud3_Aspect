@@ -1,14 +1,16 @@
 import { BASE_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
 
 export class HpBarBase {
+  options;
   ctx: CanvasRenderingContext2D;
   selectedImage: HTMLImageElement;
   imageSrc = BASE_PRESETS.hpBar;
   images = [];
   count = 0;
 
-  constructor(ctx: CanvasRenderingContext2D, position) {
-    this.ctx = ctx;
+  constructor(options) {
+    this.options = options;
+    this.ctx = options.ctx;
     this.loadImage();
   }
 
@@ -34,7 +36,11 @@ export class HpBarBase {
 
   update() {}
 
-  draw(position) {
-    this.ctx.drawImage(this.selectedImage, position.x - 30, position.y - 35);
+  draw() {
+    this.ctx.drawImage(
+      this.selectedImage,
+      window.innerWidth / 2 - 30,
+      window.innerHeight / 2 - 40
+    );
   }
 }
