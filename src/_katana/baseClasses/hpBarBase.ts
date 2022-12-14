@@ -7,10 +7,15 @@ export class HpBarBase {
   imageSrc = BASE_PRESETS.hpBar;
   images = [];
   count = 0;
+  position = {
+    x: 0,
+    y: 0,
+  };
 
   constructor(options) {
     this.options = options;
     this.ctx = options.ctx;
+    this.position = options.position ? options.position : this.position;
     this.loadImage();
   }
 
@@ -37,10 +42,6 @@ export class HpBarBase {
   update() {}
 
   draw() {
-    this.ctx.drawImage(
-      this.selectedImage,
-      window.innerWidth / 2 - 30,
-      window.innerHeight / 2 - 40
-    );
+    this.ctx.drawImage(this.selectedImage, this.position.x, this.position.y);
   }
 }

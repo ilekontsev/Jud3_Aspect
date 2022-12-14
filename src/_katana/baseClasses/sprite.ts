@@ -17,6 +17,7 @@ export class Sprite {
   selectedImage: any;
   position = new Vec2({ x: 0, y: 0 });
   reflect = false;
+  animationEnd = true;
 
   constructor(options) {
     this.ctx = options.ctx;
@@ -41,6 +42,7 @@ export class Sprite {
 
   update() {
     this.tickCount++;
+    this.animationEnd = false;
 
     if (this.tickCount >= this.ticksPerFrame) {
       this.tickCount = 0;
@@ -49,6 +51,7 @@ export class Sprite {
         this.frameIndex++;
         if (this.frameIndex >= this.numberOfFrames - 1) {
           this.frameIndex = 0;
+          this.animationEnd = true;
         }
       }
     }

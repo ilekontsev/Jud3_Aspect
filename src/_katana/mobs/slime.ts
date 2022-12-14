@@ -4,6 +4,7 @@ import { BaseMobs } from './baseMobs';
 export class Slime extends BaseMobs {
   imageSrc = MOBS.slime;
   configMob = {
+    speed: 0.05,
     size: {
       w: 80,
       h: 25,
@@ -29,7 +30,8 @@ export class Slime extends BaseMobs {
   }
 
   draw() {
-    // this.hpBar.draw(this.position);
-    this.spriteMob.render();
+
+    this.hpBar.draw();
+    this.sprite.render();
   }
 }

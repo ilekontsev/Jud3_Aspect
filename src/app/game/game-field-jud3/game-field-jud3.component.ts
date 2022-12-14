@@ -86,6 +86,7 @@ export class GameFieldJud3Component implements AfterViewInit {
           canvas: this.canvas.nativeElement,
           ctx: this.ctx,
           config: option.config,
+          nickname: 'GreezlyDvery',
         });
         break;
       default:
@@ -97,17 +98,16 @@ export class GameFieldJud3Component implements AfterViewInit {
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     this.ctx.strokeRect(0, 0, window.innerWidth, window.innerHeight);
 
-
     this.classStep.render();
     this.cursor.draw();
 
-    this.ctx.beginPath();
-    this.ctx.moveTo(0, window.innerHeight / 2);
-    this.ctx.lineTo(window.innerWidth, window.innerHeight / 2);
-    this.ctx.moveTo(window.innerWidth / 2, 0);
-    this.ctx.lineTo(window.innerWidth / 2, window.innerHeight);
-    this.ctx.stroke();
-    this.ctx.closePath();
+    // this.ctx.beginPath();
+    // this.ctx.moveTo(0, window.innerHeight / 2);
+    // this.ctx.lineTo(window.innerWidth, window.innerHeight / 2);
+    // this.ctx.moveTo(window.innerWidth / 2, 0);
+    // this.ctx.lineTo(window.innerWidth / 2, window.innerHeight);
+    // this.ctx.stroke();
+    // this.ctx.closePath();
 
     window.requestAnimationFrame(this.render.bind(this));
   }

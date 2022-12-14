@@ -72,6 +72,7 @@ export class Game {
 
   draw() {
     this.game.draw();
+
     this.player.draw();
     this.gun.draw();
   }

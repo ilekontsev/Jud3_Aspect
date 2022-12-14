@@ -13,7 +13,6 @@ export class Base {
   protected canvas: HTMLCanvasElement;
   protected reflect = false;
 
-  private velocity = new Vec2({ x: 0, y: 0 });
   private keys = {};
   private deltaTime = new DeltaTime();
   private config;
@@ -63,7 +62,13 @@ export class Base {
   setConfigCharter(config) {
     this.config = config;
 
-    this.hpBar = new HpBarBase(this.options);
+    this.hpBar = new HpBarBase({
+      ...this.options,
+      position: {
+        x: window.innerWidth / 2 - 30,
+        y: window.innerHeight / 2 - 45,
+      },
+    });
 
     this.sprite = new Sprite({
       ctx: this.ctx,
@@ -82,6 +87,7 @@ export class Base {
       ticksPerFrame: 12,
     });
     this.sprite.setIcon({ key: 'down', reflect: false });
+
     GameHelper.charterPosition.set({
       x: window.innerWidth / 2,
       y: window.innerHeight / 2,
@@ -101,24 +107,24 @@ export class Base {
   }
 
   stop() {
-    this.velocity.x = 0;
-    this.velocity.y = 0;
+    GameHelper.charterVelocity.x = 0;
+    GameHelper.charterVelocity.y = 0;
   }
 
   pressKey() {
     this.stop();
 
     if (this.keys[CONFIG.left]) {
-      this.velocity.x = -this.config.speed;
+      GameHelper.charterVelocity.x = -this.config.speed;
     }
     if (this.keys[CONFIG.right]) {
-      this.velocity.x = +this.config.speed;
+      GameHelper.charterVelocity.x = +this.config.speed;
     }
     if (this.keys[CONFIG.up]) {
-      this.velocity.y = -this.config.speed;
+      GameHelper.charterVelocity.y = -this.config.speed;
     }
     if (this.keys[CONFIG.down]) {
-      this.velocity.y = +this.config.speed;
+      GameHelper.charterVelocity.y = +this.config.speed;
     }
 
     this.move();
@@ -126,6 +132,6 @@ export class Base {
 
   move() {
     const dt = this.deltaTime.get();
-    GameHelper.charterPosition.add(this.velocity.multScalar(dt));
+    GameHelper.charterPosition.add(GameHelper.charterVelocity.multScalar(dt));
   }
 }

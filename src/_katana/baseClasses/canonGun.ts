@@ -37,10 +37,10 @@ export class CannonGun extends BaseGun {
     this.selectedImage = this.images[obj.key];
   }
 
-  render() {
+
+  update(){
+    this.pressKey();
     this.calcTickCount();
-    this.update();
-    this.draw();
   }
 
   calcTickCount() {
@@ -66,7 +66,7 @@ export class CannonGun extends BaseGun {
       20,
       20,
       ((this.position.x || 0) / this.size.x) * x,
-      (this.position.y || -11) / this.size.y + this.frameIndex - 11,
+      (this.position.y || -11) / this.size.y  - 11 + this.frameIndex,
       12,
       12
     );

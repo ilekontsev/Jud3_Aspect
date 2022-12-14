@@ -126,6 +126,8 @@ export class Background {
     if (this.spriteCharter.position.x > window.innerWidth) {
       this.tickCount = 0;
     }
+    this.gunCharter.update();
+
   }
 
   draw() {
@@ -137,7 +139,7 @@ export class Background {
     this.spriteCharter.render();
     this.ctx.save();
     this.ctx.scale(5, 5);
-    this.gunCharter.render();
+    this.gunCharter.draw();
     this.ctx.restore();
   }
 }

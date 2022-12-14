@@ -1,14 +1,14 @@
 import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
-import { BaseCharter } from '../baseClasses/baseCharter';
 import { BaseCharterOptions } from '../shared/interfaces/optionCharter';
+import { Base } from './base';
 
-export class Berserker extends BaseCharter {
+export class Berserker extends Base {
   configCharter = {
     speed: 0.3,
     attack: 0.4,
     size: {
       w: 100,
-      h: 30,
+      h: 25,
     },
     images: {},
   };
@@ -35,18 +35,14 @@ export class Berserker extends BaseCharter {
 
   draw() {
     this.ctx.font = '10px serif';
-
     this.ctx.fillText(
       this.options.nickname,
-      this.position.x - 30,
-      this.position.y - 40
+      window.innerWidth / 2 - (this.options.nickname.length + 1)* 2,
+      window.innerHeight / 2 - 50
     );
-    // this.hpBar.draw(this.position);
-    this.mobs.forEach((mob) => {
-      mob.draw();
-    });
+
+    this.hpBar.draw();
 
     this.sprite.render();
-    // this.gun.render(this.reflect);
   }
 }

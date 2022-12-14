@@ -23,9 +23,7 @@ export class BaseGun {
     this.config = config;
   }
 
-  update() {
-    this.pressKey();
-  }
+
 
   stop() {
     this.velocity.x = 0;

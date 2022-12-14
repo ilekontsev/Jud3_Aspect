@@ -1,5 +1,4 @@
 import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
-import { GameHelper } from '../game/gameHelper';
 import { BaseCharterOptions } from '../shared/interfaces/optionCharter';
 import { Base } from './base';
 
@@ -38,9 +37,10 @@ export class Warrior extends Base {
     this.ctx.font = '10px serif';
     this.ctx.fillText(
       this.options.nickname,
-      window.innerWidth / 2 - 20,
+      window.innerWidth / 2 - (this.options.nickname.length + 1)* 2,
       window.innerHeight / 2 - 50
     );
+
     this.hpBar.draw();
 
     this.sprite.render();

@@ -2,7 +2,7 @@ import { CannonGun } from './canonGun';
 import { Cursor } from './cursor';
 import { CONFIG } from '../config/moveConfig';
 import { BaseCharterOptions } from '../shared/interfaces/optionCharter';
-import { checkPositionByField, inDeg } from '../shared/utils';
+import { checkPositionByField } from '../shared/utils';
 import { DeltaTime } from '../shared/utils/deltaTime';
 import { Vec2 } from '../shared/utils/vec2';
 import { Sprite } from './sprite';
@@ -89,7 +89,7 @@ export class BaseCharter {
     this.gun.position.set(this.position);
 
     this.mobs.forEach((mob) => {
-      mob.setConfig({ position: this.position, angle: this.angle });
+      // mob.setConfig({ position: this.position, angle: this.angle });
     });
 
     this.bullets.forEach((item) => {
@@ -174,67 +174,12 @@ export class BaseCharter {
   update() {
     this.pressKey();
     this.configMouse();
-    // this.checkAngleForIcon();
     this.collisionDetection();
   }
 
   reflect = false;
 
-  checkAngleForIcon() {
-    const angle = inDeg(this.angle);
 
-    //diag up
-    if (angle < -10 && angle > -80) {
-      this.reflect = false;
-      this.sprite.setIcon('diagUp');
-      this.gun.setIcon('diagUp');
-    }
-
-    if (angle < -100 && angle > -170) {
-      this.reflect = true;
-      this.sprite.setIcon('diagUp');
-      this.gun.setIcon('diagUp');
-    }
-
-    //diag down
-    if (angle > 10 && angle < 80) {
-      this.reflect = false;
-      this.sprite.setIcon('diagDown');
-      this.gun.setIcon('diagDown');
-    }
-
-    if (angle < 170 && angle > 100) {
-      this.reflect = true;
-      this.sprite.setIcon('diagDown');
-      this.gun.setIcon('diagDown');
-    }
-
-    //left
-    if (angle > -10 && angle < 10) {
-      this.reflect = false;
-      this.sprite.setIcon('side');
-      this.gun.setIcon('side');
-    }
-    //right
-    if (angle > 170 || angle < -170) {
-      this.reflect = true;
-      this.sprite.setIcon('side');
-      this.gun.setIcon('side');
-    }
-    //up
-    if (angle > -100 && angle < -80) {
-      this.reflect = false;
-      this.gun.setIcon('up');
-      this.sprite.setIcon('up');
-    }
-
-    //down
-    if (angle > 80 && angle < 100) {
-      this.reflect = false;
-      this.sprite.setIcon('down');
-      this.gun.setIcon('down');
-    }
-  }
 
   pressKey() {
     this.stop();

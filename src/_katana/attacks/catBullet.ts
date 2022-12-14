@@ -17,9 +17,7 @@ export class CatBullet extends BaseAttack {
 
   draw() {
     this.ctx.save();
-    // this.ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
-    // this.ctx.rotate(this.options.angle);
-    // this.ctx.translate(-window.innerWidth / 2, -window.innerHeight / 2);
+
     const x = this.options.reflect ? -1 : 1;
 
     this.ctx.scale(x, 1);
