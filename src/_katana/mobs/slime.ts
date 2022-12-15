@@ -11,6 +11,11 @@ export class Slime extends BaseMobs {
     },
     images: {},
   };
+  size = {
+    w: 80,
+    h: 25,
+  }
+
   constructor(options) {
     super(options);
     this.init();
@@ -30,7 +35,6 @@ export class Slime extends BaseMobs {
   }
 
   draw() {
-
     this.hpBar.draw();
     this.sprite.render();
   }

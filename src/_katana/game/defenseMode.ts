@@ -1,19 +1,15 @@
 import { GameHelper } from './gameHelper';
 import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
 import { Slime } from '../mobs/slime';
+import { Projectile } from './projectile';
+import { Base } from './base';
 
 export class DefenseMode {
   options;
   ctx: CanvasRenderingContext2D;
   images: HTMLImageElement;
 
-  baseOptions = {
-    x: window.innerWidth / 2,
-    y: window.innerHeight / 2,
-    w: 200,
-    h: 200,
-  };
-
+  base;
   mobs = [];
 
   constructor(options) {
@@ -24,6 +20,7 @@ export class DefenseMode {
 
   init() {
     this.loadImages();
+    this.createBase();
     this.createMobs();
   }
 
@@ -33,18 +30,27 @@ export class DefenseMode {
     this.images = image;
   }
 
+  createBase() {
+    this.base = new Base(this.options);
+    Projectile.staticObjects.push(this.base);
+  }
+
   createMobs() {
     const mob = new Slime({
       ...this.options,
       objectOptions: {
-        ...this.baseOptions,
+        ...this.base.position,
+        ...this.base.size,
       },
     });
     this.mobs.push(mob);
   }
 
   update() {
-    this.checkCollisionBase();
+    this.base.update();
+
+    this.mobs = this.mobs.filter((mob) => mob.hpBar.count !== 8);
+
     if (this.mobs.length < 10) {
       this.createMobs();
     }
@@ -52,36 +58,12 @@ export class DefenseMode {
       mob.update();
     });
     this.mobs = this.mobs.filter((mob) => mob.active);
-  }
-
-  checkCollisionBase() {
-    const positionX = GameHelper.charterPosition.x + this.baseOptions.x;
-    const positionY = GameHelper.charterPosition.y + this.baseOptions.y + 25;
-    if (
-      this.baseOptions.x > positionX - this.baseOptions.w / 2 &&
-      this.baseOptions.x < positionX + this.baseOptions.w / 2 &&
-      this.baseOptions.y > positionY - this.baseOptions.h / 2 &&
-      this.baseOptions.y < positionY + this.baseOptions.h / 2
-    ) {
-      GameHelper.charterPosition.add({
-        x: -GameHelper.charterVelocity.x,
-        y: -GameHelper.charterVelocity.y,
-      });
-    }
+    Projectile.dynamicObjects = this.mobs;
   }
 
   draw() {
-    this.ctx.drawImage(
-      this.images,
-      this.baseOptions.x -
-        this.baseOptions.w / 2 -
-        GameHelper.charterPosition.x,
-      this.baseOptions.y -
-        this.baseOptions.h / 2 -
-        GameHelper.charterPosition.y,
-      this.baseOptions.w,
-      this.baseOptions.h
-    );
+    this.base.draw();
+
     this.mobs.forEach((mob) => {
       mob.draw();
     });
@@ -90,12 +72,18 @@ export class DefenseMode {
     this.ctx.fillRect(window.innerWidth - 310, 10, 300, 300);
     this.ctx.strokeRect(window.innerWidth - 310, 10, 300, 300);
 
+    this.ctx.fillRect(
+      window.innerWidth / 2 - 300,
+      window.innerHeight - 70,
+      600,
+      70
+    );
     this.ctx.fillStyle = 'black';
     this.ctx.strokeRect(
       window.innerWidth / 2 - 300,
-      window.innerHeight - 100,
+      window.innerHeight - 70,
       600,
-      100
+      70
     );
   }
 }

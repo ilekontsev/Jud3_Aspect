@@ -1,3 +1,4 @@
+import { Projectile } from './projectile';
 import { Gun } from '../attacks/gun';
 import { Berserker } from '../classes/Berserker';
 import { Hunter } from '../classes/Hunter';
@@ -65,14 +66,16 @@ export class Game {
   }
 
   update() {
+
     this.game.update();
     this.player.update();
     this.gun.update();
+    Projectile.checkCollision();
+
   }
 
   draw() {
     this.game.draw();
-
     this.player.draw();
     this.gun.draw();
   }

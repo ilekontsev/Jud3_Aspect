@@ -1,3 +1,4 @@
+import { Projectile } from './../game/projectile';
 import { DeltaTime } from './../shared/utils/deltaTime';
 import { GameHelper } from './../game/gameHelper';
 import { Vec2 } from 'src/_katana/shared/utils/vec2';
@@ -12,7 +13,8 @@ export class BaseGun {
   keys = {};
   config;
   reflect = false;
-  deltaTime = new DeltaTime();
+  delay = 30;
+  bullets = [];
   constructor(options) {
     this.options = options;
     this.canvas = options.canvas;
@@ -22,8 +24,6 @@ export class BaseGun {
   setConfig(config) {
     this.config = config;
   }
-
-
 
   stop() {
     this.velocity.x = 0;
@@ -41,28 +41,31 @@ export class BaseGun {
     this.move();
   }
 
-  delay = 0;
-  bullets = [];
-
   shot() {
-    // if (this.delay >= 0) {
+    if (this.delay >= 30) {
     this.delay = 0;
     const bullet = new CatBullet(this.ctx, {
       ...this.options,
       position: GameHelper.charterPosition,
       angle: getAngleByCursor(GameHelper.cursorPosition),
       ...this.config,
-      attack: 1,
+      attack: 0.7,
       reflect: this.reflect,
     });
     this.bullets.push(bullet);
-    // }
+
+    }
   }
 
   move() {
-    const dt = this.deltaTime.get();
-    this.bullets.forEach((item) => {
-      item.render();
-    });
+
+    this.bullets = this.bullets.filter(
+      (bullet) => !bullet.checkPosition() && bullet.active
+    );
+    Projectile.bullets = this.bullets
+
+
+
+
   }
 }

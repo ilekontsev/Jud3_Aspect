@@ -1,7 +1,6 @@
 import { GameHelper } from './../game/gameHelper';
 import { HpBarBase } from '../baseClasses/hpBarBase';
 import { Sprite } from '../baseClasses/sprite';
-import { Position } from '../shared/interfaces/optionCharter';
 import { DeltaTime } from '../shared/utils/deltaTime';
 import { Vec2 } from '../shared/utils/vec2';
 
@@ -25,10 +24,16 @@ export class BaseMobs {
   constructor(options) {
     this.ctx = options.ctx;
     this.options = options;
-    const x = Math.random() * window.innerWidth;
-    const y = Math.random() * window.innerHeight;
+
+    const x = this.random(window.innerWidth * 2, -(window.innerWidth * 2));
+    const y = this.random(window.innerHeight * 2, -(window.innerHeight * 2));
+
     this.position.add({ x, y });
     this.objectOptions = options.objectOptions;
+  }
+
+  random(max, min) {
+    return Math.random() * (max - min + 1) + min;
   }
 
   setConfigMob(config) {

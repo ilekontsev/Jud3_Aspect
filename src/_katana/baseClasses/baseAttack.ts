@@ -37,10 +37,10 @@ export class BaseAttack {
 
   checkPosition() {
     return (
-      this.position.x > window.innerWidth ||
-      this.position.x < 0 ||
-      this.position.y > window.innerHeight ||
-      this.position.y < 0
+      this.position.x > GameHelper.charterPosition.x + window.innerWidth / 2 ||
+      this.position.x < GameHelper.charterPosition.x - window.innerWidth / 2 ||
+      this.position.y >  GameHelper.charterPosition.y + window.innerHeight / 2 ||
+      this.position.y <  GameHelper.charterPosition.y - window.innerHeight / 2
     );
   }
 

@@ -20,14 +20,6 @@ export class GameFieldJud3Component implements AfterViewInit {
 
   private ctx: CanvasRenderingContext2D;
   private init = false;
-
-  private configPlayer = {
-    charter: 'warrior',
-    gun: 'canonGun',
-    bullet: 'cat',
-    cursor: 0,
-    nickname: 'GreezlyDvery',
-  };
   classStep: any;
 
   ngAfterViewInit() {
@@ -68,7 +60,6 @@ export class GameFieldJud3Component implements AfterViewInit {
 
   createEventSubscriptions() {
     Helper.event.subscribe((res) => {
-      console.log(res);
       this.createStepClass(res);
     });
   }
