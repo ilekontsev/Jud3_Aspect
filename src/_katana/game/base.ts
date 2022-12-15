@@ -51,22 +51,6 @@ export class Base {
   }
 
   draw() {
-    this.ctx.fillStyle = 'green';
-
-    this.ctx.fillRect(
-      this.position.x - this.size.w * 2 - GameHelper.charterPosition.x,
-      this.position.y - this.size.h * 2 - GameHelper.charterPosition.y,
-      this.size.w * 4,
-      this.size.h * 4
-    );
-
-    this.ctx.strokeRect(
-      this.position.x - this.size.w * 2 - GameHelper.charterPosition.x,
-      this.position.y - this.size.h * 2 - GameHelper.charterPosition.y,
-      this.size.w * 4,
-      this.size.h * 4
-    );
-
     this.ctx.drawImage(
       this.images,
       this.position.x - this.size.w / 2 - GameHelper.charterPosition.x,

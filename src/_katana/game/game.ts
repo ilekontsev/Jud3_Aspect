@@ -6,6 +6,8 @@ import { Warrior } from './../classes/Warrior';
 import { ArenaMode } from './arenaMode';
 import { DefenseMode } from './defenseMode';
 import { InfinityMode } from './infinityMode';
+import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
+import { GameHelper } from './gameHelper';
 
 export class Game {
   options;
@@ -13,9 +15,12 @@ export class Game {
   player;
   gun;
 
+  image = new Image();
+
   constructor(options) {
     this.options = options;
     this.init();
+    this.image.src = PATH_PRESETS.mapGame;
   }
 
   init() {
@@ -66,15 +71,22 @@ export class Game {
   }
 
   update() {
-
     this.game.update();
     this.player.update();
     this.gun.update();
     Projectile.checkCollision();
-
   }
 
   draw() {
+    this.options.ctx.save();
+    this.options.ctx.drawImage(
+      this.image,
+      -(window.innerWidth * 2) - GameHelper.charterPosition.x,
+      -(window.innerHeight * 2) - GameHelper.charterPosition.y,
+      window.innerWidth * 4,
+      window.innerHeight * 4
+    );
+    this.options.ctx.restore();
     this.game.draw();
     this.player.draw();
     this.gun.draw();

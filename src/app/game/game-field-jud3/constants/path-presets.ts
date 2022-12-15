@@ -24,6 +24,7 @@ export const PATH_PRESETS = {
   },
 
   base: 'assets/topdown_shooter/other/base.png',
+  mapGame: 'assets/presets/share/map.png',
 
   cursors: ['src/assets/topdown_shooter/cursors/6crosshair.png'],
 
