@@ -5,7 +5,7 @@ import { BaseCharterOptions } from '../shared/interfaces/optionCharter';
 import { checkPositionByField } from '../shared/utils';
 import { DeltaTime } from '../shared/utils/deltaTime';
 import { Vec2 } from '../shared/utils/vec2';
-import { Sprite } from './sprite';
+import { Sprite } from '../sprites/sprite';
 import { CatBullet } from '../attacks/catBullet';
 import { HpBarBase } from './hpBarBase';
 import { Slime } from '../mobs/slime';

@@ -1,9 +1,11 @@
+import { GameHelper } from './gameHelper';
 export class Projectile {
   options: any;
   static staticObjects = [];
   static dynamicObjects = [];
 
   static bullets: any = [];
+  static money = [];
 
   constructor(options) {
     this.options = options;
@@ -42,5 +44,18 @@ export class Projectile {
       return true;
     }
     return false;
+  }
+
+  static checkPositionCharter() {
+    this.money.forEach((item) => {
+      if (
+        item.position.x + 25 > window.innerWidth / 2 &&
+        item.position.x - 25 < window.innerWidth / 2 &&
+        item.position.y + 30 > window.innerHeight / 2 &&
+        item.position.y - 25 < window.innerHeight / 2
+      ) {
+        item.options.active = false;
+      }
+    });
   }
 }

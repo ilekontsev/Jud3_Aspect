@@ -13,7 +13,7 @@ export class BaseGun {
   keys = {};
   config;
   reflect = false;
-  delay = 30;
+  delay = 20;
   bullets = [];
   constructor(options) {
     this.options = options;
@@ -42,7 +42,7 @@ export class BaseGun {
   }
 
   shot() {
-    if (this.delay >= 30) {
+    if (this.delay >= 20) {
     this.delay = 0;
     const bullet = new CatBullet(this.ctx, {
       ...this.options,

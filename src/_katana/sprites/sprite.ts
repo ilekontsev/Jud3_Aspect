@@ -18,8 +18,10 @@ export class Sprite {
   position = new Vec2({ x: 0, y: 0 });
   reflect = false;
   animationEnd = true;
-
+  key;
+  options
   constructor(options) {
+    this.options = options
     this.ctx = options.ctx;
     this.numberOfFrames = options.numberOfFrames;
     this.ticksPerFrame = options.ticksPerFrame;
@@ -31,6 +33,7 @@ export class Sprite {
   }
 
   setIcon(obj) {
+    this.key = obj.key;
     this.selectedImage = this.images[obj.key];
     this.reflect = obj.reflect;
   }

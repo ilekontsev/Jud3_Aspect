@@ -4,7 +4,8 @@ import { BaseMobs } from './baseMobs';
 export class Slime extends BaseMobs {
   imageSrc = MOBS.slime;
   configMob = {
-    speed: 0.05,
+    speed: 0.04
+    ,
     size: {
       w: 80,
       h: 25,
@@ -13,7 +14,7 @@ export class Slime extends BaseMobs {
   };
   size = {
     w: 80,
-    h: 25,
+    h: 50,
   }
 
   constructor(options) {

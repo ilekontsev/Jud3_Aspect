@@ -23,6 +23,7 @@ export const PATH_PRESETS = {
     },
   },
 
+  crystalBase: 'assets/topdown_shooter/other/crystal1.png',
   base: 'assets/topdown_shooter/other/base.png',
   mapGame: 'assets/presets/share/map.png',
 

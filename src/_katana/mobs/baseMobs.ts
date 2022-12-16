@@ -1,6 +1,6 @@
 import { GameHelper } from './../game/gameHelper';
 import { HpBarBase } from '../baseClasses/hpBarBase';
-import { Sprite } from '../baseClasses/sprite';
+import { Sprite } from '../sprites/sprite';
 import { DeltaTime } from '../shared/utils/deltaTime';
 import { Vec2 } from '../shared/utils/vec2';
 

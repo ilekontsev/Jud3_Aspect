@@ -92,14 +92,6 @@ export class GameFieldJud3Component implements AfterViewInit {
     this.classStep.render();
     this.cursor.draw();
 
-    // this.ctx.beginPath();
-    // this.ctx.moveTo(0, window.innerHeight / 2);
-    // this.ctx.lineTo(window.innerWidth, window.innerHeight / 2);
-    // this.ctx.moveTo(window.innerWidth / 2, 0);
-    // this.ctx.lineTo(window.innerWidth / 2, window.innerHeight);
-    // this.ctx.stroke();
-    // this.ctx.closePath();
-
     window.requestAnimationFrame(this.render.bind(this));
   }
 }

@@ -14,9 +14,9 @@ export class Game {
   game;
   player;
   gun;
+  objects = [];
 
   image = new Image();
-
   constructor(options) {
     this.options = options;
     this.init();
@@ -45,6 +45,7 @@ export class Game {
     }
   }
 
+
   initCharter() {
     switch (this.options.config.class) {
       case 'warrior':
@@ -72,13 +73,17 @@ export class Game {
 
   update() {
     this.game.update();
+
+    this.objects.forEach((item) => {
+      item.update();
+    });
+
     this.player.update();
     this.gun.update();
     Projectile.checkCollision();
   }
 
   draw() {
-    this.options.ctx.save();
     this.options.ctx.drawImage(
       this.image,
       -(window.innerWidth * 2) - GameHelper.charterPosition.x,
@@ -86,7 +91,11 @@ export class Game {
       window.innerWidth * 4,
       window.innerHeight * 4
     );
-    this.options.ctx.restore();
+
+    this.objects.forEach((item) => {
+      item.draw();
+    });
+
     this.game.draw();
     this.player.draw();
     this.gun.draw();

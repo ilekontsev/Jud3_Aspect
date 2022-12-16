@@ -1,7 +1,7 @@
 import { DeltaTime } from './../shared/utils/deltaTime';
 import { Vec2 } from '../shared/utils/vec2';
 import { CONFIG } from '../config/moveConfig';
-import { Sprite } from '../baseClasses/sprite';
+import { Sprite } from '../sprites/sprite';
 import { GameHelper } from '../game/gameHelper';
 import { checkAngleForIcon, getAngleByCursor } from '../shared/utils';
 import { HpBarBase } from '../baseClasses/hpBarBase';
@@ -16,6 +16,7 @@ export class Base {
   private keys = {};
   private deltaTime = new DeltaTime();
   private config;
+  hpBar: HpBarBase;
 
   callbackEvents;
   callbackKeydown;
@@ -58,7 +59,7 @@ export class Base {
   updateKeyup(event) {
     this.keys[event.code] = false;
   }
-  hpBar;
+
   setConfigCharter(config) {
     this.config = config;
 

@@ -1,9 +1,11 @@
+import { Sprite } from './../sprites/sprite';
+import { HpBarBase } from './../baseClasses/hpBarBase';
 import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
 import { GameHelper } from './gameHelper';
 
 export class Base {
   options;
-  images: HTMLImageElement;
+  images = {};
   ctx: CanvasRenderingContext2D;
   position = {
     x: window.innerWidth / 2,
@@ -13,7 +15,8 @@ export class Base {
     w: 200,
     h: 200,
   };
-
+  hpBar: HpBarBase;
+  sprite;
   constructor(options) {
     this.options = options;
     this.ctx = options.ctx;
@@ -22,12 +25,38 @@ export class Base {
 
   init() {
     this.loadImages();
+    this.createHpBar();
   }
 
   loadImages() {
-    const image = new Image();
-    image.src = PATH_PRESETS.base;
-    this.images = image;
+    const imagesSrc = {
+      base: PATH_PRESETS.base,
+      crystal: PATH_PRESETS.crystalBase,
+    };
+    for (let item in imagesSrc) {
+      const image = new Image();
+      image.src = imagesSrc[item];
+      this.images[item] = image;
+    }
+
+    this.sprite = new Sprite({
+      ...this.options,
+      scale: { x: 2, y: 2 },
+      position: {
+        x: this.position.x - GameHelper.charterPosition.x,
+        y: this.position.y - this.size.h / 2 - GameHelper.charterPosition.y,
+      },
+      images: this.images,
+      width: 40,
+      height: 100,
+      numberOfFrames: 4,
+      ticksPerFrame: 11,
+    });
+    this.sprite.setIcon({ key: 'crystal', reflect: false });
+  }
+
+  createHpBar() {
+    this.hpBar = new HpBarBase(this.options);
   }
 
   checkCollisionBase() {
@@ -48,15 +77,28 @@ export class Base {
 
   update() {
     this.checkCollisionBase();
+    this.hpBar.position = {
+      x: this.position.x - this.size.w / 6 - GameHelper.charterPosition.x,
+      y: this.position.y + this.size.h / 2 - GameHelper.charterPosition.y,
+    };
+
+    this.sprite.position.set({
+      x: this.position.x + 6 -  GameHelper.charterPosition.x,
+      y: this.position.y - this.size.h / 3 - GameHelper.charterPosition.y,
+    });
+    this.sprite.update();
   }
 
   draw() {
     this.ctx.drawImage(
-      this.images,
+      this.images['base'],
       this.position.x - this.size.w / 2 - GameHelper.charterPosition.x,
       this.position.y - this.size.h / 2 - GameHelper.charterPosition.y,
       this.size.w,
       this.size.h
     );
+    this.hpBar.count !==8 && this.sprite.draw();
+
+    this.hpBar.draw();
   }
 }
