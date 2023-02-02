@@ -3,20 +3,40 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { GameFieldComponent } from './game/game-field/game-field.component';
 import { GameFieldTreejsComponent } from './game/game-field-treejs/game-field-treejs.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MainComponent } from './mainComponents/main/main.component';
+import { SubHeaderComponent } from './mainComponents/sub-header/sub-header.component';
+import { GameFieldJud3Component } from './game/game-field-jud3/game-field-jud3.component';
+import { HeaderComponent } from './mainComponents/header/header.component';
+import { LayoutComponent } from './mainComponents/layout/layout.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { AnalyticsComponent } from './pages/analytics/analytics.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    GameFieldComponent,
-    GameFieldTreejsComponent
+    GameFieldTreejsComponent,
+    MainComponent,
+    SubHeaderComponent,
+    GameFieldJud3Component,
+    HeaderComponent,
+    LayoutComponent,
+    LoginComponent,
+    RegisterComponent,
+    AnalyticsComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MaterialModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
