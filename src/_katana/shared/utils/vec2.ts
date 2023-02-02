@@ -1,26 +1,30 @@
 import { Coordinates } from './interfaces';
 
 export class Vec2 {
-  coordinates = {
-    x: 0,
-    y: 0,
-  };
+  x = 0;
+  y = 0;
 
   constructor(coordinates: Coordinates) {
-    this.coordinates = coordinates;
+    this.x = coordinates.x;
+    this.y = coordinates.y;
+  }
+
+  set(otherCoordinates) {
+    this.x = otherCoordinates?.x || this.x;
+    this.y = otherCoordinates?.y || this.y;
   }
 
   add(otherCoordinates: Coordinates): Coordinates {
-    this.coordinates.x += otherCoordinates.x;
-    this.coordinates.y += otherCoordinates.y;
+    this.x += otherCoordinates.x;
+    this.y += otherCoordinates.y;
 
-    return this.coordinates;
+    return this;
   }
 
   multScalar(scalar: number): Coordinates {
-    this.coordinates.x *= +scalar;
-    this.coordinates.y *= +scalar;
+    this.x *= +scalar;
+    this.y *= +scalar;
 
-    return this.coordinates;
+    return this;
   }
 }

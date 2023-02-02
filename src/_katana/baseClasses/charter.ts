@@ -29,18 +29,18 @@ export class BaseCharter {
   }
 
   checkPosition() {
-    if (this.position.coordinates.x + 10 >= window.innerWidth) {
-      this.position.coordinates.x = window.innerWidth - 10;
+    if (this.position.x + 10 >= window.innerWidth) {
+      this.position.x = window.innerWidth - 10;
     }
-    if (this.position.coordinates.x <= 0 + 10) {
-      this.position.coordinates.x = 10;
+    if (this.position.x <= 0 + 10) {
+      this.position.x = 10;
     }
 
-    if (this.position.coordinates.y + 10 >= window.innerHeight) {
-      this.position.coordinates.y = window.innerHeight - 10;
+    if (this.position.y + 10 >= window.innerHeight) {
+      this.position.y = window.innerHeight - 10;
     }
-    if (this.position.coordinates.y <= 0 + 10) {
-      this.position.coordinates.y = 10;
+    if (this.position.y <= 0 + 10) {
+      this.position.y = 10;
     }
   }
 
@@ -52,24 +52,24 @@ export class BaseCharter {
   }
 
   stop() {
-    this.velocity.coordinates.x = 0;
-    this.velocity.coordinates.y = 0;
+    this.velocity.x = 0;
+    this.velocity.y = 0;
   }
 
   key() {
     this.stop();
 
     if (this.keys[CONFIG.left]) {
-      this.velocity.coordinates.x = -this.options.speed;
+      this.velocity.x = -this.options.speed;
     }
     if (this.keys[CONFIG.right]) {
-      this.velocity.coordinates.x = +this.options.speed;
+      this.velocity.x = +this.options.speed;
     }
     if (this.keys[CONFIG.up]) {
-      this.velocity.coordinates.y = -this.options.speed;
+      this.velocity.y = -this.options.speed;
     }
     if (this.keys[CONFIG.down]) {
-      this.velocity.coordinates.y = +this.options.speed;
+      this.velocity.y = +this.options.speed;
     }
     if (this.keys[CONFIG.attack]) {
       this.shot();
@@ -118,8 +118,8 @@ export class BaseCharter {
     const xBullet = Math.round(item.position.coordinates.x);
     const yBullet = Math.round(item.position.coordinates.y);
 
-    const xCharter = Math.round(this.position.coordinates.x);
-    const yCharter = Math.round(this.position.coordinates.y);
+    const xCharter = Math.round(this.position.x);
+    const yCharter = Math.round(this.position.y);
 
     const leftBulletX = Math.round(xBullet) - 5;
     const rightBulletX = Math.round(xBullet) + 5;
@@ -157,21 +157,15 @@ export class BaseCharter {
 
   calcAngle() {
     this.options.angle = Math.atan2(
-      this.mouse.y - (this.position.coordinates.y),
-      this.mouse.x - (this.position.coordinates.x )
+      this.mouse.y - this.position.y,
+      this.mouse.x - this.position.x
     );
   }
 
   rotate() {
-    this.ctx.translate(
-      this.position.coordinates.x + 30,
-      this.position.coordinates.y
-    );
+    this.ctx.translate(this.position.x + 30, this.position.y);
     this.ctx.rotate(this.options.angle + 1.5);
 
-    this.ctx.translate(
-      -this.position.coordinates.x - 5,
-      -this.position.coordinates.y - 5
-    );
+    this.ctx.translate(-this.position.x - 5, -this.position.y - 5);
   }
 }

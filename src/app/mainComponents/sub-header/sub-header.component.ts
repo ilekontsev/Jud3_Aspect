@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubHeaderComponent implements OnInit {
 
+
+  buttons = [{icon: 'home'}]
+
   constructor() { }
 
   ngOnInit(): void {

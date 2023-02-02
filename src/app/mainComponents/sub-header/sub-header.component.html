@@ -1,4 +1,9 @@
 <div class="root">
   <div class="sub-header">
+    <div class="wrapper-icon">
+      <ng-container *ngFor="let button of buttons">
+          <mat-icon class="icon">{{ button.icon }}</mat-icon>
+      </ng-container>
+    </div>
   </div>
 </div>
