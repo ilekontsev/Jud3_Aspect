@@ -1,15 +1,14 @@
-import { DeltaTime } from './../shared/utils/deltaTime';
-import { Bullet } from './../attacks/bullet';
-import { CONFIG } from '../config/moveConfig';
-import { OptionsObject } from '../shared/interfaces/optionCharter';
-import { Vec2 } from '../shared/utils/vec2';
+import { DeltaTime } from '../main/delta-time/deltaTime';
+import { CONFIG } from '../main/actions/move/moveConfig';
+import { Vec2 } from '../main/vector/vec2';
+import { Bullet } from './bullet';
 
 export class BaseCharter {
   public position = new Vec2({ x: 0, y: 0 });
   public velocity = new Vec2({ x: 0, y: 0 });
   public deltaTime = new DeltaTime();
 
-  public options: OptionsObject;
+  public options;
   public ctx;
   public canvas;
   public keys = {};
@@ -19,7 +18,7 @@ export class BaseCharter {
   };
   public bullets = [];
 
-  constructor(canvas, ctx, options: OptionsObject) {
+  constructor(canvas, ctx, options) {
     this.ctx = ctx;
     this.canvas = canvas;
     this.options = options;

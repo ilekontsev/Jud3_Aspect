@@ -1,9 +1,9 @@
-import { Sprite } from './../sprites/sprite';
-import { HpBarBase } from './../baseClasses/hpBarBase';
+import { Sprite } from '../animation-sprite/sprite';
 import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
 import { GameHelper } from './gameHelper';
+import { HpBarBase } from '../shared/sprites/hpBarBase';
 
-export class Base {
+export class BaseCharter {
   options;
   images = {};
   ctx: CanvasRenderingContext2D;

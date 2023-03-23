@@ -1,4 +1,4 @@
-import { GameHelper } from './../game/gameHelper';
+import { GameHelper } from '../game/gameHelper';
 export class SpriteImages {
   options;
   ctx: CanvasRenderingContext2D;

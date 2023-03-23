@@ -1,19 +1,19 @@
-import { Projectile } from './projectile';
-import { Gun } from '../attacks/gun';
-import { Berserker } from '../classes/Berserker';
-import { Hunter } from '../classes/Hunter';
-import { Warrior } from './../classes/Warrior';
+import { Berserker } from '../charters/Berserker';
+import { Hunter } from '../charters/Hunter';
+import { Warrior } from '../charters/Warrior';
 import { ArenaMode } from './arenaMode';
 import { DefenseMode } from './defenseMode';
 import { InfinityMode } from './infinityMode';
 import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
 import { GameHelper } from './gameHelper';
+import { Gun } from '../guns/gun';
+import { Projectile } from './projectile';
 
 export class Game {
   options;
   game;
   player;
-  gun;
+  gun: Gun;
   objects = [];
 
   image = new Image();
@@ -45,7 +45,6 @@ export class Game {
     }
   }
 
-
   initCharter() {
     switch (this.options.config.class) {
       case 'warrior':
@@ -64,6 +63,10 @@ export class Game {
 
   initGun() {
     this.gun = new Gun(this.options);
+
+    setInterval(() => {
+      this.gun = null;
+    }, 5000);
   }
 
   render() {
@@ -79,7 +82,7 @@ export class Game {
     });
 
     this.player.update();
-    this.gun.update();
+    this.gun?.update();
     Projectile.checkCollision();
   }
 
@@ -98,6 +101,6 @@ export class Game {
 
     this.game.draw();
     this.player.draw();
-    this.gun.draw();
+    this.gun?.draw();
   }
 }

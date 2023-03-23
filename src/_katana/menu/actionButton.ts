@@ -1,6 +1,6 @@
 import { GameHelper } from './../game/gameHelper';
 import { Helper } from 'src/_katana/menu/helper';
-import { Vec2 } from '../shared/utils/vec2';
+import { Vec2 } from '../main/vector/vec2';
 
 export class ActionButtons {
   canvas: HTMLCanvasElement;

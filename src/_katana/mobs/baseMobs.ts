@@ -1,8 +1,8 @@
 import { GameHelper } from './../game/gameHelper';
-import { HpBarBase } from '../baseClasses/hpBarBase';
-import { Sprite } from '../sprites/sprite';
-import { DeltaTime } from '../shared/utils/deltaTime';
-import { Vec2 } from '../shared/utils/vec2';
+import { Sprite } from '../animation-sprite/sprite';
+import { DeltaTime } from '../main/delta-time/deltaTime';
+import { Vec2 } from '../main/vector/vec2';
+import { HpBarBase } from '../shared/sprites/hpBarBase';
 
 export class BaseMobs {
   ctx: CanvasRenderingContext2D;

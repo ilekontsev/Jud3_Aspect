@@ -1,4 +1,4 @@
-import { Coordinates } from './interfaces';
+import { Coordinates } from '../../shared/utils/interfaces';
 
 export class Vec2 {
   x = 0;

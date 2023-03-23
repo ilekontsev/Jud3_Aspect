@@ -2,8 +2,9 @@ import { GameHelper } from './gameHelper';
 import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
 import { Slime } from '../mobs/slime';
 import { Projectile } from './projectile';
-import { Base } from './base';
-import { Sprite } from '../sprites/sprite';
+import { Sprite } from '../animation-sprite/sprite';
+import { Base } from '../charters/Base';
+import { BaseCharter } from './baseCharter';
 
 export class DefenseMode {
   options;
@@ -23,7 +24,7 @@ export class DefenseMode {
   init() {
     this.loadImages();
     this.createBase();
-    this.createMobs();
+    // this.createMobs();
   }
 
   loadImages() {
@@ -37,7 +38,7 @@ export class DefenseMode {
   }
 
   createBase() {
-    this.base = new Base(this.options);
+    this.base = new BaseCharter(this.options);
     Projectile.staticObjects.push(this.base);
   }
 
@@ -107,13 +108,13 @@ export class DefenseMode {
       this.diedMob++;
     });
 
-    if (
-      this.mobs.length < this.countMob * this.wave &&
-      this.countMob * this.wave !== this.createdMob
-    ) {
-      this.createMobs();
-      this.createdMob++;
-    }
+    // if (
+    //   this.mobs.length < this.countMob * this.wave &&
+    //   this.countMob * this.wave !== this.createdMob
+    // ) {
+    //   this.createMobs();
+    //   this.createdMob++;
+    // }
 
     if (this.createdMob === this.diedMob) {
       this.wave++;

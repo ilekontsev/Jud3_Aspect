@@ -1,6 +1,6 @@
-import { BaseGun } from './../attacks/baseGun';
 import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
-import { Vec2 } from '../shared/utils/vec2';
+import { BaseGun } from './baseGun';
+import { Vec2 } from '../main/vector/vec2';
 
 export class CannonGun extends BaseGun {
   private ticksPerFrame = 12;

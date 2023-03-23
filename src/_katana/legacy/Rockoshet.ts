@@ -1,5 +1,5 @@
-import { Vec2 } from '../shared/utils/vec2';
-import { DeltaTime } from './../shared/utils/deltaTime';
+import { Vec2 } from '../main/vector/vec2';
+import { DeltaTime } from '../main/delta-time/deltaTime';
 
 export class Ricochet {
   public position = new Vec2({ x: 0, y: 0 });

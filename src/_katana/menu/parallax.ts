@@ -1,5 +1,5 @@
-import { DeltaTime } from '../shared/utils/deltaTime';
-import { Vec2 } from '../shared/utils/vec2';
+import { DeltaTime } from '../main/delta-time/deltaTime';
+import { Vec2 } from '../main/vector/vec2';
 
 export class Parallax {
   options;
