@@ -1,5 +1,5 @@
-import { GameHelper } from './../game/gameHelper';
-import { checkPositionByField } from '../shared/utils';
+import { GameHelper } from '../../game/gameHelper';
+import { checkPositionByField } from '../../shared/utils';
 
 export class Cursor {
   canvas: HTMLCanvasElement;

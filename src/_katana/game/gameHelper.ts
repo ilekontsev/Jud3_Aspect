@@ -1,4 +1,4 @@
-import { Vec2 } from './../shared/utils/vec2';
+import { Vec2 } from '../main/vector/vec2';
 
 export class GameHelper {
   static charterPosition = new Vec2({ x: 0, y: 0 });

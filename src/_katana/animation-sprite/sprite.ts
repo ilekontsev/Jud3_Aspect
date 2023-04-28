@@ -1,4 +1,4 @@
-import { Vec2 } from '../shared/utils/vec2';
+import { Vec2 } from '../main/vector/vec2';
 
 export class Sprite {
   images = {};

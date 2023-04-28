@@ -1,16 +1,16 @@
-import { CannonGun } from './canonGun';
-import { Cursor } from './cursor';
-import { CONFIG } from '../config/moveConfig';
+import { CannonGun } from '../guns/canonGun';
+import { Cursor } from '../main/cursor/cursor';
+import { CONFIG } from '../main/actions/move/moveConfig';
 import { BaseCharterOptions } from '../shared/interfaces/optionCharter';
 import { checkPositionByField } from '../shared/utils';
-import { DeltaTime } from '../shared/utils/deltaTime';
-import { Vec2 } from '../shared/utils/vec2';
-import { Sprite } from '../sprites/sprite';
-import { CatBullet } from '../attacks/catBullet';
-import { HpBarBase } from './hpBarBase';
+import { DeltaTime } from '../main/delta-time/deltaTime';
+import { Vec2 } from '../main/vector/vec2';
+import { Sprite } from '../animation-sprite/sprite';
+import { HpBarBase } from '../shared/sprites/hpBarBase';
 import { Slime } from '../mobs/slime';
+import { CatBullet } from '../bullets/catBullet';
 
-export class BaseCharter {
+export class CharterBase {
   public velocity = new Vec2({ x: 0, y: 0 });
   public position = new Vec2({ x: 0, y: 0 });
   public keys = {};

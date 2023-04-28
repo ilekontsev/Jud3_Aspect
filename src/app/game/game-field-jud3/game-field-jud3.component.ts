@@ -4,8 +4,8 @@ import {
   Component,
   ViewChild,
 } from '@angular/core';
-import { Cursor } from 'src/_katana/baseClasses/cursor';
 import { Game } from 'src/_katana/game/game';
+import { Cursor } from 'src/_katana/main/cursor/cursor';
 import { Helper } from 'src/_katana/menu/helper';
 import { Menu } from 'src/_katana/menu/menu';
 
@@ -20,7 +20,7 @@ export class GameFieldJud3Component implements AfterViewInit {
 
   private ctx: CanvasRenderingContext2D;
   private init = false;
-  classStep: any;
+  formStep: any;
 
   ngAfterViewInit() {
     if (this.init) return;
@@ -67,13 +67,13 @@ export class GameFieldJud3Component implements AfterViewInit {
   createStepClass(option) {
     switch (option.key) {
       case 'menu':
-        this.classStep = new Menu({
+        this.formStep = new Menu({
           canvas: this.canvas.nativeElement,
           ctx: this.ctx,
         });
         break;
       case 'game':
-        this.classStep = new Game({
+        this.formStep = new Game({
           canvas: this.canvas.nativeElement,
           ctx: this.ctx,
           config: option.config,
@@ -89,7 +89,7 @@ export class GameFieldJud3Component implements AfterViewInit {
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     this.ctx.strokeRect(0, 0, window.innerWidth, window.innerHeight);
 
-    this.classStep.render();
+    this.formStep.render();
     this.cursor.draw();
 
     window.requestAnimationFrame(this.render.bind(this));

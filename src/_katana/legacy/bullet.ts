@@ -1,4 +1,4 @@
-import { Ricochet } from '../baseClasses/attack';
+import { Ricochet } from "./Rockoshet";
 
 export class Bullet extends Ricochet {
   constructor(ctx, options) {

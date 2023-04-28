@@ -5,7 +5,7 @@ export interface Options {
   angle: number;
 }
 
-export interface Position{
+export interface Position {
   x: number;
   y: number;
 }
@@ -15,4 +15,5 @@ export interface BaseCharterOptions {
   ctx: CanvasRenderingContext2D;
   position: Position;
   nickname: string;
+  configCharter?: any;
 }

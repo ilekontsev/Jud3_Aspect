@@ -1,48 +1,44 @@
 import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
 import { BaseCharterOptions } from '../shared/interfaces/optionCharter';
-import { Base } from './base';
+import { Base } from './Base';
 
-export class Berserker extends Base {
-  configCharter = {
+export class Warrior extends Base {
+  private configCharter = {
     speed: 0.3,
     attack: 0.4,
     size: {
-      w: 100,
-      h: 25,
+      w: 80,
+      h: 30,
     },
     images: {},
   };
 
-  imageSrc = PATH_PRESETS.charters.berserker;
+  private imageSrc = PATH_PRESETS.charters.warrior;
 
   constructor(options: BaseCharterOptions) {
     super(options);
+    options.configCharter = this.configCharter;
     this.init();
   }
 
-  init() {
+ protected override init(): void {
     this.loadImages();
-    this.setConfigCharter(this.configCharter);
+    super.init();
   }
 
-  loadImages() {
+  public override update(): void {
+    super.update();
+  }
+
+  public override draw(): void {
+    super.draw();
+  }
+
+  private loadImages(): void {
     for (let key in this.imageSrc) {
       const image = new Image();
       image.src = this.imageSrc[key];
       this.configCharter.images[key] = image;
     }
-  }
-
-  draw() {
-    this.ctx.font = '10px serif';
-    this.ctx.fillText(
-      this.options.nickname,
-      window.innerWidth / 2 - (this.options.nickname.length + 1)* 2,
-      window.innerHeight / 2 - 50
-    );
-
-    this.hpBar.draw();
-
-    this.sprite.render();
   }
 }

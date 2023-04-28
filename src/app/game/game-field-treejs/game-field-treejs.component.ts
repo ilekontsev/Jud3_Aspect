@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CONFIG } from 'src/_katana/config/moveConfig';
-import { DeltaTime } from 'src/_katana/shared/utils/deltaTime';
-import { Vec2 } from 'src/_katana/shared/utils/vec2';
+import { CONFIG } from 'src/_katana/main/actions/move/moveConfig';
+import { DeltaTime } from 'src/_katana/main/delta-time/deltaTime';
+import { Vec2 } from 'src/_katana/main/vector/vec2';
+
 
 @Component({
   selector: 'app-game-field-treejs',

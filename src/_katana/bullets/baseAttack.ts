@@ -1,6 +1,6 @@
 import { GameHelper } from '../game/gameHelper';
-import { DeltaTime } from '../shared/utils/deltaTime';
-import { Vec2 } from './../shared/utils/vec2';
+import { DeltaTime } from '../main/delta-time/deltaTime';
+import { Vec2 } from '../main/vector/vec2';
 export class BaseAttack {
   ctx: CanvasRenderingContext2D;
   options: any;

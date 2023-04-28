@@ -1,5 +1,6 @@
-import { GameHelper } from '../game/gameHelper';
-import { BaseAttack } from './../baseClasses/baseAttack';
+import { GameHelper } from "src/_katana/game/gameHelper";
+import { BaseAttack } from "./baseAttack";
+
 
 export class CatBullet extends BaseAttack {
   image = new Image();
@@ -24,6 +25,7 @@ export class CatBullet extends BaseAttack {
     const x = this.options.reflect ? -1 : 1;
 
     this.ctx.scale(x, 1);
+
     this.ctx.drawImage(
       this.image,
       (window.innerWidth / 2 + this.position.x - GameHelper.charterPosition.x) *

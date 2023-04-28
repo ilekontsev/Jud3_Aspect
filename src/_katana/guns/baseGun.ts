@@ -1,10 +1,10 @@
-import { Projectile } from './../game/projectile';
-import { DeltaTime } from './../shared/utils/deltaTime';
-import { GameHelper } from './../game/gameHelper';
-import { Vec2 } from 'src/_katana/shared/utils/vec2';
-import { CONFIG } from '../config/moveConfig';
-import { CatBullet } from './catBullet';
-import { getAngleByCursor } from '../shared/utils';
+import { GameHelper } from "src/_katana/game/gameHelper";
+import { Projectile } from "src/_katana/game/projectile";
+import { getAngleByCursor } from "src/_katana/shared/utils";
+import { CONFIG } from "../main/actions/move/moveConfig";
+import { Vec2 } from "../main/vector/vec2";
+import { CatBullet } from "../bullets/catBullet";
+
 export class BaseGun {
   options;
   canvas;
@@ -63,9 +63,5 @@ export class BaseGun {
       (bullet) => !bullet.checkPosition() && bullet.active
     );
     Projectile.bullets = this.bullets
-
-
-
-
   }
 }
