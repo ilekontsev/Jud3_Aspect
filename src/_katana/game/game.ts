@@ -1,13 +1,13 @@
-import { Berserker } from '../charters/Berserker';
-import { Hunter } from '../charters/Hunter';
-import { Warrior } from '../charters/Warrior';
-import { ArenaMode } from './arenaMode';
-import { DefenseMode } from './defenseMode';
-import { InfinityMode } from './infinityMode';
+import { ArenaMode } from '../gameMode/arenaMode';
+import { DefenseMode } from '../gameMode/defenseMode';
+import { InfinityMode } from '../gameMode/infinityMode';
 import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
 import { GameHelper } from './gameHelper';
-import { Gun } from '../guns/gun';
-import { Projectile } from './projectile';
+import { Gun } from '../gameObject/guns/gun';
+import { Projectile } from '../fysics/projectile';
+import { Berserker } from '../gameObject/charters/Berserker';
+import { Hunter } from '../gameObject/charters/Hunter';
+import { Warrior } from '../gameObject/charters/Warrior';
 
 export class Game {
   options;
@@ -17,19 +17,20 @@ export class Game {
   objects = [];
 
   image = new Image();
+
   constructor(options) {
     this.options = options;
     this.init();
     this.image.src = PATH_PRESETS.mapGame;
   }
 
-  init() {
+  init(): void {
     this.initGame();
     this.initGun();
     this.initCharter();
   }
 
-  initGame() {
+  initGame(): void {
     switch (this.options.config.mode) {
       case 'infinity':
         this.game = new InfinityMode(this.options);
@@ -45,7 +46,7 @@ export class Game {
     }
   }
 
-  initCharter() {
+  initCharter(): void {
     switch (this.options.config.class) {
       case 'warrior':
         this.player = new Warrior(this.options);
@@ -61,7 +62,7 @@ export class Game {
     }
   }
 
-  initGun() {
+  initGun(): void {
     this.gun = new Gun(this.options);
 
     setInterval(() => {
@@ -69,12 +70,12 @@ export class Game {
     }, 5000);
   }
 
-  render() {
+  render(): void {
     this.update();
     this.draw();
   }
 
-  update() {
+  update(): void {
     this.game.update();
 
     this.objects.forEach((item) => {
@@ -86,13 +87,13 @@ export class Game {
     Projectile.checkCollision();
   }
 
-  draw() {
+  draw(): void {
     this.options.ctx.drawImage(
       this.image,
       -(window.innerWidth * 2) - GameHelper.charterPosition.x,
       -(window.innerHeight * 2) - GameHelper.charterPosition.y,
       window.innerWidth * 4,
-      window.innerHeight * 4
+      window.innerHeight * 4,
     );
 
     this.objects.forEach((item) => {

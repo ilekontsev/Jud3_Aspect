@@ -1,4 +1,4 @@
-import { CannonGun } from '../guns/canonGun';
+import { CannonGun } from '../gameObject/guns/canonGun';
 import { Cursor } from '../main/cursor/cursor';
 import { CONFIG } from '../main/actions/move/moveConfig';
 import { BaseCharterOptions } from '../shared/interfaces/optionCharter';

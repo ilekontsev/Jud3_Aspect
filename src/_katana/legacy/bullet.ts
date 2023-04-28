@@ -1,4 +1,4 @@
-import { Ricochet } from "./Rockoshet";
+import { Ricochet } from "./Rickoshet";
 
 export class Bullet extends Ricochet {
   constructor(ctx, options) {

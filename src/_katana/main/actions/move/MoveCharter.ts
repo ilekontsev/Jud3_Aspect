@@ -1,18 +1,19 @@
-import { GameHelper } from "src/_katana/game/gameHelper";
-import { DeltaTime } from "../../delta-time/deltaTime";
-import { CONFIG } from "./moveConfig";
+import { GameHelper } from 'src/_katana/game/gameHelper';
+import { DeltaTime } from '../../delta-time/deltaTime';
+import { CONFIG } from './moveConfig';
+import { BaseCharterOptions, ConfigCharter } from 'src/_katana/shared/interfaces/optionCharter';
 
 export class MoveCharter {
   private keys = {};
   private deltaTime = new DeltaTime();
-  private configCharter;
   private canvas: HTMLCanvasElement;
+  private configCharter: ConfigCharter;
 
-  private callbackEvents;
-  private callbackKeydown;
-  private callbackKeyup;
+  private callbackEvents: any;
+  private callbackKeydown: any;
+  private callbackKeyup: any;
 
-  constructor(options) {
+  constructor(options: BaseCharterOptions) {
     this.canvas = options.canvas;
     this.configCharter = options.configCharter;
     this.init();

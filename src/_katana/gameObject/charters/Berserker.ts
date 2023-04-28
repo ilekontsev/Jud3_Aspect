@@ -1,6 +1,6 @@
 import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
-import { BaseCharterOptions } from '../shared/interfaces/optionCharter';
 import { Base } from './Base';
+import { BaseCharterOptions } from 'src/_katana/shared/interfaces/optionCharter';
 
 export class Berserker extends Base {
   configCharter = {
@@ -33,7 +33,7 @@ export class Berserker extends Base {
     super.draw();
   }
 
-  private loadImages() {
+  private loadImages(): void {
     for (let key in this.imageSrc) {
       const image = new Image();
       image.src = this.imageSrc[key];

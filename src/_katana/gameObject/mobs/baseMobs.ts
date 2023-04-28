@@ -1,8 +1,8 @@
-import { GameHelper } from './../game/gameHelper';
-import { Sprite } from '../animation-sprite/sprite';
-import { DeltaTime } from '../main/delta-time/deltaTime';
-import { Vec2 } from '../main/vector/vec2';
-import { HpBarBase } from '../shared/sprites/hpBarBase';
+import { Sprite } from 'src/_katana/animation-sprite/sprite';
+import { GameHelper } from 'src/_katana/game/gameHelper';
+import { DeltaTime } from 'src/_katana/main/delta-time/deltaTime';
+import { Vec2 } from 'src/_katana/main/vector/vec2';
+import { HpBarBase } from 'src/_katana/shared/sprites/hpBarBase';
 
 export class BaseMobs {
   ctx: CanvasRenderingContext2D;
@@ -111,10 +111,8 @@ export class BaseMobs {
       this.sprite.numberOfFrames = 8;
       this.sprite.width = 300;
       this.sprite.height = 50;
-      this.sprite.position.y =
-        this.position.y - GameHelper.charterPosition.y - 50;
-      this.sprite.position.x =
-        this.position.x - GameHelper.charterPosition.x - 20;
+      this.sprite.position.y = this.position.y - GameHelper.charterPosition.y - 50;
+      this.sprite.position.x = this.position.x - GameHelper.charterPosition.x - 20;
       if (this.sprite.animationEnd) {
         this.active = false;
       }

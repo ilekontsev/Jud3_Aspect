@@ -1,6 +1,6 @@
 import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
-import { BaseCharterOptions } from '../shared/interfaces/optionCharter';
 import { Base } from './Base';
+import { BaseCharterOptions } from 'src/_katana/shared/interfaces/optionCharter';
 
 export class Warrior extends Base {
   private configCharter = {

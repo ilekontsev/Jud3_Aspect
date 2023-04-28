@@ -15,6 +15,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { AnalyticsComponent } from './pages/analytics/analytics.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { MaterialModule } from './material.module';
+import { SandboxComponent } from './game/sandbox/sandbox.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { MaterialModule } from './material.module';
     RegisterComponent,
     AnalyticsComponent,
     NotFoundComponent,
+    SandboxComponent,
   ],
   imports: [
     BrowserModule,
