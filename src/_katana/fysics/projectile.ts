@@ -1,4 +1,4 @@
-import { GameHelper } from './gameHelper';
+import { GameHelper } from '../game/gameHelper';
 export class Projectile {
   options: any;
   static staticObjects = [];

@@ -1,9 +1,9 @@
-import { Sprite } from '../animation-sprite/sprite';
-import { GameHelper } from '../game/gameHelper';
-import { checkAngleForIcon, getAngleByCursor } from '../shared/utils';
-import { BaseCharterOptions } from '../shared/interfaces/optionCharter';
-import { MoveCharter } from '../main/actions/move/MoveCharter';
-import { HpBarBase } from '../shared/sprites/hpBarBase';
+import { Sprite } from 'src/_katana/animation-sprite/sprite';
+import { GameHelper } from 'src/_katana/game/gameHelper';
+import { MoveCharter } from 'src/_katana/main/actions/move/MoveCharter';
+import { BaseCharterOptions } from 'src/_katana/shared/interfaces/optionCharter';
+import { HpBarBase } from 'src/_katana/shared/sprites/hpBarBase';
+import { getAngleByCursor, checkAngleForIcon } from 'src/_katana/shared/utils';
 
 export class Base {
   protected options: BaseCharterOptions;
@@ -35,7 +35,7 @@ export class Base {
     this.ctx.fillText(
       this.options.nickname,
       window.innerWidth / 2 - (this.options.nickname.length + 1) * 2,
-      window.innerHeight / 2 - 50
+      window.innerHeight / 2 - 50,
     );
 
     this.HpBar.draw();
@@ -44,12 +44,12 @@ export class Base {
   }
 
   //sprites for charter
-  loadSprites() {
+  loadSprites(): void {
     this.loadHpBar();
     this.loadSpriteCharter();
   }
 
-  loadHpBar() {
+  loadHpBar(): void {
     this.HpBar = new HpBarBase({
       ...this.options,
       position: {
@@ -59,7 +59,7 @@ export class Base {
     });
   }
 
-  loadSpriteCharter() {
+  loadSpriteCharter(): void {
     this.Sprite = new Sprite({
       ctx: this.ctx,
       width: this.options.configCharter.size.w,
@@ -82,18 +82,18 @@ export class Base {
     });
   }
 
-  setIconByAngle() {
+  setIconByAngle(): void {
     const angle = getAngleByCursor(GameHelper.cursorPosition);
     const obj = checkAngleForIcon(angle);
     this.Sprite.setIcon(obj);
   }
 
   //Движение персонажа
-  loadActions() {
+  loadActions(): void {
     this.MoveCharter = new MoveCharter(this.options);
   }
 
-  pressKey() {
+  pressKey(): void {
     this.MoveCharter.pressKey();
   }
 }

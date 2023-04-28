@@ -2,7 +2,7 @@ import { MOBS } from 'src/app/game/game-field-jud3/constants/path-presets';
 import { Parallax } from './parallax';
 import { MENU } from './../../app/game/game-field-jud3/constants/path-presets';
 import { Sprite } from '../animation-sprite/sprite';
-import { CannonGun } from '../guns/canonGun';
+import { CannonGun } from '../gameObject/guns/canonGun';
 export class Background {
   ctx: CanvasRenderingContext2D;
 

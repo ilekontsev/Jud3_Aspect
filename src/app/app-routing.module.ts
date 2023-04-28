@@ -5,16 +5,12 @@ import { GameFieldJud3Component } from './game/game-field-jud3/game-field-jud3.c
 import { AnalyticsComponent } from './pages/analytics/analytics.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { SandboxComponent } from './game/sandbox/sandbox.component';
 
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'jud3',
-  },
-
-  {
-    path: '**',
     pathMatch: 'full',
     redirectTo: 'jud3',
   },
@@ -30,6 +26,16 @@ const routes: Routes = [
     component: GameFieldJud3Component,
   },
 
+  {
+    path: 'sand',
+    pathMatch: 'full',
+    component: SandboxComponent,
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    component: NotFoundComponent,
+  },
   {
     path: 'login',
     pathMatch: 'full',

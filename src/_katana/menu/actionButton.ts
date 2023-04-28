@@ -42,14 +42,14 @@ export class ActionButtons {
     this.init();
   }
 
-  init() {
+  init(): void {
     this.loadedImages();
     this.createPointerlockchange();
     this.createEventSubscriptions();
     this.selectedImage = this.images['default'];
   }
 
-  loadedImages() {
+  loadedImages(): void {
     for (let key in this.imageSrc) {
       const image = new Image();
       image.src = this.imageSrc[key];
@@ -57,11 +57,11 @@ export class ActionButtons {
     }
   }
 
-  createPointerlockchange() {
+  createPointerlockchange(): void {
     document.addEventListener('pointerlockchange', this.callbackEvents);
   }
 
-  createEventSubscriptions() {
+  createEventSubscriptions(): void {
     if (document.pointerLockElement === this.canvas) {
       document.addEventListener('mousedown', this.callbackMousedown);
       document.addEventListener('mouseup', this.callbackMouseup);
@@ -71,7 +71,7 @@ export class ActionButtons {
     }
   }
 
-  destroy() {
+  destroy(): void {
     document.removeEventListener('mousedown', this.callbackMousedown);
     document.removeEventListener('mouseup', this.callbackMouseup);
     document.removeEventListener('pointerlockchange', this.callbackEvents);
@@ -87,14 +87,14 @@ export class ActionButtons {
     );
   }
 
-  updateMousedown(event: MouseEvent) {
+  updateMousedown(event: MouseEvent): void {
     event.preventDefault();
     if (this.isCheckPosition()) {
       this.flagMouseDown = true;
     }
   }
 
-  updateMouseup(event: MouseEvent) {
+  updateMouseup(event: MouseEvent): void {
     event.preventDefault();
 
     if (this.flagMouseDown && this.isCheckPosition()) {
@@ -105,7 +105,7 @@ export class ActionButtons {
     }
   }
 
-  update() {
+  update(): void {
     if (this.isCheckPosition() || this.click || this.flagMouseDown) {
       this.selectedImage =
         this.click || this.flagMouseDown
@@ -123,7 +123,7 @@ export class ActionButtons {
     }
   }
 
-  draw() {
+  draw(): void {
     this.ctx.drawImage(
       this.selectedImage,
       this.position.x,

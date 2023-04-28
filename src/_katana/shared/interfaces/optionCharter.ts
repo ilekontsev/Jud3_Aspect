@@ -10,10 +10,27 @@ export interface Position {
   y: number;
 }
 
+export interface Size {
+  w: number;
+  h: number;
+}
+
+export interface Context {
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+}
+
 export interface BaseCharterOptions {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
   position: Position;
   nickname: string;
   configCharter?: any;
+}
+
+export interface ConfigCharter {
+  speed: number;
+  attack: number;
+  size: Size;
+  images: ImageData;
 }

@@ -1,10 +1,9 @@
-import { GameHelper } from './gameHelper';
+import { GameHelper } from '../game/gameHelper';
 import { PATH_PRESETS } from 'src/app/game/game-field-jud3/constants/path-presets';
-import { Slime } from '../mobs/slime';
-import { Projectile } from './projectile';
+import { Projectile } from '../fysics/projectile';
 import { Sprite } from '../animation-sprite/sprite';
-import { Base } from '../charters/Base';
-import { BaseCharter } from './baseCharter';
+import { BaseCharter } from '../gameObject/base/baseCharter';
+import { Slime } from '../gameObject/mobs/slime';
 
 export class DefenseMode {
   options;
@@ -24,7 +23,7 @@ export class DefenseMode {
   init() {
     this.loadImages();
     this.createBase();
-    // this.createMobs();
+    this.createMobs();
   }
 
   loadImages() {
@@ -108,27 +107,23 @@ export class DefenseMode {
       this.diedMob++;
     });
 
-    // if (
-    //   this.mobs.length < this.countMob * this.wave &&
-    //   this.countMob * this.wave !== this.createdMob
-    // ) {
-    //   this.createMobs();
-    //   this.createdMob++;
-    // }
+    if (
+      this.mobs.length < this.countMob * this.wave &&
+      this.countMob * this.wave !== this.createdMob
+    ) {
+      this.createMobs();
+      this.createdMob++;
+    }
 
     if (this.createdMob === this.diedMob) {
       this.wave++;
-
 
       setTimeout(() => {
         this.createdMob = 0;
         this.diedMob = 0;
         this.moneys = [];
-      Projectile.money = [];
-
-      }, 1000)
-
-
+        Projectile.money = [];
+      }, 1000);
     }
 
     this.mobs.forEach((mob) => {
@@ -170,26 +165,10 @@ export class DefenseMode {
     this.ctx.fillText(`Coins: ${this.countCoin}`, 10, 250);
 
     this.ctx.fillStyle = 'white';
-    this.ctx.drawImage(
-      this.images['map'],
-      window.innerWidth - 310,
-      10,
-      300,
-      300
-    );
+    this.ctx.drawImage(this.images['map'], window.innerWidth - 310, 10, 300, 300);
     this.ctx.strokeRect(window.innerWidth - 310, 10, 300, 300);
 
-    this.ctx.fillRect(
-      window.innerWidth / 2 - 300,
-      window.innerHeight - 70,
-      600,
-      70
-    );
-    this.ctx.strokeRect(
-      window.innerWidth / 2 - 300,
-      window.innerHeight - 70,
-      600,
-      70
-    );
+    this.ctx.fillRect(window.innerWidth / 2 - 300, window.innerHeight - 70, 600, 70);
+    this.ctx.strokeRect(window.innerWidth / 2 - 300, window.innerHeight - 70, 600, 70);
   }
 }

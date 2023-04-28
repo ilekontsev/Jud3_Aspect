@@ -1,9 +1,9 @@
 import { GameHelper } from "src/_katana/game/gameHelper";
-import { Projectile } from "src/_katana/game/projectile";
 import { getAngleByCursor } from "src/_katana/shared/utils";
-import { CONFIG } from "../main/actions/move/moveConfig";
-import { Vec2 } from "../main/vector/vec2";
-import { CatBullet } from "../bullets/catBullet";
+import { CONFIG } from "../../main/actions/move/moveConfig";
+import { Vec2 } from "../../main/vector/vec2";
+import { CatBullet } from "../../bullets/catBullet";
+import { Projectile } from "src/_katana/fysics/projectile";
 
 export class BaseGun {
   options;
