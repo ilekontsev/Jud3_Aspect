@@ -33,4 +33,8 @@ export interface ConfigCharter {
   attack: number;
   size: Size;
   images: ImageData;
+  position: {
+    x: number;
+    y: number;
+  };
 }

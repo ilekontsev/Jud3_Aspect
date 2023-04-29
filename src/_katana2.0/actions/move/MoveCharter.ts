@@ -5,9 +5,11 @@ import { DeltaTime } from 'src/_katana/main/delta-time/deltaTime';
 import { Vec2 } from 'src/_katana/main/vector/vec2';
 
 export class MoveCharter {
-   keys = {};
+  public get isActive(): boolean {
+    return Object.values(this.keys).some((item) => item);
+  }
+  private keys = {};
   private deltaTime = new DeltaTime();
-  private canvas: HTMLCanvasElement;
   private configCharter: ConfigCharter;
 
   private callbackEvents: any;
@@ -22,8 +24,8 @@ export class MoveCharter {
   }
 
   constructor(options) {
-    this.canvas = options.canvas;
     this.configCharter = options;
+    this._charterPosition.set(this.configCharter.position);
     this.init();
   }
 

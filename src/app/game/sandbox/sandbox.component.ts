@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { MoveCharter } from 'src/_katana2.0/actions/move/MoveCharter';
+import { Cursor } from 'src/_katana2.0/cursor/cursor';
 import { Berserker } from 'src/_katana2.0/gameObject/charter/berserker/Berserker';
 import { Hunter } from 'src/_katana2.0/gameObject/charter/hunter/Hunter';
 import { Warrior } from 'src/_katana2.0/gameObject/charter/warrior/Warrior';
@@ -15,18 +15,27 @@ export class SandboxComponent {
   charter: Warrior;
   charter2: Berserker;
   charter3: Hunter;
-  moveCharter: MoveCharter;
+  cursor: Cursor;
+
+  handleClickByGameField(event) {
+    this.canvas.nativeElement.requestPointerLock();
+    this.cursor.cursorPosition.set({x: event.offsetX, y: event.offsetY})
+  }
 
   ngAfterViewInit() {
     this.configCanvas();
+
+    const canvas = this.canvas.nativeElement as HTMLCanvasElement;
+
+    this.cursor = new Cursor({ ctx: this.ctx, canvas });
 
     this.charter = new Warrior({
       canvas: this.canvas.nativeElement,
       ctx: this.ctx,
       nickname: 'GreezlyDvery',
       position: {
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
+        x: 0,
+        y: 0,
       },
     });
 
@@ -35,8 +44,8 @@ export class SandboxComponent {
       ctx: this.ctx,
       nickname: 'GreezlyDvery',
       position: {
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
+        x: 0,
+        y: 100,
       },
     });
 
@@ -45,15 +54,11 @@ export class SandboxComponent {
       ctx: this.ctx,
       nickname: 'GreezlyDvery',
       position: {
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
+        x: 0,
+        y: 200,
       },
     });
 
-    this.moveCharter = new MoveCharter({
-      canvas: this.canvas.nativeElement,
-      ...this.charter2.configCharter,
-    });
     this.render();
   }
 
@@ -75,20 +80,14 @@ export class SandboxComponent {
   }
 
   sandbox() {
-    this.moveCharter.pressKey();
-    this.charter.configCharter.position= this.moveCharter?.charterPosition;
-    this.charter2.configCharter.position = this.moveCharter?.charterPosition;
-    this.charter3.configCharter.position = this.moveCharter?.charterPosition;
+    this.cursor.draw();
 
-    if (Object.values(this.moveCharter.keys).some((item) => item)) {
-      this.charter.update();
-      this.charter2.update();
-      this.charter3.update();
-    }
+    this.charter.update();
+    this.charter2.update();
+    this.charter3.update();
+
     this.charter.draw();
-
     this.charter2.draw();
-
     this.charter3.draw();
   }
 }
