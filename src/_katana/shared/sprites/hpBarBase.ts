@@ -42,6 +42,6 @@ export class HpBarBase {
   update() {}
 
   draw() {
-    this.ctx.drawImage(this.selectedImage, this.position.x, this.position.y);
+    this.ctx.drawImage(this.selectedImage, 0, 0, 128, 128, this.position.x, this.position.y, 256, 256);
   }
 }
