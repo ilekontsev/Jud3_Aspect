@@ -18,13 +18,14 @@ export class MoveCharter {
 
   private _charterPosition = new Vec2({ x: 0, y: 0 });
   private _charterVelocity = new Vec2({ x: 0, y: 0 });
-
+  options;
   public get charterPosition() {
     return this._charterPosition;
   }
 
-  constructor(options) {
-    this.configCharter = options;
+  constructor(options, configCharter) {
+    this.options = options;
+    this.configCharter = configCharter;
     this._charterPosition.set(this.configCharter.position);
     this.init();
   }
@@ -53,13 +54,13 @@ export class MoveCharter {
   }
 
   private createEventSubscriptions(): void {
-    // if (document.pointerLockElement === this.canvas) {
-    document.addEventListener('keydown', this.callbackKeydown);
-    document.addEventListener('keyup', this.callbackKeyup);
-    // } else {
-    //   document.removeEventListener('keydown', this.callbackKeydown);
-    //   document.removeEventListener('keyup', this.callbackKeyup);
-    // }
+    if (document.pointerLockElement === this.options.canvas) {
+      document.addEventListener('keydown', this.callbackKeydown);
+      document.addEventListener('keyup', this.callbackKeyup);
+    } else {
+      document.removeEventListener('keydown', this.callbackKeydown);
+      document.removeEventListener('keyup', this.callbackKeyup);
+    }
   }
 
   //движение

@@ -1,0 +1,2 @@
+1.ConfigCharter -> position передается по ссылке в sprite, collaider
+2. cursor передается в свойства класса при создании персонажа

@@ -30,7 +30,6 @@ export class Cursor {
   createEventSubscriptions() {
     document.addEventListener('pointerlockchange', () => {
       if (document.pointerLockElement === this.canvas) {
-        console.log(231)
         document.addEventListener('mousemove', this.callbackMousemove);
       } else {
         document.removeEventListener('mousemove', this.callbackMousemove);

@@ -4,11 +4,17 @@ export class Sprite {
   ticksPerFrame = 40;
   frameIndex = 0;
   animationEnd = false;
-  options;
+  ctx;
+  icon;
+  reflect: boolean;
+  config;
 
-  constructor(options) {
-    this.options = options;
-    this.ticksPerFrame *= options.speed;
+  constructor(ctx, config) {
+    this.ctx = ctx;
+    this.config = config;
+    this.icon = config.icon;
+    this.ticksPerFrame *= config.speed || 0;
+    console.log(config)
     this.init();
   }
 
@@ -33,19 +39,25 @@ export class Sprite {
   }
 
   draw(): void {
-    this.options.ctx.drawImage(
-      this.options.images['up'],
+    const calcPosition = this.reflect ? this.config.size.w * this.config.scale : 0;
+    const reflect = this.reflect ? -1 : 1;
+    this.ctx.save();
+    this.ctx.scale(reflect, 1);
 
-      this.frameIndex * this.options.size.w,
+    this.ctx.drawImage(
+      this.config.images[this.icon],
+
+      this.frameIndex * this.config.size.w,
       0,
-      this.options.size.w,
-      this.options.size.h,
+      this.config.size.w,
+      this.config.size.h,
 
-      this.options.position.x,
-      this.options.position.y,
+      this.config.position.x * reflect - calcPosition,
+      this.config.position.y,
 
-      this.options.size.w * this.options.scale,
-      this.options.size.h * this.options.scale,
+      this.config.size.w * this.config.scale,
+      this.config.size.h * this.config.scale,
     );
+    this.ctx.restore();
   }
 }

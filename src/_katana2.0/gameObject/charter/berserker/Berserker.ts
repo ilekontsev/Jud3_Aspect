@@ -1,10 +1,10 @@
 import { loadImages } from 'src/_katana2.0/shared/utils/image-loader.utils';
 import { BERSERKER_IMG } from './berserker.assets';
-import { Sprite } from 'src/_katana2.0/animations/sprite';
-import { MoveCharter } from 'src/_katana2.0/actions/move/MoveCharter';
 import { SquareCollider } from 'src/_katana2.0/fysics/colaider/square.colaider';
+import { BaseCharter } from '../BaseCharter';
+import { CharterOptions } from 'src/_katana2.0/shared/utils/interfaces/options';
 
-export class Berserker {
+export class Berserker extends BaseCharter {
   public configCharter = {
     speed: 0.3,
     attack: 0.4,
@@ -17,38 +17,34 @@ export class Berserker {
       y: 0,
     },
     scale: 3,
+    images: {},
   };
-  private options;
-  private images: Record<string, HTMLImageElement>;
-  private sprite: Sprite;
-  private moveCharter: MoveCharter;
-  private collider: SquareCollider;
 
-  constructor(options) {
-    this.options = options;
-    this.configCharter.position = this.options.position || this.configCharter.position;
-    this.moveCharter = new MoveCharter(this.configCharter);
+  private Collider = new SquareCollider(this.options.ctx, this.configCharter.position, {
+    position: { x: 5, y: 5 },
+    size: { w: 48, h: 66 },
+  });
 
+  constructor(options: CharterOptions) {
+    super(options);
+    this.configCharter.position = options.position || this.configCharter.position;
     this.init();
   }
 
-  private init(): void {
-    this.images = loadImages(BERSERKER_IMG);
-    this.sprite = new Sprite({ ...this.options, ...this.configCharter, images: this.images });
-    this.collider = new SquareCollider(this.options, this.configCharter);
+  protected override init(): void {
+    this.configCharter.images = loadImages(BERSERKER_IMG);
+    this.setConfig(this.configCharter);
+    super.init();
   }
 
-  public update(): void {
-    this.moveCharter.pressKey();
-    if (this.moveCharter.isActive) {
-      this.sprite.options.position = this.moveCharter.charterPosition;
-      this.sprite.update();
-      this.collider.positionObject = this.moveCharter.charterPosition;
-    }
+  public override update(): void {
+    super.update();
+    this.Collider.setPosition(this.MoveCharter.charterPosition);
   }
-  public draw(): void {
-    this.sprite.draw();
-    this.collider.draw();
+
+  public override draw(): void {
+    super.draw();
+    this.Collider.draw();
   }
 
   public render(): void {
