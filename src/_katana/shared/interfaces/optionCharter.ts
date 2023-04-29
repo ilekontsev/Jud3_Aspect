@@ -1,3 +1,5 @@
+import { Cursor } from 'src/_katana2.0/cursor/cursor';
+
 export interface Options {
   speed: number;
   attackSpeed: number;
@@ -26,6 +28,7 @@ export interface BaseCharterOptions {
   position: Position;
   nickname: string;
   configCharter?: any;
+  cursor: Cursor;
 }
 
 export interface ConfigCharter {
@@ -33,4 +36,8 @@ export interface ConfigCharter {
   attack: number;
   size: Size;
   images: ImageData;
+  position: {
+    x: number;
+    y: number;
+  };
 }

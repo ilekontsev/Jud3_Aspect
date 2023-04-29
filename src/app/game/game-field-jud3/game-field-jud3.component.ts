@@ -1,9 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { Game } from 'src/_katana/game/game';
 import { Cursor } from 'src/_katana/main/cursor/cursor';
 import { Helper } from 'src/_katana/menu/helper';
@@ -36,6 +31,8 @@ export class GameFieldJud3Component implements AfterViewInit {
 
   configCanvas() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
+
+    this.ctx.imageSmoothingEnabled = false;
     this.canvas.nativeElement.width = window.innerWidth;
     this.canvas.nativeElement.height = window.innerHeight;
 
