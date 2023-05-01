@@ -3,11 +3,18 @@ import { CONFIG } from './moveConfig';
 import { BaseCharterOptions, ConfigCharter } from 'src/_katana/shared/interfaces/optionCharter';
 import { DeltaTime } from 'src/_katana/main/delta-time/deltaTime';
 import { Vec2 } from 'src/_katana/main/vector/vec2';
+import { BaseCharter } from 'src/_katana2.0/gameObject/charter/BaseCharter';
 
 export class MoveCharter {
   public get isActive(): boolean {
     return Object.values(this.keys).some((item) => item);
   }
+
+  public get charterPosition() {
+    return this._charterPosition;
+  }
+
+  private canvas: HTMLCanvasElement;
   private keys = {};
   private deltaTime = new DeltaTime();
   private configCharter: ConfigCharter;
@@ -18,15 +25,12 @@ export class MoveCharter {
 
   private _charterPosition = new Vec2({ x: 0, y: 0 });
   private _charterVelocity = new Vec2({ x: 0, y: 0 });
-  options;
-  public get charterPosition() {
-    return this._charterPosition;
-  }
+  private map
 
-  constructor(options, configCharter) {
-    this.options = options;
-    this.configCharter = configCharter;
-    this._charterPosition.set(this.configCharter.position);
+  constructor(canvas: HTMLCanvasElement, charter: BaseCharter) {
+    this.canvas = canvas;
+    this.configCharter = charter.config;
+    this._charterPosition.set(charter.config.position);
     this.init();
   }
 
@@ -54,7 +58,7 @@ export class MoveCharter {
   }
 
   private createEventSubscriptions(): void {
-    if (document.pointerLockElement === this.options.canvas) {
+    if (document.pointerLockElement === this.canvas) {
       document.addEventListener('keydown', this.callbackKeydown);
       document.addEventListener('keyup', this.callbackKeyup);
     } else {
@@ -99,5 +103,7 @@ export class MoveCharter {
   move(): void {
     const dt = this.deltaTime.get();
     this._charterPosition.add(this._charterVelocity.multScalar(dt));
+    this.configCharter.position = this._charterPosition.get();
+    // this.map.offset = this.charterPosition.get();
   }
 }

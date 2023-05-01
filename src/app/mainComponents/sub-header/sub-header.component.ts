@@ -11,6 +11,7 @@ export class SubHeaderComponent implements OnInit {
     { icon: 'home', path: '/jud3' },
     { icon: 'star', path: '/treejs' },
     { icon: 'dataset', path: '/sand' },
+    { icon: 'dataset', path: '/katana' },
   ];
 
   constructor(private router: Router) {}

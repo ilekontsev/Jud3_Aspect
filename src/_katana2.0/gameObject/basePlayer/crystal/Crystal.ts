@@ -1,33 +1,32 @@
-import { Vec2 } from 'src/_katana/main/vector/vec2';
 import { Sprite } from 'src/_katana2.0/animations/sprite';
 import { CRYSTAL_IMG } from './crystal.assets';
 
 export class Crystal {
+  private ctx: CanvasRenderingContext2D;
+  private size = {
+    w: 10,
+    h: 25,
+  };
   private config = {
-    position: new Vec2({ x: 0, y: 0 }),
-    size: {
-      w: 10,
-      h: 25,
-    },
+    position: { x: 0, y: 0 },
     scale: 3,
     images: {
       default: new Image(),
     },
-    speed: 0.3,
+    speed: 0.15,
     icon: 'default',
   };
-  private options;
   private Sprite: Sprite;
 
-  constructor(options) {
-    this.options = options;
-    this.config.position.set(options.position)
+  constructor(ctx: CanvasRenderingContext2D, config) {
+    this.ctx = ctx;
+    this.config = { ...this.config, ...config, size: this.size };
     this.init();
   }
 
   init(): void {
     this.config.images.default.src = CRYSTAL_IMG;
-    this.Sprite = new Sprite(this.options.ctx, this.config);
+    this.Sprite = new Sprite(this.ctx, this.config);
   }
 
   update(): void {

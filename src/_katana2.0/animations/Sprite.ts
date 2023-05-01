@@ -11,10 +11,11 @@ export class Sprite {
 
   constructor(ctx, config) {
     this.ctx = ctx;
+    this.ctx.imageSmoothingEnabled = false;
     this.config = config;
     this.icon = config.icon;
     this.ticksPerFrame *= config.speed || 0;
-    console.log(config)
+    console.log(config);
     this.init();
   }
 

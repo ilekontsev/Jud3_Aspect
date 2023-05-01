@@ -11,7 +11,7 @@ export interface CharterOptions extends Options {
   cursor: Cursor;
 }
 
-export interface IBasePlayer extends Options {
+export interface IBasePlayer {
   position: Position;
 }
 

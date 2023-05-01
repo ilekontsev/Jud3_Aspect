@@ -7,6 +7,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { SandboxComponent } from './game/sandbox/sandbox.component';
+import { GameFieldKatanaComponent } from './game/game-field-katana/game-field-katana.component';
 
 const routes: Routes = [
   {
@@ -25,7 +26,11 @@ const routes: Routes = [
     pathMatch: 'full',
     component: GameFieldJud3Component,
   },
-
+  {
+path: 'katana',
+pathMatch: 'full',
+component: GameFieldKatanaComponent,
+},
   {
     path: 'sand',
     pathMatch: 'full',

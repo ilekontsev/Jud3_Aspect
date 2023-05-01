@@ -1,6 +1,9 @@
 export class Base {
   options;
-  constructor(options) {
+  ctx: CanvasRenderingContext2D;
+
+  constructor(ctx, options) {
+    this.ctx = ctx;
     this.options = options;
   }
 }
