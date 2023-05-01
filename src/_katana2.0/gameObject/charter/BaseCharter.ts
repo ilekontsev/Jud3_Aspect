@@ -1,54 +1,74 @@
 import { checkAngleForIcon, getAngleByCursor } from 'src/_katana/shared/utils';
-import { MoveCharter } from 'src/_katana2.0/actions/move/MoveCharter';
 import { Sprite } from 'src/_katana2.0/animations/sprite';
-import { CharterOptions } from 'src/_katana2.0/shared/utils/interfaces/options';
-import { CharterConfig } from './charter-config.interface';
+import { Cursor } from 'src/_katana2.0/cursor/Cursor';
 
 export class BaseCharter {
-  protected options: CharterOptions;
-  protected MoveCharter: MoveCharter;
+  protected ctx: CanvasRenderingContext2D;
+  protected _config;
 
-  private config: CharterConfig;
+  public isActiveAnimation: boolean;
+
   private Sprite: Sprite;
+  private Cursor: Cursor;
+  private Obj;
 
-  public get position() {
-    return this.MoveCharter.charterPosition;
+  public get config() {
+    return this._config;
   }
 
-  constructor(options: CharterOptions) {
-    this.options = options;
+  public get objInHand() {
+    return this.Obj;
   }
 
-  protected setConfig(configCharter: CharterConfig): void {
-    this.config = configCharter;
+  constructor(ctx: CanvasRenderingContext2D, cursor: Cursor) {
+    this.ctx = ctx;
+    this.Cursor = cursor;
+  }
+
+  protected setConfig(config): void {
+    this._config = config;
   }
 
   protected init(): void {
-    this.Sprite = new Sprite(this.options.ctx, this.config);
-    this.MoveCharter = new MoveCharter(this.options, this.config);
+    this.Sprite = new Sprite(this.ctx, this.config);
   }
 
-  private setIconByAngle(): void {
-    const angle = getAngleByCursor(
-      this.options.cursor.cursorPosition,
-      this.MoveCharter.charterPosition.x,
-      this.MoveCharter.charterPosition.y,
-    );
+  public takeInHand(obj): void {
+    this.Obj = obj;
+  }
+
+  private setIconByAngle(camera): void {
+    const x = this.Cursor.cursorPosition.x + camera.x;
+    const y = this.Cursor.cursorPosition.y + camera.y;
+
+    const x2 = this.config.position.x;
+    const y2 = this.config.position.y;
+
+    const angle = getAngleByCursor({ x, y }, x2, y2);
     const obj = checkAngleForIcon(angle);
     this.Sprite.icon = obj.key;
     this.Sprite.reflect = obj.reflect;
+    this.Obj?.updateSpriteConfig(this.config, obj);
   }
 
   protected draw(): void {
-    this.Sprite.draw();
+    switch (this.Sprite.icon) {
+      case 'up':
+      case 'diagUp':
+        this.Obj?.draw();
+        this.Sprite.draw();
+        break;
+      default:
+        this.Sprite.draw();
+        this.Obj?.draw();
+    }
   }
 
-  protected update(): void {
-    this.MoveCharter.pressKey();
-    this.setIconByAngle();
-    if (this.MoveCharter.isActive) {
-      this.config.position = this.MoveCharter.charterPosition;
+  protected update(camera): void {
+    this.setIconByAngle(camera);
+    if (this.isActiveAnimation) {
       this.Sprite.update();
+      this.Obj.update();
     }
   }
 }

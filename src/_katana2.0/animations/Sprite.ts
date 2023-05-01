@@ -8,14 +8,23 @@ export class Sprite {
   icon;
   reflect: boolean;
   config;
+  offset = 0;
+  isOffset: boolean;
 
-  constructor(ctx, config) {
+  constructor(ctx, config, isOffset?: boolean) {
     this.ctx = ctx;
+    this.ctx.imageSmoothingEnabled = false;
     this.config = config;
     this.icon = config.icon;
-    this.ticksPerFrame *= config.speed || 0;
-    console.log(config)
+    this.isOffset = isOffset;
+    this.ticksPerFrame *= config.speed || 1;
+    console.log(config);
     this.init();
+  }
+
+  set speedAnimation(speed) {
+    this.ticksPerFrame = 40;
+    this.ticksPerFrame *= speed;
   }
 
   init(): void {}
@@ -26,6 +35,11 @@ export class Sprite {
 
     if (this.tickCount >= this.ticksPerFrame) {
       this.tickCount = 0;
+
+      if (this.isOffset) {
+        this.offset = -this.offset - 2;
+        this.numberOfFrames = 0;
+      }
 
       if (this.frameIndex <= this.numberOfFrames) {
         this.frameIndex++;
@@ -53,7 +67,7 @@ export class Sprite {
       this.config.size.h,
 
       this.config.position.x * reflect - calcPosition,
-      this.config.position.y,
+      this.config.position.y + this.offset,
 
       this.config.size.w * this.config.scale,
       this.config.size.h * this.config.scale,

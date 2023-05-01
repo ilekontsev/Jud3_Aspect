@@ -1,4 +1,4 @@
-import { Cursor } from 'src/_katana2.0/cursor/cursor';
+import { Cursor } from 'src/_katana2.0/cursor/Cursor';
 
 export interface Options {
   ctx: CanvasRenderingContext2D;
@@ -11,7 +11,7 @@ export interface CharterOptions extends Options {
   cursor: Cursor;
 }
 
-export interface IBasePlayer extends Options {
+export interface IBasePlayer {
   position: Position;
 }
 

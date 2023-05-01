@@ -1,22 +1,23 @@
-import { Vec2 } from 'src/_katana/main/vector/vec2';
 import { BaseGun } from '../BaseGun';
 import { CANON_GUN_IMG } from './canon-gun.assets';
 import { loadImages } from 'src/_katana2.0/shared/utils/image-loader.utils';
 
 export class CanonGun extends BaseGun {
+  private size = {
+    w: 18,
+    h: 15,
+  };
   configGun = {
-    position: new Vec2({ x: 0, y: 0 }),
-    size: {
-      w: 15,
-      h: 15,
-    },
+    position: { x: 0, y: 0 },
     damage: 1,
-    scale: 2,
+    scale: 3,
     images: {},
+    type: 'CanonGun'
   };
 
-  constructor(options) {
-    super(options);
+  constructor(ctx, config) {
+    super(ctx);
+    this.configGun = { ...this.configGun, ...config, size: this.size };
     this.init();
   }
 

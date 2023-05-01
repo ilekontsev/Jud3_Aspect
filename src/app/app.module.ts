@@ -16,6 +16,7 @@ import { AnalyticsComponent } from './pages/analytics/analytics.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { MaterialModule } from './material.module';
 import { SandboxComponent } from './game/sandbox/sandbox.component';
+import { GameFieldKatanaComponent } from './game/game-field-katana/game-field-katana.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { SandboxComponent } from './game/sandbox/sandbox.component';
     AnalyticsComponent,
     NotFoundComponent,
     SandboxComponent,
+    GameFieldKatanaComponent
   ],
   imports: [
     BrowserModule,

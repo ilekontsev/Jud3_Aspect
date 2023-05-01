@@ -1,64 +1,74 @@
-import { Vec2 } from 'src/_katana/main/vector/vec2';
 import { SquareCollider } from 'src/_katana2.0/fysics/colaider/square.colaider';
-import { IBasePlayer } from 'src/_katana2.0/shared/utils/interfaces/options';
-import { Base } from './Base';
 import { BASE_PLAYER_IMG } from './base-player.assets';
 import { Crystal } from '../crystal/Crystal';
 
-export class BasePlayer extends Base {
-  private config = {
-    position: new Vec2({ x: 0, y: 0 }),
-    size: {
-      w: 50,
-      h: 45,
+export class BasePlayer {
+  private ctx: CanvasRenderingContext2D;
+  private size = {
+    w: 50,
+    h: 45,
+  };
+  private configBase = {
+    position: {
+      x: 0,
+      y: 0,
     },
     scale: 5,
   };
-
-  private Collider = new SquareCollider(this.options.ctx, this.config.position, {
-    position: {
-      x: 30,
-      y: 25,
-    },
-    size: {
-      w: 180,
-      h: 200,
-    },
-  });
+  private Collider: SquareCollider;
   private Crystal: Crystal;
   private image = new Image();
 
-  constructor(options: IBasePlayer) {
-    super(options);
-    this.options = options;
-    this.config.position.set(this.options.position);
+  constructor(ctx: CanvasRenderingContext2D, config) {
+    this.ctx = ctx;
+    this.ctx.imageSmoothingEnabled = false;
+    this.configBase = { ...this.configBase, ...config };
+    this.configBase.position.x = this.configBase.position.x - this.size.w * this.configBase.scale / 2 + this.configBase.scale
+    this.configBase.position.y = this.configBase.position.y - this.size.h * this.configBase.scale / 2 + this.configBase.scale
     this.init();
   }
 
   private init(): void {
     this.image.src = BASE_PLAYER_IMG;
-    this.Crystal = new Crystal({
-      ...this.options,
-      position: { x: this.config.size.w + 55, y: this.config.position.y + 30 },
+    this.initCrystal();
+    this.initCollider();
+  }
+
+  initCrystal(): void {
+    const scale = (this.size.w / 2) * this.configBase.scale - 6 * this.configBase.scale;
+    this.Crystal = new Crystal(this.ctx, {
+      ...this.configBase,
+      position: {
+        x: this.configBase.position.x + scale,
+        y: this.configBase.position.y,
+      },
     });
   }
 
+  initCollider(): void {
+    this.Collider = new SquareCollider(this.ctx, this.configBase, { size: {
+      w: this.size.w - 14,
+      h: this.size.h - 4,
+
+    }, position: {x: 6, y: 4} });
+  }
+
   public update(): void {
-    this.Collider.setPosition(this.config.position);
+    this.Collider.setPosition(this.configBase.position);
     this.Crystal.update();
   }
 
   public draw(): void {
-    this.options.ctx.drawImage(
+    this.ctx.drawImage(
       this.image,
       0,
       0,
-      this.config.size.w,
-      this.config.size.h,
-      this.config.position.x,
-      this.config.position.y,
-      this.config.size.w * this.config.scale,
-      this.config.size.h * this.config.scale,
+      this.size.w,
+      this.size.h,
+      this.configBase.position.x,
+      this.configBase.position.y,
+      this.size.w * this.configBase.scale,
+      this.size.h * this.configBase.scale,
     );
 
     this.Collider.draw();
