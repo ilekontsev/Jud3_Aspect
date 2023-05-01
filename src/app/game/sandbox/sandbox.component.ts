@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Cursor } from 'src/_katana2.0/cursor/cursor';
+import { Cursor } from 'src/_katana2.0/cursor/Cursor';
 import { BasePlayer } from 'src/_katana2.0/gameObject/basePlayer/base/BasePlayer';
 import { CanonGun } from 'src/_katana2.0/gameObject/gun/canon/CanonGun';
 
@@ -30,7 +30,7 @@ export class SandboxComponent {
 
     // this.cursor = new Cursor({ ctx: this.ctx, canvas });
 
-    this.gun = new CanonGun({ ctx: this.ctx, canvas, cursor: this.cursor });
+    // this.gun = new CanonGun({ ctx: this.ctx, canvas, cursor: this.cursor });
 
     // this.charter = new Warrior({
     //   canvas: this.canvas.nativeElement,
@@ -103,7 +103,7 @@ export class SandboxComponent {
 
     // this.charter2.draw();
     // this.charter3.draw();
-    this.gun.draw();
+    // this.gun.draw();
 
     this.base.draw();
   }

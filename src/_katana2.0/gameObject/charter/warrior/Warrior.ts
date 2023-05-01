@@ -8,7 +8,7 @@ export class Warrior extends BaseCharter {
     w: 16,
     h: 22,
   };
-  private defaultConfigCharter = {
+  private configCharter = {
     speed: 0.3,
     attack: 0.4,
 
@@ -26,23 +26,23 @@ export class Warrior extends BaseCharter {
 
   constructor(ctx: CanvasRenderingContext2D, config, cursor) {
     super(ctx, cursor);
-    this.defaultConfigCharter = { ...this.defaultConfigCharter, ...config };
-    this.defaultConfigCharter.position.x =
-      this.defaultConfigCharter.position.x - (this.size.w * this.defaultConfigCharter.scale) / 2;
-    this.defaultConfigCharter.position.y =
-      this.defaultConfigCharter.position.y - (this.size.h * this.defaultConfigCharter.scale) / 2;
+    this.configCharter = { ...this.configCharter, ...config };
+    this.configCharter.position.x =
+      this.configCharter.position.x - (this.size.w * this.configCharter.scale) / 2;
+    this.configCharter.position.y =
+      this.configCharter.position.y - (this.size.h * this.configCharter.scale) / 2;
     this.init();
   }
 
   protected override init(): void {
-    this.defaultConfigCharter.images = loadImages(WARRIOR_IMG);
+    this.configCharter.images = loadImages(WARRIOR_IMG);
     this.initCollider();
-    this.setConfig({ ...this.defaultConfigCharter, size: this.size });
+    this.setConfig({ ...this.configCharter, size: this.size });
     super.init();
   }
 
   initCollider(): void {
-    this.Collider = new SquareCollider(this.ctx, this.defaultConfigCharter, {
+    this.Collider = new SquareCollider(this.ctx, this.configCharter, {
       size: {
         w: this.size.w - 4,
         h: this.size.h,
@@ -54,8 +54,8 @@ export class Warrior extends BaseCharter {
     });
   }
 
-  public override update(): void {
-    super.update();
+  public override update(camera): void {
+    super.update(camera);
     this.Collider.setPosition(this.config.position);
   }
 
@@ -64,8 +64,8 @@ export class Warrior extends BaseCharter {
     this.Collider.draw();
   }
 
-  public render(): void {
-    this.update();
+  public render(camera): void {
+    this.update(camera);
     this.draw();
   }
 }

@@ -3,13 +3,13 @@ export function inDeg(num) {
 }
 
 export function checkPositionByField(target, fieldX, filedY) {
-  if (target.x > fieldX) {
+  if (target.x >= fieldX) {
     target.x = fieldX;
   }
   if (target.x < 0) {
     target.x = 0;
   }
-  if (target.y > filedY) {
+  if (target.y >= filedY) {
     target.y = filedY;
   }
   if (target.y < 0) {
@@ -22,7 +22,7 @@ export function getAngleByCursor(
   x = window.innerWidth / 2,
   y = window.innerHeight / 2
 ) {
-  return Math.atan2(mouse.y - y, mouse.x - x);
+  return Math.atan2(mouse.y - y,  mouse.x - x);
 }
 
 export function checkAngleForIcon(angle) {

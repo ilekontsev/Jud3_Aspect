@@ -1,18 +1,34 @@
 export class Camera {
-  x;
-  y;
-  constructor(x, y) {
-    // x and y are top-left coordinates of the camera rectangle relative to the map.
-    // This rectangle is exctaly cvs.width px wide and cvs.height px tall.
-    this.x = x || 0;
-    this.y = y || 0;
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+  config = {
+    position: {
+      x: 0,
+      y: 0,
+    },
+  };
+  constructor(canvas, ctx, config) {
+    this.canvas = canvas;
+    this.ctx = ctx;
+    this.config = { ...this.config, ...config };
   }
 
-  focus(cvs, map, player) {
-    // Account for half of player w/h to make their rectangle centered
-    this.x = this.clamp(player.config.position.x - cvs.width / 2 + player.config.size.w / 2, 0, map.config.size.w * map.config.scale - cvs.width);
-    this.y = this.clamp(player.config.position.y - cvs.height / 2 + player.config.size.h / 2, 0, map.config.size.h * map.config.scale - cvs.height);
-    }
+  focus(map, player) {
+    this.config.position.x = this.clamp(
+      player.config.position.x -
+        this.canvas.width / 2 +
+        (player.config.size.w * player.config.scale) / 2,
+      0,
+      map.config.size.w * map.config.scale - this.canvas.width,
+    );
+    this.config.position.y = this.clamp(
+      player.config.position.y -
+        this.canvas.height / 2 +
+        (player.config.size.h * player.config.scale) / 2,
+      0,
+      map.config.size.h * map.config.scale - this.canvas.height,
+    );
+  }
 
   clamp(coord, min, max) {
     if (coord < min) {
@@ -22,5 +38,10 @@ export class Camera {
     } else {
       return coord;
     }
+  }
+
+  draw() {
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    this.ctx.translate(-this.config.position.x, -this.config.position.y);
   }
 }

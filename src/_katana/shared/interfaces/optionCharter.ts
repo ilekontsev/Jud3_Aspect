@@ -1,4 +1,4 @@
-import { Cursor } from 'src/_katana2.0/cursor/cursor';
+import { Cursor } from 'src/_katana2.0/cursor/Cursor';
 
 export interface Options {
   speed: number;

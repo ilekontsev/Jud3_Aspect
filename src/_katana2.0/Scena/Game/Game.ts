@@ -1,8 +1,10 @@
+import { ActionCharter } from 'src/_katana2.0/actions/Action/ActionCharter';
 import { MoveCharter } from 'src/_katana2.0/actions/move/MoveCharter';
-import { Cursor } from 'src/_katana2.0/cursor/cursor';
+import { Cursor } from 'src/_katana2.0/cursor/Cursor';
 import { BasePlayer } from 'src/_katana2.0/gameObject/basePlayer/base/BasePlayer';
 import { Camera } from 'src/_katana2.0/gameObject/Camera/Camera';
 import { Warrior } from 'src/_katana2.0/gameObject/charter/warrior/Warrior';
+import { CanonGun } from 'src/_katana2.0/gameObject/gun/canon/CanonGun';
 import { DefaultMap } from 'src/_katana2.0/gameObject/Maps/DefaultMap/DefaultMap';
 
 export class Game {
@@ -13,6 +15,8 @@ export class Game {
   private gameObject = {
     charters: [],
     mobs: [],
+    guns: [],
+    bullets: [],
     base: null,
     map: null,
     camera: null,
@@ -40,6 +44,8 @@ export class Game {
   private initGameObject(): void {
     this.createMap();
     this.createBase();
+    this.createCursor();
+    this.createGun();
     this.createCharters();
   }
 
@@ -48,18 +54,25 @@ export class Game {
   }
 
   createBase() {
-    console.log(this.gameObject.map.config.size)
     this.gameObject.base = new BasePlayer(this.ctx, {
       ...this.config.base,
       position: {
         x: 1000,
-        y: this.gameObject.map.config.size.h /2,
+        y: this.gameObject.map.config.size.h / 2,
       },
     });
   }
 
-  createCharters() {
+  createCursor() {
     this.scripts.cursor = new Cursor(this.canvas, this.ctx);
+  }
+
+  createGun() {
+    const gun = new CanonGun(this.ctx, {});
+    this.gameObject.guns.push(gun);
+  }
+
+  createCharters() {
     const charter = new Warrior(
       this.ctx,
       {
@@ -68,30 +81,38 @@ export class Game {
       },
       this.scripts.cursor,
     );
+
+    charter.takeInHand(this.gameObject.guns[0]);
     this.gameObject.charters.push(charter);
+
     this.scripts.move = new MoveCharter(this.canvas, charter);
-    this.gameObject.camera = new Camera(0, 0);
+    this.scripts.action = new ActionCharter(this.canvas, this.ctx, this.gameObject, charter);
+
+    this.gameObject.camera = new Camera(this.canvas, this.ctx, {});
   }
 
   update(): void {
-    this.gameObject.base.update();
     this.scripts.move.pressKey();
-    this.gameObject.charters.forEach((charter) => charter.update());
+    this.gameObject.camera.focus(this.gameObject.map, this.gameObject.charters[0]);
+    this.gameObject.charters.forEach((charter) =>
+      charter.update(this.gameObject.camera.config.position),
+    );
+    this.gameObject.base.update();
   }
 
   draw(): void {
-    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    this.gameObject.camera.focus(this.canvas, this.gameObject.map, this.gameObject.charters[0]);
-    // Flip the sign b/c positive shifts the canvas to the right, negative - to the left
-    this.ctx.translate(-this.gameObject.camera.x, -this.gameObject.camera.y);
-
+    this.gameObject.camera.draw();
     this.gameObject.map.draw();
 
-    this.gameObject.charters.forEach((charter) => charter.draw());
     this.gameObject.base.draw();
+
+    this.gameObject.charters.forEach((charter) => charter.draw());
+    this.gameObject.bullets.forEach(bullet => bullet.draw())
     this.scripts.cursor.draw();
+
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
   }
 
   render(): void {

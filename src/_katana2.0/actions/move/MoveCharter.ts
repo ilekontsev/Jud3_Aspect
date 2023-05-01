@@ -1,6 +1,4 @@
-import { GameHelper } from 'src/_katana/game/gameHelper';
-import { CONFIG } from './moveConfig';
-import { BaseCharterOptions, ConfigCharter } from 'src/_katana/shared/interfaces/optionCharter';
+import { CONFIG } from './move-charter.config';
 import { DeltaTime } from 'src/_katana/main/delta-time/deltaTime';
 import { Vec2 } from 'src/_katana/main/vector/vec2';
 import { BaseCharter } from 'src/_katana2.0/gameObject/charter/BaseCharter';
@@ -17,7 +15,7 @@ export class MoveCharter {
   private canvas: HTMLCanvasElement;
   private keys = {};
   private deltaTime = new DeltaTime();
-  private configCharter: ConfigCharter;
+  private charter: BaseCharter;
 
   private callbackEvents: any;
   private callbackKeydown: any;
@@ -25,11 +23,10 @@ export class MoveCharter {
 
   private _charterPosition = new Vec2({ x: 0, y: 0 });
   private _charterVelocity = new Vec2({ x: 0, y: 0 });
-  private map
 
   constructor(canvas: HTMLCanvasElement, charter: BaseCharter) {
     this.canvas = canvas;
-    this.configCharter = charter.config;
+    this.charter = charter;
     this._charterPosition.set(charter.config.position);
     this.init();
   }
@@ -85,16 +82,16 @@ export class MoveCharter {
     this.stop();
 
     if (this.keys[CONFIG.left]) {
-      this._charterVelocity.x = -this.configCharter.speed;
+      this._charterVelocity.x = -this.charter.config.speed;
     }
     if (this.keys[CONFIG.right]) {
-      this._charterVelocity.x = +this.configCharter.speed;
+      this._charterVelocity.x = +this.charter.config.speed;
     }
     if (this.keys[CONFIG.up]) {
-      this._charterVelocity.y = -this.configCharter.speed;
+      this._charterVelocity.y = -this.charter.config.speed;
     }
     if (this.keys[CONFIG.down]) {
-      this._charterVelocity.y = +this.configCharter.speed;
+      this._charterVelocity.y = +this.charter.config.speed;
     }
 
     this.move();
@@ -103,7 +100,7 @@ export class MoveCharter {
   move(): void {
     const dt = this.deltaTime.get();
     this._charterPosition.add(this._charterVelocity.multScalar(dt));
-    this.configCharter.position = this._charterPosition.get();
-    // this.map.offset = this.charterPosition.get();
+    this.charter.config.position = this._charterPosition.get();
+    this.charter.isActiveAnimation = this.isActive;
   }
 }

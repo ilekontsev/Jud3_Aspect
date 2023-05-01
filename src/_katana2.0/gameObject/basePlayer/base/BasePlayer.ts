@@ -25,7 +25,6 @@ export class BasePlayer {
     this.configBase = { ...this.configBase, ...config };
     this.configBase.position.x = this.configBase.position.x - this.size.w * this.configBase.scale / 2 + this.configBase.scale
     this.configBase.position.y = this.configBase.position.y - this.size.h * this.configBase.scale / 2 + this.configBase.scale
-console.log(config)
     this.init();
   }
 
