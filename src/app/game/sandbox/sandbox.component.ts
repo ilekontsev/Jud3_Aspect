@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Cursor } from 'src/_katana2.0/cursor/Cursor';
+import { Cursor } from 'src/_katana2.0/cursor/cursor';
 import { BasePlayer } from 'src/_katana2.0/gameObject/basePlayer/base/BasePlayer';
 import { CanonGun } from 'src/_katana2.0/gameObject/gun/canon/CanonGun';
 

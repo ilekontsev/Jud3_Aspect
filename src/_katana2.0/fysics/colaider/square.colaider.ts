@@ -4,12 +4,14 @@ export class SquareCollider {
   private ctx;
   private config;
   private objectConfig;
-  private position = new Vec2({ x: 0, y: 0 });
+  position = new Vec2({ x: 0, y: 0 });
+  type = 'static';
 
   constructor(ctx, objectConfig, config) {
     this.ctx = ctx;
     this.config = config;
     this.objectConfig = objectConfig;
+    this.type = config.type || this.type;
     this.setPosition(this.objectConfig.position);
     this.init();
   }

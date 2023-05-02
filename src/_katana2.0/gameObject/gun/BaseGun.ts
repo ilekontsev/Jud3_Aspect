@@ -1,4 +1,4 @@
-import { Sprite } from 'src/_katana2.0/animations/sprite';
+import { Sprite } from 'src/_katana2.0/animations/Sprite';
 
 export class BaseGun {
   private ctx: CanvasRenderingContext2D;
@@ -7,8 +7,8 @@ export class BaseGun {
 
   private Sprite: Sprite;
 
-  public get type() {
-    return this._config.type;
+  public get config() {
+    return this._config;
   }
 
   constructor(ctx: CanvasRenderingContext2D) {

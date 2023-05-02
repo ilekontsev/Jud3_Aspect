@@ -62,9 +62,12 @@ export class ActionCharter {
     }
   }
 
-  attack() {
+  attack(): void {
     if (this.charter.objInHand) {
-      const bullet = new CatBullet(this.ctx, { position: this.charter.config.position });
+      const bullet = new CatBullet(this.ctx, {
+        position: { ...this.charter.objInHand.config.position },
+        angle: this.charter.config.angle,
+      });
       this.gameObject.bullets.push(bullet);
     }
   }

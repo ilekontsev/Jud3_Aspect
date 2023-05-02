@@ -1,6 +1,6 @@
 import { checkAngleForIcon, getAngleByCursor } from 'src/_katana/shared/utils';
-import { Sprite } from 'src/_katana2.0/animations/sprite';
-import { Cursor } from 'src/_katana2.0/cursor/Cursor';
+import { Sprite } from 'src/_katana2.0/animations/Sprite';
+import { Cursor } from 'src/_katana2.0/cursor/cursor';
 
 export class BaseCharter {
   protected ctx: CanvasRenderingContext2D;
@@ -41,11 +41,11 @@ export class BaseCharter {
     const x = this.Cursor.cursorPosition.x + camera.x;
     const y = this.Cursor.cursorPosition.y + camera.y;
 
-    const x2 = this.config.position.x;
-    const y2 = this.config.position.y;
+    const x2 = this.config.position.x + 20;
+    const y2 = this.config.position.y + 30;
 
-    const angle = getAngleByCursor({ x, y }, x2, y2);
-    const obj = checkAngleForIcon(angle);
+    this._config.angle = getAngleByCursor({ x, y }, x2, y2);
+    const obj = checkAngleForIcon(this._config.angle);
     this.Sprite.icon = obj.key;
     this.Sprite.reflect = obj.reflect;
     this.Obj?.updateSpriteConfig(this.config, obj);

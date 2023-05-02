@@ -8,7 +8,7 @@ export class CatBullet extends BaseBullet {
     h: 14,
   };
   private configBullet = {
-    speed: 0.3,
+    speed: 0.8,
     position: {
       x: 0,
       y: 0,
@@ -17,11 +17,13 @@ export class CatBullet extends BaseBullet {
     images: {
       default: new Image(),
     },
-    icon: 'default'
-
+    icon: 'default',
   };
 
   private Collider: SquareCollider;
+  public get collider() {
+    return this.Collider;
+  }
 
   constructor(ctx: CanvasRenderingContext2D, config) {
     super(ctx);
@@ -36,14 +38,28 @@ export class CatBullet extends BaseBullet {
     super.init();
   }
 
-  private initCollider() {}
+  private initCollider() {
+    this.Collider = new SquareCollider(this.ctx, this.configBullet, {
+      size: {
+        w: this.size.w - 4,
+        h: this.size.h - 4,
+      },
+      position: {
+        x: 2,
+        y: 2,
+      },
+      type: 'dynamic',
+    });
+  }
 
   public override update() {
     super.update();
+    this.Collider.setPosition(this._config.position);
   }
 
   public override draw() {
     super.draw();
+    this.Collider.draw();
   }
 
   public render() {

@@ -12,7 +12,8 @@ export class CanonGun extends BaseGun {
     damage: 1,
     scale: 3,
     images: {},
-    type: 'CanonGun'
+    distance: 1,
+    type: 'CanonGun',
   };
 
   constructor(ctx, config) {

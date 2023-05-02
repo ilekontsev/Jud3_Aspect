@@ -1,4 +1,4 @@
-import { Sprite } from 'src/_katana2.0/animations/sprite';
+import { Sprite } from 'src/_katana2.0/animations/Sprite';
 import { CRYSTAL_IMG } from './crystal.assets';
 
 export class Crystal {
@@ -13,7 +13,7 @@ export class Crystal {
     images: {
       default: new Image(),
     },
-    speed: 0.15,
+    speed: 0.4,
     icon: 'default',
   };
   private Sprite: Sprite;

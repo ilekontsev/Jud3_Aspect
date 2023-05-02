@@ -1,6 +1,6 @@
 import { ActionCharter } from 'src/_katana2.0/actions/Action/ActionCharter';
 import { MoveCharter } from 'src/_katana2.0/actions/move/MoveCharter';
-import { Cursor } from 'src/_katana2.0/cursor/Cursor';
+import { Cursor } from 'src/_katana2.0/cursor/cursor';
 import { BasePlayer } from 'src/_katana2.0/gameObject/basePlayer/base/BasePlayer';
 import { Camera } from 'src/_katana2.0/gameObject/Camera/Camera';
 import { Warrior } from 'src/_katana2.0/gameObject/charter/warrior/Warrior';
@@ -47,6 +47,8 @@ export class Game {
     this.createCursor();
     this.createGun();
     this.createCharters();
+    this.fillListCollider();
+    console.log(this.dynamicColliders, this.staticColliders);
   }
 
   createMap() {
@@ -76,7 +78,7 @@ export class Game {
     const charter = new Warrior(
       this.ctx,
       {
-        position: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+        position: { x: this.canvas.width / 2, y: this.canvas.height / 2 },
         scale: 4,
       },
       this.scripts.cursor,
@@ -91,13 +93,48 @@ export class Game {
     this.gameObject.camera = new Camera(this.canvas, this.ctx, {});
   }
 
+  staticColliders = [];
+  dynamicColliders = [];
+  fillListCollider() {
+    Object.values(this.gameObject).forEach((value) => {
+      this.pushByTypeCollider(value);
+    });
+  }
+
+  pushByTypeCollider(value) {
+    if (Array.isArray(value)) {
+      value.forEach((item) => {
+        this.pushByTypeCollider(item);
+      });
+    }
+
+    this.colliderPush(value);
+  }
+
+  colliderPush(value) {
+    if (Array.isArray(value.collider)) {
+      value.collider.forEach((item) => {
+        this.colliderPush({ collider: item });
+      });
+      return;
+    }
+
+    if (!value.collider?.type) return;
+
+    value.collider?.type === 'static'
+      ? this.staticColliders.push(value.collider)
+      : this.dynamicColliders.push(value.collider);
+  }
+
   update(): void {
     this.scripts.move.pressKey();
     this.gameObject.camera.focus(this.gameObject.map, this.gameObject.charters[0]);
     this.gameObject.charters.forEach((charter) =>
       charter.update(this.gameObject.camera.config.position),
     );
+    this.gameObject.bullets.forEach((bullet) => bullet.update());
     this.gameObject.base.update();
+    this.checkCollision();
   }
 
   draw(): void {
@@ -109,7 +146,7 @@ export class Game {
     this.gameObject.base.draw();
 
     this.gameObject.charters.forEach((charter) => charter.draw());
-    this.gameObject.bullets.forEach(bullet => bullet.draw())
+    this.gameObject.bullets.forEach((bullet) => bullet.draw());
     this.scripts.cursor.draw();
 
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -118,5 +155,14 @@ export class Game {
   render(): void {
     this.update();
     this.draw();
+  }
+
+  checkCollision() {
+    this.dynamicColliders.forEach((dynamicCollider) => {
+      this.staticColliders.forEach((staticCollider) => {
+        if (dynamicCollider.position.x <= staticCollider.position.x) {
+        }
+      });
+    });
   }
 }
