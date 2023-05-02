@@ -18,7 +18,6 @@ export class Sprite {
     this.icon = config.icon;
     this.isOffset = isOffset;
     this.ticksPerFrame *= config.speed || 1;
-    console.log(config);
     this.init();
   }
 

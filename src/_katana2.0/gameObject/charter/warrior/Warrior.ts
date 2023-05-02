@@ -23,6 +23,9 @@ export class Warrior extends BaseCharter {
   };
 
   private Collider: SquareCollider;
+  public get collider() {
+    return this.Collider;
+  }
 
   constructor(ctx: CanvasRenderingContext2D, config, cursor) {
     super(ctx, cursor);
@@ -51,6 +54,7 @@ export class Warrior extends BaseCharter {
         x: 2,
         y: 0,
       },
+      type: 'dynamic',
     });
   }
 

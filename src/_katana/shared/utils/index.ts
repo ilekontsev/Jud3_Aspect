@@ -17,12 +17,8 @@ export function checkPositionByField(target, fieldX, filedY) {
   }
 }
 
-export function getAngleByCursor(
-  mouse,
-  x = window.innerWidth / 2,
-  y = window.innerHeight / 2
-) {
-  return Math.atan2(mouse.y - y,  mouse.x - x);
+export function getAngleByCursor(mouse, x = window.innerWidth / 2, y = window.innerHeight / 2) {
+  return Math.atan2(mouse.y - y, mouse.x - x);
 }
 
 export function checkAngleForIcon(angle) {
