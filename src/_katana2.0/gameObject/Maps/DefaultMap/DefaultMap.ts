@@ -28,6 +28,7 @@ export class DefaultMap {
   constructor(ctx: CanvasRenderingContext2D, config) {
     this.ctx = ctx;
     this.config = { ...this.config, ...config };
+    console.log(this.config);
     this.init();
   }
 

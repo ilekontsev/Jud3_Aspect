@@ -62,7 +62,7 @@ export class BasePlayer {
         h: this.size.h - 20,
       },
       position: { x: 6, y: 4 },
-      type: 'static'
+      type: 'static',
     });
   }
 

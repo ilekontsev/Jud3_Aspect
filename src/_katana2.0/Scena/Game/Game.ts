@@ -121,6 +121,8 @@ export class Game {
 
     if (!value.collider?.type) return;
 
+    // this.dynamicColliders.push(value.collider);
+
     value.collider?.type === 'static'
       ? this.staticColliders.push(value.collider)
       : this.dynamicColliders.push(value.collider);
@@ -134,7 +136,8 @@ export class Game {
     );
     this.gameObject.bullets.forEach((bullet) => bullet.update());
     this.gameObject.base.update();
-    this.checkCollision();
+    this.checkCollision2();
+
   }
 
   draw(): void {
@@ -160,9 +163,38 @@ export class Game {
   checkCollision() {
     this.dynamicColliders.forEach((dynamicCollider) => {
       this.staticColliders.forEach((staticCollider) => {
-        if (dynamicCollider.position.x <= staticCollider.position.x) {
+        if (
+          dynamicCollider.position.x < staticCollider.positionWithSize.x &&
+          dynamicCollider.positionWithSize.x > staticCollider.position.x &&
+          dynamicCollider.position.y < staticCollider.positionWithSize.y &&
+          dynamicCollider.positionWithSize.y > staticCollider.position.y
+        ) {
+          console.log(2);
+          this.scripts.move._charterPosition.set(dynamicCollider.prevPosition);
         }
       });
     });
+  }
+
+  checkCollision2() {
+    this.dynamicColliders.forEach((dynamicCollider) => {
+      this.staticColliders.forEach((staticCollider) => {
+        if (this.collisionBetween(dynamicCollider, staticCollider)) {
+          // dynamicCollider.position.add({ x: -1, y: -1 });
+          // this.scripts.move._charterVelocity.add({ x: 0, y: -1 });
+          this.scripts.move._charterVelocity.y += this.gameObject.charters[0].config.speed;
+          this.scripts.move._charterPosition.add({ y: this.scripts.move._charterVelocity.y, x: 0 });
+        }
+      });
+    });
+  }
+
+  collisionBetween(collider1, collider2) {
+    return (
+      collider1.position.x < collider2.positionWithSize.x &&
+      collider1.positionWithSize.x > collider2.position.x &&
+      collider1.position.y < collider2.positionWithSize.y &&
+      collider1.positionWithSize.y > collider2.position.y
+    );
   }
 }

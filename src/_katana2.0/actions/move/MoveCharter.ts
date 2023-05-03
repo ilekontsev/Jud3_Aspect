@@ -21,8 +21,8 @@ export class MoveCharter {
   private callbackKeydown: any;
   private callbackKeyup: any;
 
-  private _charterPosition = new Vec2({ x: 0, y: 0 });
-  private _charterVelocity = new Vec2({ x: 0, y: 0 });
+  _charterPosition = new Vec2({ x: 0, y: 0 });
+  _charterVelocity = new Vec2({ x: 0, y: 0 });
 
   constructor(canvas: HTMLCanvasElement, charter: BaseCharter) {
     this.canvas = canvas;
@@ -99,8 +99,8 @@ export class MoveCharter {
 
   move(): void {
     const dt = this.deltaTime.get();
-    this._charterPosition.add(this._charterVelocity.multScalar(dt));
     this.charter.config.position = this._charterPosition.get();
+    this._charterPosition.add(this._charterVelocity.multScalar(dt));
     this.charter.isActiveAnimation = this.isActive;
   }
 }
